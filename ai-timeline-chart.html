@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Investment Patience Timeline</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #ffffff;
+            padding: 40px;
+            margin: 0;
+        }
+        .chart-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            position: relative;
+        }
+        h2 {
+            font-size: 28px;
+            margin: 0 0 10px 0;
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 50px;
+        }
+        .timeline {
+            position: relative;
+            padding: 30px 0;
+        }
+        .timeline-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #10b981 0%, #f59e0b 50%, #dc2626 100%);
+            transform: translateY(-50%);
+        }
+        .timeline-points {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+        .timeline-point {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            z-index: 2;
+        }
+        .point-marker {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            border: 4px solid;
+            margin-bottom: 20px;
+        }
+        .point-marker.start { border-color: #10b981; }
+        .point-marker.current { 
+            border-color: #f59e0b; 
+            width: 28px;
+            height: 28px;
+            box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.2);
+        }
+        .point-marker.inflection { border-color: #dc2626; }
+        .point-marker.adjustment { border-color: #7c2d12; }
+        
+        .point-label {
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+        .point-date {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        .point-description {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            max-width: 180px;
+            line-height: 1.5;
+        }
+        .current-marker {
+            background: #f59e0b;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        .zones {
+            display: flex;
+            margin-top: 60px;
+            gap: 20px;
+        }
+        .zone {
+            flex: 1;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid;
+        }
+        .zone.patience {
+            background: #f0fdf4;
+            border-color: #10b981;
+        }
+        .zone.pressure {
+            background: #fffbeb;
+            border-color: #f59e0b;
+        }
+        .zone.adjustment {
+            background: #fef2f2;
+            border-color: #dc2626;
+        }
+        .zone-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .zone.patience .zone-title { color: #10b981; }
+        .zone.pressure .zone-title { color: #f59e0b; }
+        .zone.adjustment .zone-title { color: #dc2626; }
+        
+        .zone-content {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.6;
+        }
+        .watermark {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            font-size: 11px;
+            color: #999;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <h2>AI Infrastructure Investment: The Patience Timeline</h2>
+        <div class="subtitle">Historical patterns suggest 18-24 months before investors demand ROI or spending adjustments</div>
+        
+        <div class="timeline">
+            <div class="timeline-line"></div>
+            <div class="timeline-points">
+                <div class="timeline-point">
+                    <div class="point-marker start"></div>
+                    <div class="point-label">Spending Begins</div>
+                    <div class="point-date">Q1 2024</div>
+                    <div class="point-description">Major tech companies accelerate AI capex to $350B+ annually</div>
+                </div>
+                
+                <div class="timeline-point">
+                    <div class="current-marker">YOU ARE HERE</div>
+                    <div class="point-marker current"></div>
+                    <div class="point-label">18 Months Elapsed</div>
+                    <div class="point-date">Q4 2025</div>
+                    <div class="point-description">Historical inflection point where patience typically begins breaking</div>
+                </div>
+                
+                <div class="timeline-point">
+                    <div class="point-marker inflection"></div>
+                    <div class="point-label">Patience Breaking</div>
+                    <div class="point-date">Q2 2026</div>
+                    <div class="point-description">First major companies likely announce spending moderation</div>
+                </div>
+                
+                <div class="timeline-point">
+                    <div class="point-marker adjustment"></div>
+                    <div class="point-label">Sector Repricing</div>
+                    <div class="point-date">Q4 2026</div>
+                    <div class="point-description">Spending aligns with revenue visibility; 25-40% drawdowns likely</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="zones">
+            <div class="zone patience">
+                <div class="zone-title">Phase 1: Patient Capital (Completed)</div>
+                <div class="zone-content">
+                    Growth narrative justifies spending-ahead-of-revenue. Investors accept "invest for future" positioning. Minimal revenue attribution required.
+                </div>
+            </div>
+            
+            <div class="zone pressure">
+                <div class="zone-title">Phase 2: Mounting Pressure (Current)</div>
+                <div class="zone-content">
+                    Revenue attribution questions increase. Management faces ROI timeline scrutiny. First spending moderations signal sector-wide adjustment beginning.
+                </div>
+            </div>
+            
+            <div class="zone adjustment">
+                <div class="zone-title">Phase 3: Forced Adjustment (Ahead)</div>
+                <div class="zone-content">
+                    Capital markets patience exhausted. Companies reduce capex growth to match revenue visibility. Sector reprices lower before stabilizing.
+                </div>
+            </div>
+        </div>
+
+        <div class="watermark">M NADAL & CO / 2025</div>
+    </div>
+</body>
+</html>

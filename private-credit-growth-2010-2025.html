@@ -44,6 +44,15 @@
             font-weight: 500;
             letter-spacing: 0.5px;
         }
+        .source-note {
+            position: absolute;
+            bottom: 15px;
+            left: 30px;
+            font-size: 9px;
+            color: #999;
+            max-width: 500px;
+            line-height: 1.4;
+        }
         canvas {
             max-height: 500px;
         }
@@ -80,6 +89,7 @@
         </div>
         <canvas id="myChart"></canvas>
         <div class="annotation">$1.7 TRILLION</div>
+        <div class="source-note">Sources: Private Credit (Preqin); Bank C&I Lending (Federal Reserve FRED BUSLOANS series)</div>
         <div class="watermark">M NADAL & CO | 2025</div>
     </div>
 
@@ -104,8 +114,8 @@
                     pointHoverRadius: 7
                 },
                 {
-                    label: 'Bank C&I Middle-Market (Indexed)',
-                    data: [100, 102, 105, 108],
+                    label: 'Bank C&I Lending (Indexed)',
+                    data: [100, 115, 125, 135],
                     borderColor: '#9ca3af',
                     backgroundColor: 'rgba(156, 163, 175, 0.1)',
                     borderWidth: 2,
@@ -204,7 +214,7 @@
                         position: 'right',
                         title: {
                             display: true,
-                            text: 'Bank Lending (2010 = 100)',
+                            text: 'Bank C&I Lending (2010 = 100)',
                             font: {
                                 size: 13,
                                 weight: '600'

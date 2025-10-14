@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Private Credit Illiquidity Mismatch</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: white;
+            padding: 40px;
+            margin: 0;
+        }
+        .diagram-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border: 1px solid #e0e0e0;
+        }
+        .diagram-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .diagram-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin: 0;
+        }
+        .flow-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .box {
+            background: #f8fafc;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 25px;
+            width: 35%;
+        }
+        .box-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e3a8a;
+            margin: 0 0 15px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .box-content {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .box-content li {
+            font-size: 14px;
+            color: #334155;
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .box-content li:before {
+            content: "•";
+            position: absolute;
+            left: 5px;
+            color: #1e3a8a;
+            font-weight: bold;
+        }
+        .mismatch-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #dc2626;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+            z-index: 10;
+        }
+        .arrow-down {
+            text-align: center;
+            font-size: 40px;
+            color: #dc2626;
+            margin: 30px 0;
+            font-weight: 300;
+        }
+        .solution-box {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            border: 3px solid #047857;
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 20px;
+        }
+        .solution-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            margin: 0 0 20px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .solution-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+        .solution-item {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+        }
+        .solution-item-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            margin: 0 0 10px 0;
+        }
+        .solution-item-text {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.95);
+            line-height: 1.5;
+        }
+        .watermark {
+            position: absolute;
+            bottom: 15px;
+            right: 30px;
+            font-size: 11px;
+            color: #999;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        .connecting-line {
+            position: absolute;
+            top: 50%;
+            left: 37%;
+            width: 26%;
+            height: 2px;
+            background: #cbd5e1;
+            z-index: 1;
+        }
+        .connecting-line.left {
+            left: 37%;
+        }
+        .connecting-line.right {
+            left: 37%;
+            width: 26%;
+        }
+    </style>
+</head>
+<body>
+    <div class="diagram-container">
+        <div class="diagram-header">
+            <h1 class="diagram-title">Private Credit's Fundamental Problem—And Apollo's Solution</h1>
+        </div>
+        
+        <div class="flow-container">
+            <div class="connecting-line"></div>
+            <div class="box">
+                <h3 class="box-title">Private Credit Assets</h3>
+                <ul class="box-content">
+                    <li>7-10 year illiquid loans</li>
+                    <li>Cannot be sold quickly</li>
+                    <li>Mark-to-model valuation</li>
+                    <li>No secondary market</li>
+                </ul>
+            </div>
+            
+            <div class="mismatch-indicator">MISMATCH</div>
+            
+            <div class="box">
+                <h3 class="box-title">Investor Liabilities</h3>
+                <ul class="box-content">
+                    <li>Can redeem anytime</li>
+                    <li>Demand liquidity in stress</li>
+                    <li>Force selling at bad prices</li>
+                    <li>Redemption pressure builds</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="arrow-down">↓</div>
+        
+        <div class="solution-box">
+            <h3 class="solution-title">Apollo's Insurance Solution</h3>
+            <div class="solution-content">
+                <div class="solution-item">
+                    <div class="solution-item-title">Permanent Capital</div>
+                    <div class="solution-item-text">Insurance float from Athene/Venerable cannot be redeemed by policyholders</div>
+                </div>
+                <div class="solution-item">
+                    <div class="solution-item-title">Patient Through Cycles</div>
+                    <div class="solution-item-text">Can hold illiquid loans through stress without forced selling</div>
+                </div>
+                <div class="solution-item">
+                    <div class="solution-item-title">Structural Advantage</div>
+                    <div class="solution-item-text">$370B+ permanent capital solves the fundamental mismatch</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="watermark">M NADAL & CO | 2025</div>
+    </div>
+</body>
+</html>

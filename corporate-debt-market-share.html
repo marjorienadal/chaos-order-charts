@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate Debt Market Share</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: white;
+            padding: 40px;
+            margin: 0;
+        }
+        .chart-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border: 1px solid #e0e0e0;
+        }
+        .chart-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .chart-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin: 0 0 8px 0;
+        }
+        .chart-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+        }
+        .watermark {
+            position: absolute;
+            bottom: 15px;
+            right: 30px;
+            font-size: 11px;
+            color: #999;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        .source-note {
+            position: absolute;
+            bottom: 15px;
+            left: 30px;
+            font-size: 9px;
+            color: #999;
+            max-width: 500px;
+            line-height: 1.4;
+        }
+        canvas {
+            max-height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <div class="chart-header">
+            <h1 class="chart-title">Private Credit: $1.7T in a $13T Market</h1>
+            <p class="chart-subtitle">Corporate debt market share, 2025</p>
+        </div>
+        <canvas id="myChart"></canvas>
+        <div class="source-note">Sources: Preqin (Private Credit); Federal Reserve (Bank C&I); S&P/LCD (Syndicated); SIFMA (High Yield)</div>
+        <div class="watermark">M NADAL & CO | 2025</div>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+        
+        const data = {
+            labels: [
+                'Bank C&I Loans (35%)',
+                'Syndicated Loans (22%)',
+                'High Yield Bonds (21%)',
+                'Private Credit (13%)',
+                'Other (9%)'
+            ],
+            datasets: [{
+                data: [35, 22, 21, 13, 9],
+                backgroundColor: [
+                    'rgba(100, 116, 139, 0.8)',
+                    'rgba(148, 163, 184, 0.8)',
+                    'rgba(203, 213, 225, 0.8)',
+                    'rgba(30, 58, 138, 0.9)',
+                    'rgba(226, 232, 240, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(100, 116, 139, 1)',
+                    'rgba(148, 163, 184, 1)',
+                    'rgba(203, 213, 225, 1)',
+                    'rgba(30, 58, 138, 1)',
+                    'rgba(226, 232, 240, 1)'
+                ],
+                borderWidth: 2,
+                offset: [0, 0, 0, 15, 0]
+            }]
+        };
+
+        const config = {
+            type: 'pie',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20,
+                            font: {
+                                size: 14,
+                                weight: '500'
+                            },
+                            generateLabels: function(chart) {
+                                const data = chart.data;
+                                if (data.labels.length && data.datasets.length) {
+                                    return data.labels.map((label, i) => {
+                                        const value = data.datasets[0].data[i];
+                                        return {
+                                            text: label,
+                                            fillStyle: data.datasets[0].backgroundColor[i],
+                                            strokeStyle: data.datasets[0].borderColor[i],
+                                            lineWidth: 2,
+                                            hidden: false,
+                                            index: i,
+                                            fontColor: i === 3 ? '#1e3a8a' : '#334155',
+                                            fontStyle: i === 3 ? 'bold' : 'normal'
+                                        };
+                                    });
+                                }
+                                return [];
+                            }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 12,
+                        titleFont: {
+                            size: 14,
+                            weight: 'bold'
+                        },
+                        bodyFont: {
+                            size: 13
+                        },
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.parsed;
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = ((value / total) * 100).toFixed(1);
+                                
+                                // Calculate dollar amounts (total market ~$13T)
+                                const totalMarket = 13000; // in billions
+                                const amount = (value / 100) * totalMarket;
+                                
+                                return [
+                                    label,
+                                    `$${amount.toFixed(0)}B (${percentage}%)`
+                                ];
+                            }
+                        }
+                    }
+                },
+                layout: {
+                    padding: 20
+                }
+            },
+            plugins: [{
+                afterDatasetsDraw: function(chart) {
+                    const ctx = chart.ctx;
+                    const meta = chart.getDatasetMeta(0);
+                    
+                    // Add $1.7T label to private credit slice (index 3)
+                    const slice = meta.data[3];
+                    const midAngle = (slice.startAngle + slice.endAngle) / 2;
+                    const x = slice.x + Math.cos(midAngle) * 80;
+                    const y = slice.y + Math.sin(midAngle) * 80;
+                    
+                    ctx.fillStyle = '#1e3a8a';
+                    ctx.font = 'bold 16px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('$1.7T', x, y);
+                }
+            }]
+        };
+
+        new Chart(ctx, config);
+    </script>
+</body>
+</html>

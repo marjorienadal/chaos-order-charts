@@ -60,19 +60,6 @@
             max-width: 500px;
             line-height: 1.4;
         }
-        .question-mark {
-            position: absolute;
-            top: 150px;
-            left: 220px;
-            font-size: 48px;
-            color: #f59e0b;
-            font-weight: bold;
-            animation: pulse 2s ease-in-out infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.6; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.1); }
-        }
         canvas {
             max-height: 450px;
         }
@@ -82,9 +69,8 @@
     <div class="chart-container">
         <div class="chart-header">
             <h1 class="chart-title">Did Private Credit Outperform in 2020?</h1>
-            <p class="chart-subtitle">Mark-to-market drawdowns, Q1 2020</p>
+            <p class="chart-subtitle">Initial valuation markdowns, Q1 2020 (not including subsequent defaults)</p>
         </div>
-        <div class="question-mark">?</div>
         <canvas id="myChart"></canvas>
         <p class="chart-caption">Or did illiquidity delay price discovery?</p>
         <div class="source-note">Sources: BDC company filings (Private Credit); Bloomberg, S&P/LSTA (Liquid Credit Indices)</div>

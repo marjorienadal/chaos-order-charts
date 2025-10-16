@@ -115,10 +115,25 @@
             border-color: #fbbf24;
             opacity: 0.7;
         }
+        .coming-monday {
+            background: #dbeafe;
+            border-color: #3b82f6;
+            opacity: 0.8;
+        }
         .coming-soon-badge {
             display: inline-block;
             background: #fbbf24;
             color: #78350f;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .coming-monday-badge {
+            display: inline-block;
+            background: #3b82f6;
+            color: white;
             padding: 4px 12px;
             border-radius: 12px;
             font-size: 12px;
@@ -142,10 +157,6 @@
         .badge-sab {
             background: #fecaca;
             color: #991b1b;
-        }
-        .badge-podcast {
-            background: #bfdbfe;
-            color: #1e40af;
         }
         .footer {
             text-align: center;
@@ -179,43 +190,46 @@
             <div class="branding">M NADAL & CO | 2025</div>
         </div>
 
-        <!-- CHAOS & ORDER NEWSLETTER -->
+        <!-- CHAOS & ORDER NEWSLETTER - COMING MONDAY -->
         <div class="series-section">
             <span class="category-badge badge-newsletter">Chaos & Order Newsletter</span>
             <h2 class="series-title">Special Edition: The Stablecoin Rush</h2>
-            <p class="series-subtitle">Why Sony Bank, Stripe, and Visa are racing to replicate the $7B rent extraction model</p>
+            <p class="series-subtitle">Publishing Monday, October 21 | Why Sony Bank, Stripe, and Visa are racing to replicate the $7B rent extraction model</p>
             
             <div class="chart-grid">
-                <a href="chaos-and-order/special-edition-stablecoins/annual-profit-comparison.html" class="chart-card">
+                <a href="chaos-and-order/special-edition-stablecoins/annual-profit-comparison.html" class="chart-card coming-monday">
+                    <span class="coming-monday-badge">Monday Oct 21</span>
                     <div class="chart-number">1</div>
                     <div class="chart-title">Annual Profit Comparison</div>
                     <div class="chart-description">Stablecoin issuers (Tether $5B, Circle $1.3B) vs. traditional finance titans. How zero-interest deposits generate Wall Street-level profits.</div>
-                    <div class="view-link">View Chart →</div>
+                    <div class="view-link">Preview Chart →</div>
                 </a>
 
-                <a href="chaos-and-order/special-edition-stablecoins/triple-lock-diagram.html" class="chart-card">
+                <a href="chaos-and-order/special-edition-stablecoins/triple-lock-diagram.html" class="chart-card coming-monday">
+                    <span class="coming-monday-badge">Monday Oct 21</span>
                     <div class="chart-number">2</div>
                     <div class="chart-title">The Triple Lock</div>
                     <div class="chart-description">Three interlocking factors that prevent competition: regulatory prohibition, network effects, and self-selected customers.</div>
-                    <div class="view-link">View Chart →</div>
+                    <div class="view-link">Preview Chart →</div>
                 </a>
 
-                <a href="chaos-and-order/special-edition-stablecoins/usage-breakdown-chart.html" class="chart-card">
+                <div class="chart-card coming-monday">
+                    <span class="coming-monday-badge">Monday Oct 21</span>
                     <div class="chart-number">3</div>
                     <div class="chart-title">Stablecoin Usage Patterns</div>
                     <div class="chart-description">Who uses stablecoins and why: 60-70% trading, 15-20% cross-border payments, 10-15% DeFi, 10-15% store of value in emerging markets.</div>
-                    <div class="view-link">View Chart →</div>
-                </a>
+                </div>
 
-                <a href="chaos-and-order/special-edition-stablecoins/regulatory-timeline.html" class="chart-card">
+                <div class="chart-card coming-monday">
+                    <span class="coming-monday-badge">Monday Oct 21</span>
                     <div class="chart-number">4</div>
                     <div class="chart-title">Regulatory Architecture Timeline</div>
                     <div class="chart-description">How US regulators built the framework (2021-2025): OCC guidance, SEC statements, GENIUS Act, and the explicit prohibition on interest payments.</div>
-                    <div class="view-link">View Chart →</div>
-                </a>
+                </div>
             </div>
         </div>
 
+        <!-- EDITION 20 - LIVE -->
         <div class="series-section">
             <span class="category-badge badge-newsletter">Chaos & Order Newsletter</span>
             <h2 class="series-title">Edition 20: Private Credit's Infrastructure Takeover</h2>
@@ -259,7 +273,44 @@
             </div>
         </div>
 
-        <!-- STRATEGIC ADVISORY BRIEFS -->
+        <!-- EDITION 19 - LIVE -->
+        <div class="series-section">
+            <span class="category-badge badge-newsletter">Chaos & Order Newsletter</span>
+            <h2 class="series-title">Edition 19: Commodity Origami</h2>
+            <p class="series-subtitle">How resource-backed stablecoins and parallel settlement systems reshape global payments</p>
+            
+            <div class="chart-grid">
+                <a href="chaos-and-order/edition-19/Central-Bank-Gold-Accumulation-2018-2024.html" class="chart-card">
+                    <div class="chart-number">1</div>
+                    <div class="chart-title">Central Bank Gold Accumulation</div>
+                    <div class="chart-description">Net gold purchases by central banks (2018-2024). Shows the shift toward physical reserves as dollar alternatives emerge.</div>
+                    <div class="view-link">View Chart →</div>
+                </a>
+
+                <a href="chaos-and-order/edition-19/Derivatives-Liquidity-Winner-Takes-All-Network.html" class="chart-card">
+                    <div class="chart-number">2</div>
+                    <div class="chart-title">Derivatives Liquidity Networks</div>
+                    <div class="chart-description">Winner-takes-all dynamics in commodity derivatives markets and how network effects protect incumbents.</div>
+                    <div class="view-link">View Chart →</div>
+                </a>
+
+                <a href="chaos-and-order/edition-19/Parallel-Systems-Different-Outcomes-Comparison.html" class="chart-card">
+                    <div class="chart-number">3</div>
+                    <div class="chart-title">Parallel Systems, Different Outcomes</div>
+                    <div class="chart-description">How alternative settlement systems coexist with dollar dominance rather than replacing it.</div>
+                    <div class="view-link">View Chart →</div>
+                </a>
+
+                <a href="chaos-and-order/edition-19/Shanghai-Gold-Premium-During-Dollar-Uncertainty-Events.html" class="chart-card">
+                    <div class="chart-number">4</div>
+                    <div class="chart-title">Shanghai Gold Premium</div>
+                    <div class="chart-description">Price divergence between Shanghai and London gold markets during dollar uncertainty events.</div>
+                    <div class="view-link">View Chart →</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- SAB-16 - LIVE -->
         <div class="series-section">
             <span class="category-badge badge-sab">Strategic Advisory Brief</span>
             <h2 class="series-title">SAB-16: Autonomous AI Market Manipulation</h2>
@@ -292,42 +343,28 @@
         <!-- COMING SOON -->
         <div class="series-section">
             <span class="category-badge badge-newsletter">Chaos & Order Newsletter</span>
-            <h2 class="series-title">Edition 19: Commodity Origami</h2>
-            <p class="series-subtitle">How resource-backed stablecoins reshape global settlement systems</p>
+            <h2 class="series-title">Edition 21: The Pharma Power Shift</h2>
+            <p class="series-subtitle">Coming in 2 weeks | China's AI-driven genomic research vs. Western biotech dominance</p>
             
             <div class="chart-grid">
                 <div class="chart-card coming-soon">
-                    <span class="coming-soon-badge">Coming Soon</span>
-                    <div class="chart-title">Gold-Backed Settlement Networks</div>
+                    <span class="coming-soon-badge">Coming Nov 4-5</span>
+                    <div class="chart-title">AI-Accelerated Drug Discovery</div>
                     <div class="chart-description">Visualizations coming with full edition release.</div>
                 </div>
             </div>
         </div>
 
         <div class="series-section">
-            <span class="category-badge badge-newsletter">Chaos & Order Newsletter</span>
-            <h2 class="series-title">Edition 18: CBDCs vs Private Money</h2>
-            <p class="series-subtitle">The monetary divide: State-controlled CBDCs compete with private stablecoins</p>
+            <span class="category-badge badge-sab">Strategic Advisory Brief</span>
+            <h2 class="series-title">SAB-17: [Topic TBD]</h2>
+            <p class="series-subtitle">Coming soon | Next strategic risk assessment</p>
             
             <div class="chart-grid">
                 <div class="chart-card coming-soon">
-                    <span class="coming-soon-badge">Coming Soon</span>
-                    <div class="chart-title">Global CBDC Deployment Map</div>
-                    <div class="chart-description">Visualizations coming with chart update.</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="series-section">
-            <span class="category-badge badge-podcast">Water Wars</span>
-            <h2 class="series-title">Water Wars Podcast & Documentation</h2>
-            <p class="series-subtitle">Future content: Interactive maps, data visualizations, and supporting materials</p>
-            
-            <div class="chart-grid">
-                <div class="chart-card coming-soon">
-                    <span class="coming-soon-badge">Coming Soon</span>
-                    <div class="chart-title">Water Stress Mapping</div>
-                    <div class="chart-description">Content in development for upcoming podcast series.</div>
+                    <span class="coming-soon-badge">In Development</span>
+                    <div class="chart-title">Topic Selection in Progress</div>
+                    <div class="chart-description">Charts will be added once stress scenario is finalized.</div>
                 </div>
             </div>
         </div>

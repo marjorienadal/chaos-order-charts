@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Sector Correlation Analysis</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #ffffff;
+            padding: 40px;
+            margin: 0;
+        }
+        .chart-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            position: relative;
+        }
+        h2 {
+            font-size: 28px;
+            margin: 0 0 10px 0;
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 40px;
+        }
+        .correlation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .correlation-item {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid;
+        }
+        .correlation-item.high { border-color: #dc2626; }
+        .correlation-item.moderate { border-color: #f59e0b; }
+        
+        .correlation-pair {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+        .correlation-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #dc2626;
+            margin-bottom: 4px;
+        }
+        .correlation-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .comparison-section {
+            background: #fef2f2;
+            border: 2px solid #dc2626;
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+        .comparison-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #dc2626;
+            margin-bottom: 15px;
+        }
+        .comparison-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .stat.ai .stat-value { color: #dc2626; }
+        .stat.traditional .stat-value { color: #10b981; }
+        .stat.crisis .stat-value { color: #7c2d12; }
+        
+        .stat-label {
+            font-size: 11px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .insight-box {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 4px;
+        }
+        .insight-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #f59e0b;
+            margin-bottom: 8px;
+        }
+        .insight-text {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+        .watermark {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            font-size: 11px;
+            color: #999;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <h2>Why "Diversified" AI Portfolios Aren't Diversified</h2>
+        <div class="subtitle">Stock correlation coefficients during AI-related news events (2024-2025)</div>
+        
+        <div class="correlation-grid">
+            <div class="correlation-item high">
+                <div class="correlation-pair">Nvidia / AMD</div>
+                <div class="correlation-value">0.87</div>
+                <div class="correlation-label">Near-identical movement</div>
+            </div>
+            
+            <div class="correlation-item high">
+                <div class="correlation-pair">Meta / Alphabet</div>
+                <div class="correlation-value">0.82</div>
+                <div class="correlation-label">High positive correlation</div>
+            </div>
+            
+            <div class="correlation-item high">
+                <div class="correlation-pair">Microsoft / Amazon</div>
+                <div class="correlation-value">0.79</div>
+                <div class="correlation-label">High positive correlation</div>
+            </div>
+            
+            <div class="correlation-item high">
+                <div class="correlation-pair">Tesla / Meta (AI narrative)</div>
+                <div class="correlation-value">0.76</div>
+                <div class="correlation-label">High positive correlation</div>
+            </div>
+        </div>
+
+        <div class="comparison-section">
+            <div class="comparison-title">Correlation Comparison: AI vs. Traditional Tech</div>
+            <div class="comparison-stats">
+                <div class="stat ai">
+                    <div class="stat-value">0.81</div>
+                    <div class="stat-label">AI Tech Average</div>
+                </div>
+                <div class="stat traditional">
+                    <div class="stat-value">0.62</div>
+                    <div class="stat-label">Traditional Tech</div>
+                </div>
+                <div class="stat crisis">
+                    <div class="stat-value">0.89</div>
+                    <div class="stat-label">AI Tech (Stress)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="insight-box">
+            <div class="insight-title">The Portfolio Illusion</div>
+            <div class="insight-text">
+                Investors holding Meta + Alphabet + Microsoft + Nvidia + AMD believe they have 5 diversified positions. Reality: 0.81 baseline correlation means these function almost as a single bet on AI spending continuation. During sector stress, correlation approaches 0.89—offering minimal portfolio protection precisely when diversification is needed most.
+            </div>
+        </div>
+
+        <div class="watermark">M NADAL & CO / 2025</div>
+    </div>
+</body>
+</html>

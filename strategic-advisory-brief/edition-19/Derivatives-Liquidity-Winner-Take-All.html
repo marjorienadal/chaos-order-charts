@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Derivatives Liquidity: Winner-Take-All</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: white; color: #1f2937; line-height: 1.6; padding: 2rem; }
+        .container { max-width: 1200px; margin: 0 auto; position: relative; }
+        .chart-title { font-size: 1.875rem; font-weight: 700; margin-bottom: 0.5rem; text-align: center; }
+        .chart-subtitle { font-size: 0.875rem; color: #6b7280; margin-bottom: 2rem; text-align: center; }
+        .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
+        .chart-wrapper h3 { text-align: center; margin-bottom: 1rem; font-size: 1.125rem; font-weight: 600; }
+        .chart-wrapper p { text-align: center; margin-top: 0.5rem; font-size: 0.75rem; }
+        .insight-box { background: #fef2f2; border-left: 4px solid #ef4444; padding: 1rem; margin: 2rem 0; border-radius: 0.375rem; }
+        .insight-box p { font-size: 0.875rem; }
+        .insight-box strong { color: #991b1b; }
+        .notes-box { background: #f9fafb; padding: 1rem; border-radius: 0.375rem; }
+        .notes-box p { font-size: 0.75rem; color: #6b7280; font-weight: 600; margin-bottom: 0.5rem; }
+        .notes-box ul { font-size: 0.75rem; color: #6b7280; list-style-position: inside; }
+        .source { margin-top: 2rem; text-align: center; font-size: 0.875rem; color: #6b7280; }
+        .watermark { position: absolute; bottom: 1rem; right: 1rem; font-size: 0.75rem; color: #9ca3af; font-weight: 500; }
+        @media (max-width: 768px) { .charts-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="chart-title">Derivatives Liquidity: Winner-Take-All</h2>
+        <p class="chart-subtitle">Open Interest Comparison (Million Barrels Equivalent)</p>
+        <div class="charts-grid">
+            <div class="chart-wrapper">
+                <h3>Normal Market Conditions</h3>
+                <canvas id="normalChart"></canvas>
+                <p style="color: #6b7280;">INE appears competitive at 10-15% of Brent</p>
+            </div>
+            <div class="chart-wrapper">
+                <h3 style="color: #dc2626;">Market Stress (March 2020 Oil Crash)</h3>
+                <canvas id="stressChart"></canvas>
+                <p style="color: #dc2626; font-weight: 600;">Brent stays deep, INE collapses to ~2% liquidity</p>
+            </div>
+        </div>
+        <div class="insight-box">
+            <p style="font-weight: 700; margin-bottom: 0.5rem;"><strong>Key Insight:</strong></p>
+            <p>15% liquidity becomes operationally zero during stress—precisely when commercial hedgers need it most. A Nigerian oil producer can't bet P&L on Shanghai liquidity that evaporates during volatility.</p>
+        </div>
+        <div class="notes-box">
+            <p><strong>Notes:</strong></p>
+            <ul>
+                <li>Much of INE volume comes from state-linked entities, not commercial hedgers with genuine price risk</li>
+                <li>Brent liquidity comes from private producers, refiners, and trading houses with real operational needs</li>
+                <li>Winner-take-all dynamics: hedgers need liquidity that persists through stress, not just volume during calm periods</li>
+            </ul>
+        </div>
+        <div class="source">Source: CME/ICE historical data, Shanghai INE reports, M Nadal & Co analysis</div>
+        <div class="watermark">Chaos & Order | M Nadal 2025</div>
+    </div>
+    <script>
+        const normalCtx = document.getElementById('normalChart').getContext('2d');
+        new Chart(normalCtx, {
+            type: 'bar',
+            data: { labels: ['Brent Crude', 'Shanghai INE', 'Murban'], datasets: [{ label: 'Open Interest (M bbl)', data: [750, 55, 20], backgroundColor: ['#3b82f6', '#64748b', '#f59e0b'] }] },
+            options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, title: { display: true, text: 'Million Barrels' } } } }
+        });
+        const stressCtx = document.getElementById('stressChart').getContext('2d');
+        new Chart(stressCtx, {
+            type: 'bar',
+            data: { labels: ['Brent Crude', 'Shanghai INE', 'Murban'], datasets: [{ label: 'Open Interest (M bbl)', data: [650, 15, 8], backgroundColor: ['#3b82f6', '#64748b', '#f59e0b'] }] },
+            options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, title: { display: true, text: 'Million Barrels' } } } }
+        });
+    </script>
+</body>
+</html>

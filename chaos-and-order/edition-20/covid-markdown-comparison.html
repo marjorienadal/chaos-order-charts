@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COVID Markdown Comparison</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: white;
+            padding: 40px;
+            margin: 0;
+        }
+        .chart-container {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border: 1px solid #e0e0e0;
+        }
+        .chart-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .chart-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin: 0 0 8px 0;
+        }
+        .chart-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+        }
+        .chart-caption {
+            text-align: center;
+            font-size: 13px;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        .watermark {
+            position: absolute;
+            bottom: 15px;
+            right: 30px;
+            font-size: 11px;
+            color: #999;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        .source-note {
+            position: absolute;
+            bottom: 15px;
+            left: 30px;
+            font-size: 9px;
+            color: #999;
+            max-width: 500px;
+            line-height: 1.4;
+        }
+        canvas {
+            max-height: 450px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <div class="chart-header">
+            <h1 class="chart-title">Did Private Credit Outperform in 2020?</h1>
+            <p class="chart-subtitle">Initial valuation markdowns, Q1 2020 (not including subsequent defaults)</p>
+        </div>
+        <canvas id="myChart"></canvas>
+        <p class="chart-caption">Or did illiquidity delay price discovery?</p>
+        <div class="source-note">Sources: BDC company filings (Private Credit); Bloomberg, S&P/LSTA (Liquid Credit Indices)</div>
+        <div class="watermark">M NADAL & CO | 2025</div>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+        
+        const data = {
+            labels: ['Private Credit Funds', 'Liquid Credit Indices'],
+            datasets: [{
+                label: 'Drawdown (%)',
+                data: [-12, -35],
+                backgroundColor: [
+                    'rgba(59, 130, 246, 0.7)',
+                    'rgba(239, 68, 68, 0.7)'
+                ],
+                borderColor: [
+                    'rgba(59, 130, 246, 1)',
+                    'rgba(239, 68, 68, 1)'
+                ],
+                borderWidth: 2
+            }]
+        };
+
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 12,
+                        titleFont: {
+                            size: 14,
+                            weight: 'bold'
+                        },
+                        bodyFont: {
+                            size: 13
+                        },
+                        callbacks: {
+                            label: function(context) {
+                                return 'Drawdown: ' + context.parsed.y + '%';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        min: -40,
+                        max: 0,
+                        title: {
+                            display: true,
+                            text: 'Drawdown (%)',
+                            font: {
+                                size: 13,
+                                weight: '600'
+                            }
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            },
+                            font: {
+                                size: 12
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 13,
+                                weight: '500'
+                            }
+                        },
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                layout: {
+                    padding: {
+                        top: 20
+                    }
+                }
+            },
+            plugins: [{
+                afterDatasetsDraw: function(chart) {
+                    const ctx = chart.ctx;
+                    chart.data.datasets.forEach(function(dataset, i) {
+                        const meta = chart.getDatasetMeta(i);
+                        meta.data.forEach(function(bar, index) {
+                            const data = dataset.data[index];
+                            ctx.fillStyle = '#1a1a1a';
+                            ctx.font = 'bold 16px Arial';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'bottom';
+                            ctx.fillText(data + '%', bar.x, bar.y - 10);
+                        });
+                    });
+                }
+            }]
+        };
+
+        new Chart(ctx, config);
+    </script>
+</body>
+</html>

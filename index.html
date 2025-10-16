@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chaos & Order - Interactive Charts</title>
+    <title>Chaos & Order - Interactive Data Visualizations</title>
     <style>
         * {
             margin: 0;
@@ -110,6 +110,43 @@
             font-weight: 600;
             font-size: 14px;
         }
+        .coming-soon {
+            background: #fef3c7;
+            border-color: #fbbf24;
+            opacity: 0.7;
+        }
+        .coming-soon-badge {
+            display: inline-block;
+            background: #fbbf24;
+            color: #78350f;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .category-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-newsletter {
+            background: #ddd6fe;
+            color: #5b21b6;
+        }
+        .badge-sab {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        .badge-podcast {
+            background: #bfdbfe;
+            color: #1e40af;
+        }
         .footer {
             text-align: center;
             color: white;
@@ -121,6 +158,17 @@
             color: white;
             text-decoration: underline;
         }
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 36px;
+            }
+            .series-section {
+                padding: 30px 20px;
+            }
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -131,45 +179,156 @@
             <div class="branding">M NADAL & CO | 2025</div>
         </div>
 
+        <!-- CHAOS & ORDER NEWSLETTER -->
         <div class="series-section">
+            <span class="category-badge badge-newsletter">Chaos & Order Newsletter</span>
+            <h2 class="series-title">Special Edition: The Stablecoin Rush</h2>
+            <p class="series-subtitle">Why Sony Bank, Stripe, and Visa are racing to replicate the $7B rent extraction model</p>
+            
+            <div class="chart-grid">
+                <a href="chaos-and-order/special-edition-stablecoins/annual-profit-comparison.html" class="chart-card">
+                    <div class="chart-number">1</div>
+                    <div class="chart-title">Annual Profit Comparison</div>
+                    <div class="chart-description">Stablecoin issuers (Tether $5B, Circle $1.3B) vs. traditional finance titans. How zero-interest deposits generate Wall Street-level profits.</div>
+                    <div class="view-link">View Chart →</div>
+                </a>
+
+                <a href="chaos-and-order/special-edition-stablecoins/triple-lock-diagram.html" class="chart-card">
+                    <div class="chart-number">2</div>
+                    <div class="chart-title">The Triple Lock</div>
+                    <div class="chart-description">Three interlocking factors that prevent competition: regulatory prohibition, network effects, and self-selected customers.</div>
+                    <div class="view-link">View Chart →</div>
+                </a>
+
+                <a href="chaos-and-order/special-edition-stablecoins/usage-breakdown-chart.html" class="chart-card">
+                    <div class="chart-number">3</div>
+                    <div class="chart-title">Stablecoin Usage Patterns</div>
+                    <div class="chart-description">Who uses stablecoins and why: 60-70% trading, 15-20% cross-border payments, 10-15% DeFi, 10-15% store of value in emerging markets.</div>
+                    <div class="view-link">View Chart →</div>
+                </a>
+
+                <a href="chaos-and-order/special-edition-stablecoins/regulatory-timeline.html" class="chart-card">
+                    <div class="chart-number">4</div>
+                    <div class="chart-title">Regulatory Architecture Timeline</div>
+                    <div class="chart-description">How US regulators built the framework (2021-2025): OCC guidance, SEC statements, GENIUS Act, and the explicit prohibition on interest payments.</div>
+                    <div class="view-link">View Chart →</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="series-section">
+            <span class="category-badge badge-newsletter">Chaos & Order Newsletter</span>
             <h2 class="series-title">Edition 20: Private Credit's Infrastructure Takeover</h2>
             <p class="series-subtitle">How $1.7 trillion in alternative lending bypasses banks to become corporate finance infrastructure</p>
             
             <div class="chart-grid">
-                <a href="edition-20/private-credit-growth-2010-2025.html" class="chart-card">
+                <a href="chaos-and-order/edition-20/private-credit-growth-2010-2025.html" class="chart-card">
                     <div class="chart-number">1</div>
                     <div class="chart-title">The Structural Shift</div>
                     <div class="chart-description">Private credit growth vs bank lending (2010-2025). Shows how private credit grew 467% while bank lending increased only 35%.</div>
                     <div class="view-link">View Chart →</div>
                 </a>
 
-                <a href="edition-20/default-rate-comparison-2025.html" class="chart-card">
+                <a href="chaos-and-order/edition-20/default-rate-comparison-2025.html" class="chart-card">
                     <div class="chart-number">2</div>
                     <div class="chart-title">Default Rate Comparison</div>
                     <div class="chart-description">Private credit (1.76%) vs broadly syndicated loans (5.2%) in Q2 2025. Real outperformance or illiquidity masking stress?</div>
                     <div class="view-link">View Chart →</div>
                 </a>
 
-                <a href="edition-20/illiquidity-mismatch-diagram.html" class="chart-card">
+                <a href="chaos-and-order/edition-20/illiquidity-mismatch-diagram.html" class="chart-card">
                     <div class="chart-number">3</div>
                     <div class="chart-title">The Illiquidity Mismatch</div>
                     <div class="chart-description">Private credit's fundamental problem and how Apollo solved it with permanent capital from insurance float.</div>
                     <div class="view-link">View Chart →</div>
                 </a>
 
-                <a href="edition-20/corporate-debt-market-share.html" class="chart-card">
+                <a href="chaos-and-order/edition-20/corporate-debt-market-share.html" class="chart-card">
                     <div class="chart-number">4</div>
                     <div class="chart-title">Market Share Analysis</div>
                     <div class="chart-description">Private credit's $1.7T represents 13% of the $13T corporate debt market. Significant but not yet systemic.</div>
                     <div class="view-link">View Chart →</div>
                 </a>
 
-                <a href="edition-20/covid-markdown-comparison.html" class="chart-card">
+                <a href="chaos-and-order/edition-20/covid-markdown-comparison.html" class="chart-card">
                     <div class="chart-number">5</div>
                     <div class="chart-title">COVID Crisis Performance</div>
                     <div class="chart-description">Initial valuation markdowns in Q1 2020: Private credit -12% vs liquid indices -35%. Did illiquidity delay price discovery?</div>
                     <div class="view-link">View Chart →</div>
                 </a>
+            </div>
+        </div>
+
+        <!-- STRATEGIC ADVISORY BRIEFS -->
+        <div class="series-section">
+            <span class="category-badge badge-sab">Strategic Advisory Brief</span>
+            <h2 class="series-title">SAB-16: Autonomous AI Market Manipulation</h2>
+            <p class="series-subtitle">Strategic risk assessment of algorithmic coordination in cryptocurrency markets</p>
+            
+            <div class="chart-grid">
+                <a href="strategic-advisory-briefs/sab-16/ai-correlation-chart.html" class="chart-card">
+                    <div class="chart-number">1</div>
+                    <div class="chart-title">Correlation Pattern Analysis</div>
+                    <div class="chart-description">How AI trading systems show unexplained coordination patterns across multiple exchanges and timeframes.</div>
+                    <div class="view-link">View Chart →</div>
+                </a>
+
+                <a href="strategic-advisory-briefs/sab-16/ai-spending-ratios-chart.html" class="chart-card">
+                    <div class="chart-number">2</div>
+                    <div class="chart-title">AI Investment vs Detection Spending</div>
+                    <div class="chart-description">The asymmetry: billions deployed in algorithmic trading vs. minimal investment in manipulation detection.</div>
+                    <div class="view-link">View Chart →</div>
+                </a>
+
+                <a href="strategic-advisory-briefs/sab-16/ai-timeline-chart.html" class="chart-card">
+                    <div class="chart-number">3</div>
+                    <div class="chart-title">Evolution Timeline</div>
+                    <div class="chart-description">From simple algorithms to autonomous coordination: tracking the progression of AI market behavior.</div>
+                    <div class="view-link">View Chart →</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- COMING SOON -->
+        <div class="series-section">
+            <span class="category-badge badge-newsletter">Chaos & Order Newsletter</span>
+            <h2 class="series-title">Edition 19: Commodity Origami</h2>
+            <p class="series-subtitle">How resource-backed stablecoins reshape global settlement systems</p>
+            
+            <div class="chart-grid">
+                <div class="chart-card coming-soon">
+                    <span class="coming-soon-badge">Coming Soon</span>
+                    <div class="chart-title">Gold-Backed Settlement Networks</div>
+                    <div class="chart-description">Visualizations coming with full edition release.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="series-section">
+            <span class="category-badge badge-newsletter">Chaos & Order Newsletter</span>
+            <h2 class="series-title">Edition 18: CBDCs vs Private Money</h2>
+            <p class="series-subtitle">The monetary divide: State-controlled CBDCs compete with private stablecoins</p>
+            
+            <div class="chart-grid">
+                <div class="chart-card coming-soon">
+                    <span class="coming-soon-badge">Coming Soon</span>
+                    <div class="chart-title">Global CBDC Deployment Map</div>
+                    <div class="chart-description">Visualizations coming with chart update.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="series-section">
+            <span class="category-badge badge-podcast">Water Wars</span>
+            <h2 class="series-title">Water Wars Podcast & Documentation</h2>
+            <p class="series-subtitle">Future content: Interactive maps, data visualizations, and supporting materials</p>
+            
+            <div class="chart-grid">
+                <div class="chart-card coming-soon">
+                    <span class="coming-soon-badge">Coming Soon</span>
+                    <div class="chart-title">Water Stress Mapping</div>
+                    <div class="chart-description">Content in development for upcoming podcast series.</div>
+                </div>
             </div>
         </div>
 

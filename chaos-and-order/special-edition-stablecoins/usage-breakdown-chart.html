@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stablecoin Usage Patterns | Chaos & Order</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .header {
+            margin-bottom: 30px;
+        }
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            font-size: 16px;
+            color: #64748b;
+            line-height: 1.5;
+        }
+        .chart-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            margin: 40px 0;
+        }
+        .pie-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+        }
+        .pie-chart {
+            width: 100%;
+            height: 100%;
+        }
+        .legend {
+            width: 100%;
+            max-width: 600px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            margin-bottom: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 4px solid;
+            transition: transform 0.2s ease;
+        }
+        .legend-item:hover {
+            transform: translateX(5px);
+        }
+        .legend-color {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+        .legend-content {
+            flex: 1;
+        }
+        .legend-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+        .legend-description {
+            font-size: 13px;
+            color: #64748b;
+            line-height: 1.4;
+        }
+        .legend-percentage {
+            font-size: 20px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .insight-box {
+            margin-top: 30px;
+            padding: 25px;
+            background: #fef3c7;
+            border-radius: 12px;
+            border-left: 4px solid #f59e0b;
+        }
+        .insight-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #78350f;
+            margin-bottom: 12px;
+        }
+        .insight-text {
+            font-size: 14px;
+            color: #78350f;
+            line-height: 1.7;
+        }
+        .source {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 12px;
+            color: #64748b;
+            line-height: 1.6;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .branding {
+            font-size: 14px;
+            font-weight: 600;
+            color: #667eea;
+            letter-spacing: 1px;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            .title {
+                font-size: 22px;
+            }
+            .pie-container {
+                width: 300px;
+                height: 300px;
+            }
+            .chart-wrapper {
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Who Uses Stablecoins and Why</h1>
+            <p class="subtitle">Understanding usage patterns reveals why 0% interest doesn't drive users to alternatives—most prioritize transaction utility over yield</p>
+        </div>
+
+        <div class="chart-wrapper">
+            <div class="pie-container">
+                <svg class="pie-chart" viewBox="0 0 400 400">
+                    <!-- Background circle -->
+                    <circle cx="200" cy="200" r="160" fill="none" stroke="#f1f5f9" stroke-width="2"/>
+                    
+                    <!-- Pie segments -->
+                    <g id="pie-segments"></g>
+                    
+                    <!-- Center label -->
+                    <text x="200" y="190" text-anchor="middle" font-size="16" font-weight="600" fill="#64748b">Total</text>
+                    <text x="200" y="215" text-anchor="middle" font-size="28" font-weight="700" fill="#1a1a1a">$155B</text>
+                </svg>
+            </div>
+
+            <div class="legend">
+                <div class="legend-item" style="border-left-color: #667eea;">
+                    <div class="legend-color" style="background: #667eea;"></div>
+                    <div class="legend-content">
+                        <div class="legend-title">Trading / Transactional</div>
+                        <div class="legend-description">Hours to days holding for exchange transfers and crypto trading pairs</div>
+                    </div>
+                    <div class="legend-percentage" style="color: #667eea;">65%</div>
+                </div>
+
+                <div class="legend-item" style="border-left-color: #3b82f6;">
+                    <div class="legend-color" style="background: #3b82f6;"></div>
+                    <div class="legend-content">
+                        <div class="legend-title">Cross-Border Payments</div>
+                        <div class="legend-description">International remittances and business settlements</div>
+                    </div>
+                    <div class="legend-percentage" style="color: #3b82f6;">17.5%</div>
+                </div>
+
+                <div class="legend-item" style="border-left-color: #10b981;">
+                    <div class="legend-color" style="background: #10b981;"></div>
+                    <div class="legend-content">
+                        <div class="legend-title">DeFi Yield Farming</div>
+                        <div class="legend-description">Deposited in lending protocols earning 6-10% yields</div>
+                    </div>
+                    <div class="legend-percentage" style="color: #10b981;">12.5%</div>
+                </div>
+
+                <div class="legend-item" style="border-left-color: #f59e0b;">
+                    <div class="legend-color" style="background: #f59e0b;"></div>
+                    <div class="legend-content">
+                        <div class="legend-title">Store of Value (Emerging Markets)</div>
+                        <div class="legend-description">Held in countries with currency instability (Argentina, Turkey, Venezuela)</div>
+                    </div>
+                    <div class="legend-percentage" style="color: #f59e0b;">12.5%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="insight-box">
+            <div class="insight-title">Key Insight: Self-Selection Explains 0% Acceptance</div>
+            <div class="insight-text">
+                65% of users hold stablecoins for hours or days—foregone interest is negligible ($37 on $100K for 3 days). Another 12.5% earn yields elsewhere through DeFi. The 12.5% using stablecoins as store of value often can't access US money market funds. People who primarily value yield over speed already use traditional money market funds earning 4.5% with FDIC insurance. Stablecoin users self-select for transaction utility, which explains why PayPal's 3.7% interest hasn't captured market share.
+            </div>
+        </div>
+
+        <div class="source">
+            <strong>Sources:</strong> Chainalysis 2025 Global Stablecoin Report, Coinbase Research on transaction patterns, Kaiko data on exchange activity, Stripe cross-border payment data. Usage percentages represent mid-range estimates from multiple data sources.
+        </div>
+
+        <div class="footer">
+            <div class="branding">CHAOS & ORDER | M NADAL & CO</div>
+        </div>
+    </div>
+
+    <script>
+        const data = [
+            { label: 'Trading/Transactional', value: 65, color: '#667eea' },
+            { label: 'Cross-Border', value: 17.5, color: '#3b82f6' },
+            { label: 'DeFi Yield', value: 12.5, color: '#10b981' },
+            { label: 'Store of Value', value: 5, color: '#f59e0b' }
+        ];
+
+        function createPieChart() {
+            const svg = document.getElementById('pie-segments');
+            const centerX = 200;
+            const centerY = 200;
+            const radius = 140;
+            
+            let currentAngle = -90; // Start at top
+            
+            data.forEach((segment, index) => {
+                const angle = (segment.value / 100) * 360;
+                const startAngle = currentAngle * Math.PI / 180;
+                const endAngle = (currentAngle + angle) * Math.PI / 180;
+                
+                const x1 = centerX + radius * Math.cos(startAngle);
+                const y1 = centerY + radius * Math.sin(startAngle);
+                const x2 = centerX + radius * Math.cos(endAngle);
+                const y2 = centerY + radius * Math.sin(endAngle);
+                
+                const largeArc = angle > 180 ? 1 : 0;
+                
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', `
+                    M ${centerX} ${centerY}
+                    L ${x1} ${y1}
+                    A ${radius} ${radius} 0 ${largeArc} 1 ${x2} ${y2}
+                    Z
+                `);
+                path.setAttribute('fill', segment.color);
+                path.setAttribute('opacity', '0');
+                path.style.transition = 'opacity 0.8s ease';
+                
+                svg.appendChild(path);
+                
+                // Animate in
+                setTimeout(() => {
+                    path.setAttribute('opacity', '0.9');
+                }, index * 200);
+                
+                currentAngle += angle;
+            });
+        }
+
+        createPieChart();
+    </script>
+</body>
+</html>

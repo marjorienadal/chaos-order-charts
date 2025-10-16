@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Triple Lock: Why Competition Can't Fix Stablecoin Rent Extraction | Chaos & Order</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .header {
+            margin-bottom: 40px;
+        }
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            font-size: 16px;
+            color: #64748b;
+            line-height: 1.5;
+        }
+        .diagram-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 40px 0;
+        }
+        .center-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 180px;
+            height: 180px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            z-index: 10;
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+        }
+        .center-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .center-label {
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            opacity: 0.95;
+        }
+        .lock-circle {
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 30px;
+            transition: transform 0.3s ease;
+            cursor: default;
+        }
+        .lock-circle:hover {
+            transform: scale(1.05);
+        }
+        .lock-1 {
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(239, 68, 68, 0.15);
+            border: 3px solid #ef4444;
+        }
+        .lock-2 {
+            bottom: 0;
+            left: 10%;
+            background: rgba(59, 130, 246, 0.15);
+            border: 3px solid #3b82f6;
+        }
+        .lock-3 {
+            bottom: 0;
+            right: 10%;
+            background: rgba(16, 185, 129, 0.15);
+            border: 3px solid #10b981;
+        }
+        .lock-number {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .lock-1 .lock-number {
+            background: #ef4444;
+            color: white;
+        }
+        .lock-2 .lock-number {
+            background: #3b82f6;
+            color: white;
+        }
+        .lock-3 .lock-number {
+            background: #10b981;
+            color: white;
+        }
+        .lock-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .lock-1 .lock-title {
+            color: #dc2626;
+        }
+        .lock-2 .lock-title {
+            color: #2563eb;
+        }
+        .lock-3 .lock-title {
+            color: #059669;
+        }
+        .lock-description {
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.4;
+        }
+        .explanation {
+            margin-top: 60px;
+            padding: 25px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+        .explanation-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+        .explanation-text {
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.7;
+        }
+        .source {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 12px;
+            color: #64748b;
+            line-height: 1.6;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .branding {
+            font-size: 14px;
+            font-weight: 600;
+            color: #667eea;
+            letter-spacing: 1px;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            .title {
+                font-size: 22px;
+            }
+            .diagram-container {
+                height: 600px;
+            }
+            .lock-circle {
+                width: 180px;
+                height: 180px;
+                padding: 20px;
+            }
+            .lock-title {
+                font-size: 16px;
+            }
+            .lock-description {
+                font-size: 12px;
+            }
+            .center-circle {
+                width: 140px;
+                height: 140px;
+            }
+            .center-value {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">The Triple Lock: Why Competition Can't Fix This</h1>
+            <p class="subtitle">Three interlocking factors prevent market forces from correcting stablecoin rent extraction—even when competitors like PayPal offer 3.7% interest</p>
+        </div>
+
+        <div class="diagram-container" style="height: 550px;">
+            <div class="center-circle">
+                <div class="center-value">$7B</div>
+                <div class="center-label">Protected<br>Annually</div>
+            </div>
+
+            <div class="lock-circle lock-1">
+                <div class="lock-number">1</div>
+                <div class="lock-title">Regulatory Prohibition</div>
+                <div class="lock-description">US law explicitly bans stablecoin interest payments to avoid securities classification and bank disintermediation</div>
+            </div>
+
+            <div class="lock-circle lock-2">
+                <div class="lock-number">2</div>
+                <div class="lock-title">Network Effects</div>
+                <div class="lock-description">USDT/USDC dominate 85% of exchange activity. Deep liquidity and universal acceptance create insurmountable moats</div>
+            </div>
+
+            <div class="lock-circle lock-3">
+                <div class="lock-number">3</div>
+                <div class="lock-title">Self-Selected Users</div>
+                <div class="lock-description">60-70% use stablecoins for transactional speed, not yield. Those prioritizing interest already use money market funds</div>
+            </div>
+        </div>
+
+        <div class="explanation">
+            <div class="explanation-title">Why PayPal's 3.7% Interest Can't Compete</div>
+            <div class="explanation-text">
+                PayPal USD (PYUSD) pays 3.7% interest—sharing Treasury yield with depositors. By traditional market logic, it should be capturing massive market share from zero-yield USDT and USDC. Instead, PYUSD has <1% market share (~$500M circulation vs. $155B for USDT/USDC combined). The triple lock explains why: regulatory prohibition limits who can pay interest, network effects make liquidity more valuable than yield for most users, and customers self-select for transaction utility over returns. Competition exists but can't overcome these structural barriers.
+            </div>
+        </div>
+
+        <div class="source">
+            <strong>Analysis:</strong> Based on GENIUS Act regulatory framework, Kaiko exchange data showing USDT/USDC trading dominance, Chainalysis stablecoin usage patterns, and PayPal PYUSD circulation data (Q3 2025).
+        </div>
+
+        <div class="footer">
+            <div class="branding">CHAOS & ORDER | M NADAL & CO</div>
+        </div>
+    </div>
+</body>
+</html>

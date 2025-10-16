@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regulatory Architecture Timeline | Chaos & Order</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .header {
+            margin-bottom: 40px;
+        }
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            font-size: 16px;
+            color: #64748b;
+            line-height: 1.5;
+        }
+        .timeline {
+            position: relative;
+            padding: 40px 0;
+        }
+        .timeline-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 60px;
+            width: 3px;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 120px;
+            margin-bottom: 50px;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+        .timeline-item:nth-child(4) { animation-delay: 0.4s; }
+        .timeline-item:nth-child(5) { animation-delay: 0.5s; }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: 45px;
+            top: 0;
+            width: 32px;
+            height: 32px;
+            background: white;
+            border: 4px solid #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        .timeline-year {
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 18px;
+            font-weight: 700;
+            color: #667eea;
+        }
+        .timeline-content {
+            background: #f8fafc;
+            padding: 20px 25px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+        .timeline-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+        .timeline-description {
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.6;
+        }
+        .timeline-impact {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 13px;
+            color: #64748b;
+            font-style: italic;
+        }
+        .conclusion {
+            margin-top: 40px;
+            padding: 25px;
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-radius: 12px;
+            border: 2px solid #667eea;
+        }
+        .conclusion-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+        .conclusion-text {
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.7;
+        }
+        .source {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 12px;
+            color: #64748b;
+            line-height: 1.6;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .branding {
+            font-size: 14px;
+            font-weight: 600;
+            color: #667eea;
+            letter-spacing: 1px;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            .title {
+                font-size: 22px;
+            }
+            .timeline-item {
+                padding-left: 100px;
+            }
+            .timeline-line {
+                left: 50px;
+            }
+            .timeline-dot {
+                left: 35px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">How Regulators Built the 0% Interest Framework</h1>
+            <p class="subtitle">The regulatory architecture protecting $7B in annual rent extraction wasn't an accident—it was constructed piece by piece from 2021-2025</p>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-line"></div>
+
+            <div class="timeline-item">
+                <div class="timeline-year">2021</div>
+                <div class="timeline-dot">1</div>
+                <div class="timeline-content">
+                    <div class="timeline-title">OCC Interpretive Guidance</div>
+                    <div class="timeline-description">
+                        Office of the Comptroller of the Currency issues interpretive letters allowing national banks to custody stablecoins and use public blockchains for payment activities. Establishes legitimacy but maintains banking oversight.
+                    </div>
+                    <div class="timeline-impact">Impact: Brings stablecoins under regulatory umbrella while preserving bank intermediation.</div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-year">2022</div>
+                <div class="timeline-dot">2</div>
+                <div class="timeline-content">
+                    <div class="timeline-title">STABLE Act Introduced</div>
+                    <div class="timeline-description">
+                        "Stablecoin Transparency and Accountability for a Better Ledger Economy Act" proposed in Congress. Defines payment stablecoins as instruments that don't pay interest or yield. Bill doesn't pass but establishes regulatory thinking.
+                    </div>
+                    <div class="timeline-impact">Impact: First explicit articulation that stablecoins shouldn't compete with bank deposits on yield.</div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-year">2022-23</div>
+                <div class="timeline-dot">3</div>
+                <div class="timeline-content">
+                    <div class="timeline-title">SEC Staff Statements</div>
+                    <div class="timeline-description">
+                        Securities and Exchange Commission staff clarifies that interest-bearing stablecoins would likely qualify as securities under the Howey Test (investment of money with expectation of profit from others' efforts), triggering securities law requirements.
+                    </div>
+                    <div class="timeline-impact">Impact: Creates regulatory deterrent—paying interest means SEC oversight, prospectus requirements, and compliance costs that kill the business model.</div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-year">March 2025</div>
+                <div class="timeline-dot">4</div>
+                <div class="timeline-content">
+                    <div class="timeline-title">GENIUS Act Passes Senate</div>
+                    <div class="timeline-description">
+                        "Guiding and Establishing National Innovation for U.S. Stablecoins Act" (S.919, 119th Congress) passes Senate. Explicitly defines payment stablecoins as instruments that "do not offer a payment of yield or interest." Codifies the prohibition into law.
+                    </div>
+                    <div class="timeline-impact">Impact: Zero-interest model becomes legal requirement, not just regulatory preference. Protects bank deposits from stablecoin competition.</div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-year">April 2025</div>
+                <div class="timeline-dot">5</div>
+                <div class="timeline-content">
+                    <div class="timeline-title">SEC Confirms Non-Securities Status</div>
+                    <div class="timeline-description">
+                        SEC Division of Corporate Finance issues guidance confirming that stablecoins meeting GENIUS Act requirements (including no interest payments) are not securities. Provides regulatory clarity for issuers following the framework.
+                    </div>
+                    <div class="timeline-impact">Impact: Creates safe harbor—follow the rules (including 0% interest), avoid securities classification. Framework complete.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <div class="conclusion-title">The Result: Regulatory Protection for Rent Extraction</div>
+            <div class="conclusion-text">
+                This wasn't regulatory failure—it was regulatory design. Each piece served a purpose: legitimize stablecoins to extend dollar influence globally, prevent bank disintermediation by prohibiting interest competition, avoid securities classification to keep issuance simple, and maintain government oversight through banking regulation. The framework protects $7B in annual profits for issuers while ensuring stablecoins serve US strategic interests (Treasury demand, dollar dominance) without threatening the banking system. Brian Armstrong (Coinbase CEO) lobbied Congress in April 2025 to allow interest payments, but faces opposition from bank regulators and the Bank Policy Institute who understand the system works exactly as intended.
+            </div>
+        </div>
+
+        <div class="source">
+            <strong>Sources:</strong> OCC Interpretive Letters (2021), STABLE Act legislative text (2022), SEC staff statements (2022-2023), GENIUS Act (S.919, 119th Congress, March 2025), SEC Division of Corporate Finance guidance (April 2025), Brian Armstrong Congressional testimony (April 2025), Bank Policy Institute research on stablecoin systemic risks.
+        </div>
+
+        <div class="footer">
+            <div class="branding">CHAOS & ORDER | M NADAL & CO</div>
+        </div>
+    </div>
+</body>
+</html>

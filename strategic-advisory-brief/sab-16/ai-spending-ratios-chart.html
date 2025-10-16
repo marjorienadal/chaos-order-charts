@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Spending-to-Revenue Ratios 2025</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #ffffff;
+            padding: 40px;
+            margin: 0;
+        }
+        .chart-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            position: relative;
+        }
+        h2 {
+            font-size: 28px;
+            margin: 0 0 10px 0;
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 40px;
+        }
+        .bar-item {
+            margin-bottom: 25px;
+        }
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+        .company-name {
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        .ratio {
+            color: #666;
+            font-weight: 500;
+        }
+        .bar-background {
+            width: 100%;
+            height: 32px;
+            background: #f5f5f5;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            padding-left: 12px;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .high-risk { background: linear-gradient(90deg, #dc2626 0%, #b91c1c 100%); }
+        .elevated-risk { background: linear-gradient(90deg, #ea580c 0%, #c2410c 100%); }
+        .moderate-risk { background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%); }
+        .lower-risk { background: linear-gradient(90deg, #10b981 0%, #059669 100%); }
+        
+        .legend {
+            display: flex;
+            gap: 30px;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e5e5;
+            font-size: 13px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+        }
+        .watermark {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            font-size: 11px;
+            color: #999;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <h2>AI Spending-to-Revenue Ratios: Who's Most Extended?</h2>
+        <div class="subtitle">2025 AI-specific capital expenditure vs. attributable revenue</div>
+        
+        <div class="bar-item">
+            <div class="bar-label">
+                <span class="company-name">Meta</span>
+                <span class="ratio">~10:1 ratio</span>
+            </div>
+            <div class="bar-background">
+                <div class="bar-fill high-risk" style="width: 100%;">$50-60B spending / Minimal AI revenue</div>
+            </div>
+        </div>
+
+        <div class="bar-item">
+            <div class="bar-label">
+                <span class="company-name">Tesla</span>
+                <span class="ratio">10:1 ratio</span>
+            </div>
+            <div class="bar-background">
+                <div class="bar-fill high-risk" style="width: 100%;">$10B spending / $1B revenue</div>
+            </div>
+        </div>
+
+        <div class="bar-item">
+            <div class="bar-label">
+                <span class="company-name">Alphabet</span>
+                <span class="ratio">6:1 ratio</span>
+            </div>
+            <div class="bar-background">
+                <div class="bar-fill elevated-risk" style="width: 60%;">$50-55B spending / <$10B revenue</div>
+            </div>
+        </div>
+
+        <div class="bar-item">
+            <div class="bar-label">
+                <span class="company-name">Microsoft</span>
+                <span class="ratio">5:1 ratio</span>
+            </div>
+            <div class="bar-background">
+                <div class="bar-fill moderate-risk" style="width: 50%;">$50-60B spending / $10-12B revenue</div>
+            </div>
+        </div>
+
+        <div class="bar-item">
+            <div class="bar-label">
+                <span class="company-name">Amazon/AWS</span>
+                <span class="ratio">4:1 ratio</span>
+            </div>
+            <div class="bar-background">
+                <div class="bar-fill lower-risk" style="width: 40%;">$35-40B spending / $8-10B revenue</div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color high-risk"></div>
+                <span>Highest Risk (10:1)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color elevated-risk"></div>
+                <span>Elevated Risk (6:1)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color moderate-risk"></div>
+                <span>Moderate Risk (5:1)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color lower-risk"></div>
+                <span>Lower Risk (4:1)</span>
+            </div>
+        </div>
+
+        <div class="watermark">M NADAL & CO / 2025</div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank vs Stablecoin Comparison</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: white;
+            padding: 40px;
+            margin: 0;
+        }
+        
+        table {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+            padding: 20px;
+            text-align: left;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 18px 20px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 16px;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+        
+        .row-label {
+            font-weight: 600;
+            color: #1a1a1a;
+            width: 40%;
+        }
+        
+        .value {
+            color: #475569;
+        }
+        
+        .highlight {
+            background: #fef3c7 !important;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Traditional Bank</th>
+                <th>Stablecoin Issuer</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="row-label">Customer deposit</td>
+                <td class="value">$100,000</td>
+                <td class="value">$100,000</td>
+            </tr>
+            <tr>
+                <td class="row-label">Interest paid to customer</td>
+                <td class="value">3% ($3,000)</td>
+                <td class="value">0% ($0)</td>
+            </tr>
+            <tr>
+                <td class="row-label">Earnings on deposit</td>
+                <td class="value">6% ($6,000)</td>
+                <td class="value">4.5% ($4,500)</td>
+            </tr>
+            <tr>
+                <td class="row-label">Gross margin</td>
+                <td class="value">$3,000</td>
+                <td class="value">$4,500</td>
+            </tr>
+            <tr>
+                <td class="row-label">Operational costs</td>
+                <td class="value">$1,000<br><span style="font-size: 13px; color: #64748b;">(FDIC, compliance, capital)</span></td>
+                <td class="value">$500<br><span style="font-size: 13px; color: #64748b;">(custody, ledger)</span></td>
+            </tr>
+            <tr class="highlight">
+                <td class="row-label">Net profit</td>
+                <td class="value">$2,000</td>
+                <td class="value">$4,000</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

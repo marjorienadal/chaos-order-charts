@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geographic Access Matrix - Chaos & Order Edition 21</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #0a1628;
+            color: #e0e6ed;
+            padding: 40px 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        .subtitle {
+            text-align: center;
+            color: #8a9ba8;
+            margin-bottom: 40px;
+            font-size: 14px;
+        }
+        .matrix {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .company-row {
+            background: #1a2332;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid #4a90e2;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .company-row:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+        .company-row.constrained {
+            border-left-color: #f5a623;
+        }
+        .company-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .company-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+        }
+        .company-domicile {
+            color: #8a9ba8;
+            font-size: 14px;
+        }
+        .access-badge {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .access-badge.all {
+            background: #27ae60;
+            color: #fff;
+        }
+        .access-badge.constrained {
+            background: #f5a623;
+            color: #fff;
+        }
+        .access-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .access-item {
+            text-align: center;
+            padding: 12px;
+            background: #0f1823;
+            border-radius: 6px;
+        }
+        .access-item-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #8a9ba8;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        .access-status {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .status-full {
+            color: #27ae60;
+        }
+        .status-uncertain {
+            color: #f5a623;
+        }
+        .legend {
+            background: #1a2332;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        .legend-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 12px;
+            color: #8a9ba8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Geographic Access to Global Innovation</h1>
+        <p class="subtitle">Which pharmaceutical companies can source innovation from all three power centers?</p>
+        
+        <div class="matrix">
+            <!-- European Pharma - Unrestricted -->
+            <div class="company-row">
+                <div class="company-header">
+                    <div>
+                        <div class="company-name">AstraZeneca</div>
+                        <div class="company-domicile">United Kingdom • LSE: AZN</div>
+                    </div>
+                    <div class="access-badge all">Unrestricted</div>
+                </div>
+                <div class="access-details">
+                    <div class="access-item">
+                        <div class="access-item-label">US Biotech</div>
+                        <div class="access-status status-full">✓ Full Access</div>
+                    </div>
+                    <div class="access-item">
+                        <div class="access-item-label">Chinese Innovation</div>
+                        <div class="access-status status-full">✓ Full Access</div>
+                    </div>
+                    <div class="access-item">
+                        <div class="access-item-label">European R&D</div>
+                        <div class="access-status status-full">✓ Full Access</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="company-row">
+                <div class="company-header">
+                    <div>
+                        <div class="company-name">Roche</div>
+                        <div class="company-domicile">Switzerland • SIX: ROG</div>
+                    </div>
+                    <div class="access-badge all">Unrestricted</div>
+                </div>
+                <div class="access-details">
+                    <div class="access-item">
+                        <div class="access-item-label">US Biotech</div>
+                        <div class="access-status status-full">✓ Full Access</div>
+                    </div>
+                    <div class="access-item">
+                        <div class="access-item-label">Chinese Innovation</div>
+                        <div class="access-status status-full">✓ Full Access</div>
+                    </div>
+                    <div class="access-item">
+                        <div class="access-item-label">European R&D</div>
+                        <div class="access-status status-full">✓ Full Access</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="company-row">
+                <div class="company-header">
+                    <div>
+                        <div class="company-name">Novartis</div>
+                        <div class="company-domicile">Switzerland • NYSE: NVS</div>
+                    </div>
+                    <div class="access-badge all">Unrestricted</div>
+                </div>
+                <div class="access-details">
+                    <div class="access-item">
+                        <div class="access-item-label">US Biotech</div>
+                        <div class="access-status status-full">✓ Full Access</div>
+                    </div>
+                    <div class="access-item">
+                        <div class="access-item-label">Chinese Innovation</div>
+                        <div class="access-status status-full">✓ Full Access</div>
+                    </div>
+                    <div class="access-item">
+                        <div class="access-item-label">European R&D</div>
+                        <div class="access-status status-full">✓ Full Access</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- US Pharma - Potentially Constrained -->
+            <div class="company-row constrained">
+                <div class="company-header">
+                    <div>
+                        <div class="company-name">Eli Lilly</div>
+                        <div class="company-domicile">United States • NYSE: LLY</div>
+                    </div>
+                    <div class="access-badge constrained">Potentially Constrained</div>
+                </div>
+                <div class="access-details">
+                    <div class="access-item">
+                        <div class="access-item-label">US Biotech</div>
+                        <div class="access-status status-full">✓ Full Access</div>
+                    </div>
+                    <div class="access-item">
+                        <div class="access-item-label">Chinese Innovation</div>
+                        <div class="access-status status-uncertain">⚠ BIOSECURE Uncertain</div>
+                    </div>
+                    <div class="access-item">
+                        <div class="access-item-label">European R&D</div>
+                        <div class="access-status status-full">✓ Acquisitions Only</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="company-row constrained">
+                <div class="company-header">
+                    <div>
+                        <div class="company-name">Pfizer</div>
+                        <div class="company-domicile">United States • NYSE: PFE</div>
+                    </div>
+                    <div class="access-badge constrained">Potentially Constrained</div>
+                </div>
+                <div class="access-details">
+                    <div class="access-item">
+                        <div class="access-item-label">US Biotech</div>
+                        <div class="access-status status-full">✓ Full Access</div>
+                    </div>
+                    <div class="access-item">
+                        <div class="access-item-label">Chinese Innovation</div>
+                        <div class="access-status status-uncertain">⚠ BIOSECURE Uncertain</div>
+                    </div>
+                    <div class="access-item">
+                        <div class="access-item-label">European R&D</div>
+                        <div class="access-status status-full">✓ Acquisitions Only</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-title">Understanding BIOSECURE Impact</div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #27ae60;"></div>
+                <div><strong>Unrestricted:</strong> Can partner with Chinese CROs, license innovations, acquire biotechs globally without regulatory constraints</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #f5a623;"></div>
+                <div><strong>Potentially Constrained:</strong> Senate BIOSECURE targets BGI/MGI (DoD 1260H list). House reconciliation could expand to WuXi entities affecting 79% of US biopharma</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            Chaos & Order Edition 21 | Data as of October 2025 | Source: BIOSECURE Act (S.3635), BIO Survey (May 2024)
+        </div>
+    </div>
+</body>
+</html>

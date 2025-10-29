@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valuation Comparison - Chaos & Order Edition 21</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #0a1628;
+            color: #e0e6ed;
+            padding: 40px 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        .subtitle {
+            text-align: center;
+            color: #8a9ba8;
+            margin-bottom: 40px;
+            font-size: 14px;
+        }
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .company-card {
+            background: #1a2332;
+            border-radius: 12px;
+            padding: 30px;
+            border-top: 4px solid #4a90e2;
+        }
+        .company-card.highlighted {
+            border-top-color: #27ae60;
+        }
+        .company-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+        .company-ticker {
+            color: #8a9ba8;
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #2a3542;
+        }
+        .metric-row:last-child {
+            border-bottom: none;
+        }
+        .metric-label {
+            font-size: 14px;
+            color: #8a9ba8;
+        }
+        .metric-value {
+            font-size: 20px;
+            font-weight: 600;
+            color: #fff;
+        }
+        .metric-bar {
+            margin-top: 8px;
+            height: 8px;
+            background: #0f1823;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .metric-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4a90e2, #357abd);
+            border-radius: 4px;
+            transition: width 1s ease-out;
+        }
+        .metric-fill.highlight {
+            background: linear-gradient(90deg, #27ae60, #1e8449);
+        }
+        .insight-box {
+            background: #1a2332;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+            border-left: 4px solid #f5a623;
+        }
+        .insight-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+        .insight-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #b8c5d0;
+        }
+        .insight-highlight {
+            color: #f5a623;
+            font-weight: 600;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 12px;
+            color: #8a9ba8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>The Valuation Puzzle</h1>
+        <p class="subtitle">AstraZeneca vs Roche: Database size vs market valuation</p>
+        
+        <div class="comparison">
+            <div class="company-card highlighted">
+                <div class="company-title">AstraZeneca</div>
+                <div class="company-ticker">UK • LSE: AZN.L</div>
+                
+                <div class="metric-row">
+                    <div>
+                        <div class="metric-label">Genomic Database</div>
+                        <div class="metric-bar">
+                            <div class="metric-fill highlight" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                    <div class="metric-value">1.4M profiles</div>
+                </div>
+
+                <div class="metric-row">
+                    <div>
+                        <div class="metric-label">PE Multiple</div>
+                        <div class="metric-bar">
+                            <div class="metric-fill highlight" style="width: 79%;"></div>
+                        </div>
+                    </div>
+                    <div class="metric-value">19x</div>
+                </div>
+
+                <div class="metric-row">
+                    <div>
+                        <div class="metric-label">Market Cap</div>
+                        <div class="metric-bar">
+                            <div class="metric-fill highlight" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                    <div class="metric-value">$269B</div>
+                </div>
+
+                <div class="metric-row">
+                    <div>
+                        <div class="metric-label">Value Per Profile</div>
+                    </div>
+                    <div class="metric-value" style="color: #27ae60;">$192K</div>
+                </div>
+            </div>
+
+            <div class="company-card">
+                <div class="company-title">Roche</div>
+                <div class="company-ticker">Switzerland • SIX: ROG</div>
+                
+                <div class="metric-row">
+                    <div>
+                        <div class="metric-label">Genomic Database</div>
+                        <div class="metric-bar">
+                            <div class="metric-fill" style="width: 7%;"></div>
+                        </div>
+                    </div>
+                    <div class="metric-value">100K profiles</div>
+                </div>
+
+                <div class="metric-row">
+                    <div>
+                        <div class="metric-label">PE Multiple</div>
+                        <div class="metric-bar">
+                            <div class="metric-fill" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                    <div class="metric-value">24x</div>
+                </div>
+
+                <div class="metric-row">
+                    <div>
+                        <div class="metric-label">Market Cap</div>
+                        <div class="metric-bar">
+                            <div class="metric-fill" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                    <div class="metric-value">$230B</div>
+                </div>
+
+                <div class="metric-row">
+                    <div>
+                        <div class="metric-label">Value Per Profile</div>
+                    </div>
+                    <div class="metric-value" style="color: #4a90e2;">$2.3M</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="insight-box">
+            <div class="insight-title">The Valuation Question</div>
+            <div class="insight-text">
+                AstraZeneca trades at a <span class="insight-highlight">20% discount to Roche</span> (19x vs 24x PE) despite owning <span class="insight-highlight">14 times more genomic data</span> (1.4M vs 100K patient profiles).
+                <br><br>
+                Markets value Roche's data at <span class="insight-highlight">$2.3M per profile</span> versus AstraZeneca's <span class="insight-highlight">$192K per profile</span>—a 12x premium per data point.
+                <br><br>
+                Possible explanations: Roche's Foundation Medicine diagnostics business monetizes genomic data directly. Database quality vs quantity—Roche's 100K profiles might be deeper, better phenotyped, more strategically curated. But does this justify a 12x valuation gap for 1/14th the data?
+            </div>
+        </div>
+
+        <div class="footer">
+            Chaos & Order Edition 21 | Data as of October 2025 | PE ratios from Yahoo Finance, Bloomberg<br>
+            Database sizes from company disclosures and research publications
+        </div>
+    </div>
+
+    <script>
+        // Animate bars on load
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.metric-fill').forEach(fill => {
+                const width = fill.style.width;
+                fill.style.width = '0%';
+                setTimeout(() => {
+                    fill.style.width = width;
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>

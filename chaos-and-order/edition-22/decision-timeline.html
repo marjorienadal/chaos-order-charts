@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Decision Timeline</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 20px; background: #f8f9fa; }
+        .timeline-container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 900px; margin: 0 auto; }
+        h2 { color: #2c3e50; text-align: center; margin-bottom: 30px; }
+        .timeline { position: relative; padding: 20px 0; }
+        .timeline-item { display: flex; margin-bottom: 30px; position: relative; }
+        .timeline-date { flex: 0 0 140px; font-weight: bold; color: #34495e; padding-right: 20px; text-align: right; }
+        .timeline-content { flex: 1; padding-left: 30px; border-left: 3px solid #3498db; position: relative; }
+        .timeline-content:before { content: ''; position: absolute; left: -9px; top: 5px; width: 15px; height: 15px; border-radius: 50%; background: #3498db; }
+        .status-resolved { border-left-color: #27ae60; }
+        .status-resolved:before { background: #27ae60; }
+        .status-pending { border-left-color: #f39c12; }
+        .status-pending:before { background: #f39c12; }
+        .status-entry { border-left-color: #e74c3c; }
+        .status-entry:before { background: #e74c3c; }
+        .timeline-title { font-weight: bold; color: #2c3e50; margin-bottom: 5px; }
+        .timeline-desc { color: #7f8c8d; font-size: 14px; line-height: 1.6; }
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 3px; font-size: 11px; font-weight: bold; text-transform: uppercase; margin-bottom: 8px; }
+        .badge-resolved { background: #d5f4e6; color: #27ae60; }
+        .badge-pending { background: #fef5e7; color: #f39c12; }
+        .badge-decision { background: #fadbd8; color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <div class="timeline-container">
+        <h2>Oil Investment Decision Timeline</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-date">Nov 2, 2025</div>
+                <div class="timeline-content status-resolved">
+                    <span class="badge badge-resolved">✓ Resolved</span>
+                    <div class="timeline-title">OPEC+ Meeting</div>
+                    <div class="timeline-desc">
+                        Output increase limited to 180k bpd in December, then pause through Q1 2026. 
+                        <strong>Confirms production discipline—thesis strengthened.</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-date">Nov 12, 2025</div>
+                <div class="timeline-content status-resolved">
+                    <span class="badge badge-resolved">✓ Confirmed</span>
+                    <div class="timeline-title">Forward Curve Check</div>
+                    <div class="timeline-desc">
+                        Brent maintaining ~$2 backwardation. No flip to contango. 
+                        <strong>Storage arbitrage remains uneconomic—supports transit bloat thesis.</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-date">Nov 25-Dec 6</div>
+                <div class="timeline-content status-pending">
+                    <span class="badge badge-pending">⧗ Monitoring</span>
+                    <div class="timeline-title">Q4 Earnings Season</div>
+                    <div class="timeline-desc">
+                        <strong>XOM (Nov 29), CVX (late Nov), SHEL (early Dec)</strong><br>
+                        Need confirmation: $35-40B FCF at $60-65 oil, no cost inflation, Guyana ramp on track.
+                        <br><em>This is the critical datapoint.</em>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-date">Late Nov/Early Dec</div>
+                <div class="timeline-content status-pending">
+                    <span class="badge badge-pending">⧗ Monitoring</span>
+                    <div class="timeline-title">China Q4 Demand Data</div>
+                    <div class="timeline-desc">
+                        Import volumes, SPR stockpiling continuation, economic indicators.
+                        <strong>Need >500k bpd demand growth confirmed.</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-date">Dec 9-13, 2025</div>
+                <div class="timeline-content status-entry">
+                    <span class="badge badge-decision">⚡ Decision Point</span>
+                    <div class="timeline-title">Capital Deployment Window</div>
+                    <div class="timeline-desc">
+                        <strong>If both triggers met:</strong> Enter XOM/SHEL equity positions (10-15% allocation, £15-22K).<br>
+                        <strong>If either breaks:</strong> Walk away, document in Edition 23, reallocate to higher-conviction opportunities.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

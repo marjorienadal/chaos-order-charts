@@ -6,26 +6,54 @@
     <title>Oil Company Positioning at $60/barrel</title>
     <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
     <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 20px; background: #f8f9fa; }
-        .chart-container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        h2 { color: #2c3e50; margin-bottom: 10px; }
-        .note { font-size: 14px; color: #7f8c8d; margin-top: 15px; line-height: 1.6; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        #chart {
+            width: 100%;
+            height: 500px;
+        }
+        .note {
+            margin-top: 20px;
+            padding: 16px;
+            background: #f8f9fa;
+            border-left: 4px solid #2c3e50;
+            color: #2c3e50;
+            font-size: 14px;
+            line-height: 1.7;
+        }
     </style>
 </head>
 <body>
-    <div class="chart-container">
+    <div class="container">
         <h2>Who Wins at $60 Oil: Integrated Majors vs Pure Plays</h2>
-        <div id="companyChart"></div>
+        <div id="chart"></div>
         <div class="note">
-            <strong>Investment Implication:</strong> Integrated majors (XOM, CVX, SHEL) generate $35B+ FCF at $60 oil through vertical integration and hedging. 
-            Pure upstream plays need $70-80 to sustain operations. Market pricing integrateds like $50 oil is permanent—potential value if $60 holds.
+            <strong>Investment Implication:</strong> Integrated majors (XOM, CVX, SHEL) generate $35B+ FCF at $60 oil through vertical integration and hedging. Pure upstream plays need $70-80 to sustain operations. Market pricing integrateds like $50 oil is permanent—potential value opportunity if $60 holds.
         </div>
     </div>
 
     <script>
         const companies = ['XOM', 'CVX', 'SHEL', 'US Shale<br>Mid-Tier', 'OPEC<br>Pure-Plays'];
         const breakeven = [45, 50, 48, 68, 75];
-        const fcfAt60 = [35, 25, 28, 0, -5]; // Billions USD
+        const fcfAt60 = [35, 25, 28, 0, -5];
 
         const trace1 = {
             x: companies,
@@ -35,7 +63,8 @@
             marker: { color: '#3498db' },
             yaxis: 'y',
             text: breakeven.map(x => '$' + x),
-            textposition: 'outside'
+            textposition: 'outside',
+            textfont: { size: 12 }
         };
 
         const trace2 = {
@@ -46,29 +75,45 @@
             marker: { color: '#27ae60' },
             yaxis: 'y2',
             text: fcfAt60.map(x => '$' + x + 'B'),
-            textposition: 'outside'
+            textposition: 'outside',
+            textfont: { size: 12 }
         };
 
         const layout = {
-            yaxis: { 
+            yaxis: {
                 title: 'Breakeven Price ($/bbl)',
                 side: 'left',
-                range: [0, 90]
+                range: [0, 90],
+                gridcolor: '#e0e0e0'
             },
             yaxis2: {
                 title: 'Free Cash Flow at $60 Oil ($B)',
                 overlaying: 'y',
                 side: 'right',
-                range: [-10, 40]
+                range: [-10, 40],
+                gridcolor: '#e0e0e0'
             },
             barmode: 'group',
             showlegend: true,
-            legend: { x: 0.02, y: 0.98 },
+            legend: {
+                orientation: 'h',
+                x: 0.5,
+                xanchor: 'center',
+                y: -0.15,
+                yanchor: 'top'
+            },
             hovermode: 'x unified',
-            margin: { t: 20, b: 80 }
+            margin: { t: 20, b: 100, l: 60, r: 60 },
+            plot_bgcolor: 'white',
+            paper_bgcolor: 'white'
         };
 
-        Plotly.newPlot('companyChart', [trace1, trace2], layout, {responsive: true});
+        const config = {
+            responsive: true,
+            displayModeBar: false
+        };
+
+        Plotly.newPlot('chart', [trace1, trace2], layout, config);
     </script>
 </body>
 </html>

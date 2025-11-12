@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brent Forward Curve - Backwardation Analysis</title>
+    <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 20px; background: #f8f9fa; }
+        .chart-container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        h2 { color: #2c3e50; margin-bottom: 10px; }
+        .note { font-size: 14px; color: #7f8c8d; margin-top: 10px; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <h2>Brent Forward Curve: Backwardation vs Historical Patterns</h2>
+        <div id="forwardCurve"></div>
+        <div class="note">
+            <strong>Key Insight:</strong> Current mild backwardation (~$2) signals tight near-term supply with expected surplus later. 
+            Compare to COVID 2020 deep contango when storage arbitrage drove floating storage. 
+            No economic storage incentive today—floating oil is transit bloat, not speculative positioning.
+        </div>
+    </div>
+
+    <script>
+        // Current Brent forward curve (backwardation)
+        const months = ['Nov-25', 'Dec-25', 'Jan-26', 'Mar-26', 'Jun-26', 'Sep-26', 'Dec-26'];
+        const currentCurve = [64.80, 64.50, 64.20, 63.80, 63.20, 62.80, 62.50];
+        
+        // COVID 2020 contango for comparison
+        const covidCurve = [20, 25, 30, 35, 38, 40, 42];
+        
+        // Pre-pandemic balanced market
+        const normalCurve = [62, 61.80, 61.70, 61.50, 61.30, 61.20, 61.00];
+
+        const trace1 = {
+            x: months,
+            y: currentCurve,
+            mode: 'lines+markers',
+            name: 'Current (Nov 2025)',
+            line: { color: '#e74c3c', width: 3 },
+            marker: { size: 8 }
+        };
+
+        const trace2 = {
+            x: months,
+            y: covidCurve,
+            mode: 'lines+markers',
+            name: 'COVID 2020 (Deep Contango)',
+            line: { color: '#95a5a6', width: 2, dash: 'dot' },
+            marker: { size: 6 }
+        };
+
+        const trace3 = {
+            x: months,
+            y: normalCurve,
+            mode: 'lines+markers',
+            name: '2017-2019 Normal',
+            line: { color: '#3498db', width: 2, dash: 'dash' },
+            marker: { size: 6 }
+        };
+
+        const layout = {
+            xaxis: { title: 'Contract Month' },
+            yaxis: { title: 'Price ($/barrel)' },
+            hovermode: 'x unified',
+            showlegend: true,
+            legend: { x: 0.02, y: 0.98 },
+            margin: { t: 20 }
+        };
+
+        Plotly.newPlot('forwardCurve', [trace1, trace2, trace3], layout, {responsive: true});
+    </script>
+</body>
+</html>

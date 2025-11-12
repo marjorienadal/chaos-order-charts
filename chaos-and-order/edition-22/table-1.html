@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oil Company Positioning at $60/barrel</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #ffffff;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        h2 {
+            color: #1a1a1a;
+            margin-bottom: 24px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            font-size: 15px;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        thead {
+            background: #2c3e50;
+            color: white;
+        }
+        th {
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        td {
+            padding: 16px;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+        .company-name {
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        .positive {
+            color: #27ae60;
+            font-weight: 600;
+        }
+        .negative {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+        .neutral {
+            color: #7f8c8d;
+            font-weight: 600;
+        }
+        .summary {
+            margin-top: 20px;
+            padding: 16px;
+            background: #f8f9fa;
+            border-left: 4px solid #2c3e50;
+            color: #2c3e50;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+        @media (max-width: 768px) {
+            table {
+                font-size: 13px;
+            }
+            th, td {
+                padding: 10px 8px;
+            }
+            h2 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Who's Positioned for $60 vs. $85?</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 20%;">Company</th>
+                    <th style="width: 15%;">Breakeven</th>
+                    <th style="width: 15%;">FCF at $60</th>
+                    <th style="width: 50%;">Positioning</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="company-name">XOM</td>
+                    <td>~$45</td>
+                    <td class="positive">$35B+</td>
+                    <td>Fortress balance sheet; Guyana ramp</td>
+                </tr>
+                <tr>
+                    <td class="company-name">CVX</td>
+                    <td>~$50</td>
+                    <td class="positive">$25B</td>
+                    <td>Permian scale + downstream buffer</td>
+                </tr>
+                <tr>
+                    <td class="company-name">OPEC Pure-Plays</td>
+                    <td>$70–80</td>
+                    <td class="negative">Negative</td>
+                    <td>Vulnerable without cuts</td>
+                </tr>
+                <tr>
+                    <td class="company-name">US Shale Mid-Tier</td>
+                    <td>$65+</td>
+                    <td class="neutral">Break-even</td>
+                    <td>Drilling pause likely</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="summary">
+            Integrateds thrive at $60. Pure upstream needs $75+ for growth.
+        </div>
+    </div>
+</body>
+</html>

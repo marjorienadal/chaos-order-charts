@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gulf Coast 3-2-1 Crack Spreads</title>
+    <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 20px; background: #f8f9fa; }
+        .chart-container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h2 { color: #2c3e50; margin-bottom: 10px; }
+        .note { font-size: 14px; color: #7f8c8d; margin-top: 15px; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <h2>Refining Margins: Gulf Coast 3-2-1 Crack Spreads</h2>
+        <div id="crackChart"></div>
+        <div class="note">
+            <strong>Refining Reality:</strong> Crack spreads at $8-10/bbl (down from $25+ in 2023) create M&A opportunities. 
+            Independent refiners like Valero and Marathon trade <7x EV/EBITDA—potential consolidation targets. 
+            Integrateds buffer this through owned crude supply and vertical integration.
+        </div>
+    </div>
+
+    <script>
+        const dates = ['2022-Q1', '2022-Q3', '2023-Q1', '2023-Q3', '2024-Q1', '2024-Q3', '2025-Q1', '2025-Q3'];
+        const cracks = [18, 32, 28, 22, 15, 12, 11, 9];
+
+        const trace = {
+            x: dates,
+            y: cracks,
+            mode: 'lines+markers',
+            name: 'Crack Spread ($/bbl)',
+            line: { color: '#e67e22', width: 3 },
+            marker: { size: 10 },
+            fill: 'tozeroy',
+            fillcolor: 'rgba(230, 126, 34, 0.1)'
+        };
+
+        // Add threshold line at $15
+        const threshold = {
+            x: dates,
+            y: Array(dates.length).fill(15),
+            mode: 'lines',
+            name: 'Historical Average ($15)',
+            line: { color: '#95a5a6', width: 2, dash: 'dash' }
+        };
+
+        const layout = {
+            xaxis: { title: 'Quarter' },
+            yaxis: { title: 'Crack Spread ($/barrel)', range: [0, 35] },
+            hovermode: 'x unified',
+            showlegend: true,
+            legend: { x: 0.02, y: 0.98 },
+            annotations: [{
+                x: '2023-Q1',
+                y: 28,
+                text: 'Peak Refining<br>Margins',
+                showarrow: true,
+                arrowhead: 2,
+                ax: 40,
+                ay: -40
+            }, {
+                x: '2025-Q3',
+                y: 9,
+                text: 'Current:<br>Compressed',
+                showarrow: true,
+                arrowhead: 2,
+                ax: -40,
+                ay: 40
+            }],
+            margin: { t: 20 }
+        };
+
+        Plotly.newPlot('crackChart', [trace, threshold], layout, {responsive: true});
+    </script>
+</body>
+</html>

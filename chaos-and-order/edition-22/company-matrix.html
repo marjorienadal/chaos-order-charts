@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oil Company Positioning at $60/barrel</title>
+    <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 20px; background: #f8f9fa; }
+        .chart-container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h2 { color: #2c3e50; margin-bottom: 10px; }
+        .note { font-size: 14px; color: #7f8c8d; margin-top: 15px; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <h2>Who Wins at $60 Oil: Integrated Majors vs Pure Plays</h2>
+        <div id="companyChart"></div>
+        <div class="note">
+            <strong>Investment Implication:</strong> Integrated majors (XOM, CVX, SHEL) generate $35B+ FCF at $60 oil through vertical integration and hedging. 
+            Pure upstream plays need $70-80 to sustain operations. Market pricing integrateds like $50 oil is permanent—potential value if $60 holds.
+        </div>
+    </div>
+
+    <script>
+        const companies = ['XOM', 'CVX', 'SHEL', 'US Shale<br>Mid-Tier', 'OPEC<br>Pure-Plays'];
+        const breakeven = [45, 50, 48, 68, 75];
+        const fcfAt60 = [35, 25, 28, 0, -5]; // Billions USD
+
+        const trace1 = {
+            x: companies,
+            y: breakeven,
+            name: 'Breakeven Price ($/bbl)',
+            type: 'bar',
+            marker: { color: '#3498db' },
+            yaxis: 'y',
+            text: breakeven.map(x => '$' + x),
+            textposition: 'outside'
+        };
+
+        const trace2 = {
+            x: companies,
+            y: fcfAt60,
+            name: 'FCF at $60 Oil ($B)',
+            type: 'bar',
+            marker: { color: '#27ae60' },
+            yaxis: 'y2',
+            text: fcfAt60.map(x => '$' + x + 'B'),
+            textposition: 'outside'
+        };
+
+        const layout = {
+            yaxis: { 
+                title: 'Breakeven Price ($/bbl)',
+                side: 'left',
+                range: [0, 90]
+            },
+            yaxis2: {
+                title: 'Free Cash Flow at $60 Oil ($B)',
+                overlaying: 'y',
+                side: 'right',
+                range: [-10, 40]
+            },
+            barmode: 'group',
+            showlegend: true,
+            legend: { x: 0.02, y: 0.98 },
+            hovermode: 'x unified',
+            margin: { t: 20, b: 80 }
+        };
+
+        Plotly.newPlot('companyChart', [trace1, trace2], layout, {responsive: true});
+    </script>
+</body>
+</html>

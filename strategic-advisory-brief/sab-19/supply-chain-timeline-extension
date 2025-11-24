@@ -1,0 +1,37 @@
+<div style="max-width: 800px; margin: 40px auto; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">
+  <h3 style="text-align: center; margin-bottom: 30px; color: #1a1a1a;">Material Lead Time Extension: 2019 → 2025</h3>
+  
+  <div style="margin-bottom: 30px;">
+    <div style="margin-bottom: 25px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <span style="font-weight: 600; color: #2c3e50;">Transformers</span>
+        <span style="color: #7f8c8d; font-size: 14px;">4-6 months → 2-4+ years</span>
+      </div>
+      <div style="background: #ecf0f1; height: 30px; position: relative;">
+        <div style="background: linear-gradient(90deg, #27ae60 0%, #e74c3c 100%); width: 100%; height: 100%;"></div>
+      </div>
+    </div>
+    
+    <div style="margin-bottom: 25px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <span style="font-weight: 600; color: #2c3e50;">Switchgear</span>
+        <span style="color: #7f8c8d; font-size: 14px;">3-5 months → 8-12 months</span>
+      </div>
+      <div style="background: #ecf0f1; height: 30px; position: relative;">
+        <div style="background: linear-gradient(90deg, #27ae60 0%, #f39c12 100%); width: 70%; height: 100%;"></div>
+      </div>
+    </div>
+    
+    <div style="margin-bottom: 25px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <span style="font-weight: 600; color: #2c3e50;">Copper Prices (YoY)</span>
+        <span style="color: #7f8c8d; font-size: 14px;">+22.5%</span>
+      </div>
+      <div style="background: #ecf0f1; height: 30px; position: relative;">
+        <div style="background: #e67e22; width: 45%; height: 100%;"></div>
+      </div>
+    </div>
+  </div>
+  
+  <p style="text-align: center; color: #7f8c8d; font-size: 14px; font-style: italic;">Supply response cannot match simultaneous AI and defense demand acceleration</p>
+</div>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Chaos & Order Edition 23: Oil Investment Decision Deferred - Interactive Charts">
+    <meta property="og:description" content="Interactive data visualizations supporting M Nadal & Co's oil market analysis">
+    <meta property="og:type" content="website">
+    <title>Chaos & Order Edition 23: Interactive Charts | M NADAL & CO</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 50px;
+            position: relative;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .logo {
+            font-size: 1.2em;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        h1 {
+            color: #2d3748;
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        .subtitle {
+            color: #718096;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+        
+        .date {
+            color: #a0aec0;
+            font-size: 1em;
+            font-weight: 600;
+        }
+        
+        .intro {
+            background: #f7fafc;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .intro p {
+            color: #4a5568;
+            line-height: 1.6;
+            font-size: 1.05em;
+        }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .chart-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .chart-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+        
+        .chart-card .number {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: 700;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+        
+        .chart-card h3 {
+            color: #2d3748;
+            font-size: 1.3em;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .chart-card p {
+            color: #718096;
+            line-height: 1.5;
+            font-size: 0.95em;
+            margin-bottom: 15px;
+        }
+        
+        .chart-card .view-link {
+            color: #667eea;
+            font-weight: 600;
+            font-size: 0.9em;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .chart-card .view-link::after {
+            content: '→';
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+        
+        .chart-card:hover .view-link::after {
+            transform: translateX(5px);
+        }
+        
+        .newsletter-link {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 12px;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+        
+        .newsletter-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 2px solid #e2e8f0;
+            color: #718096;
+            font-size: 0.9em;
+        }
+        
+        .footer .watermark {
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #667eea;
+            margin-top: 10px;
+            font-size: 1.1em;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .subtitle {
+                font-size: 1.1em;
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">M NADAL & CO STRATEGIC ADVISORY</div>
+            <h1>Chaos & Order Edition 23</h1>
+            <div class="subtitle">Oil Investment Decision Deferred</div>
+            <div class="date">December 11, 2025</div>
+        </div>
+        
+        <div class="intro">
+            <p>Interactive data visualizations supporting the analysis in Chaos & Order Edition 23. Both triggers from Edition 22 technically fired—but the China demand is artificial with a visible expiration date, and the FCF floor is cracking. Decision: wait until April-May 2026.</p>
+        </div>
+        
+        <a href="https://chaosandorder.substack.com" class="newsletter-link" target="_blank">
+            📧 Read the Full Analysis on Substack
+        </a>
+        
+        <div class="charts-grid">
+            <a href="brent-forward-curve-comparison.html" class="chart-card">
+                <div class="number">1</div>
+                <h3>Brent Forward Curve Comparison</h3>
+                <p>April 2020 super contango vs December 2025 mild backwardation. Shows neutral market structure—not collapsing, not strengthening.</p>
+                <span class="view-link">View Interactive Chart</span>
+            </a>
+            
+            <a href="china-imports-spr-commercial.html" class="chart-card">
+                <div class="number">2</div>
+                <h3>China's Artificial Demand Problem</h3>
+                <p>Strategic stockpiling (~800k bpd) vs structural commercial demand. Visualizes the 500-800k bpd artificial support with a visible Q1 2026 expiration date.</p>
+                <span class="view-link">View Interactive Chart</span>
+            </a>
+            
+            <a href="xom-fcf-trend.html" class="chart-card">
+                <div class="number">3</div>
+                <h3>XOM Free Cash Flow Deterioration</h3>
+                <p>The cracking floor: $63.6B (2022) → $27-31B projected (2025). Shows why the original $35-40B FCF thesis no longer holds.</p>
+                <span class="view-link">View Interactive Chart</span>
+            </a>
+            
+            <a href="oil-cycles-pattern-recognition.html" class="chart-card">
+                <div class="number">4</div>
+                <h3>Oil Price Cycles: Pattern Recognition</h3>
+                <p>Historical bottoms (1998, 2015, 2020) and the recurring 6-12 month recovery pattern. Shows why April-May 2026 is the watch period.</p>
+                <span class="view-link">View Interactive Chart</span>
+            </a>
+            
+            <a href="deployment-conditions.html" class="chart-card">
+                <div class="number">5</div>
+                <h3>April-May 2026 Deployment Conditions</h3>
+                <p>Five conditions for potential entry. Need 3 of 5 to trigger: oil $50-60 OR $70+, XOM $100-115, FCF $34B+, OPEC+ discipline, European weakness priced.</p>
+                <span class="view-link">View Interactive Chart</span>
+            </a>
+        </div>
+        
+        <div class="footer">
+            <p>All charts created from publicly available data sources including EIA, IEA, S&P Global, Bloomberg, and company earnings reports.</p>
+            <p>Analysis represents personal market intelligence from M Nadal & Co's capital allocation process.</p>
+            <div class="watermark">M NADAL & CO</div>
+        </div>
+    </div>
+</body>
+</html>

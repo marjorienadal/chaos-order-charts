@@ -44,6 +44,15 @@
             letter-spacing: 3px;
             color: #667eea;
             margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .logo-link {
+            text-decoration: none;
+        }
+        
+        .logo-link:hover .logo {
+            color: #764ba2;
         }
         
         h1 {
@@ -185,6 +194,12 @@
             color: #667eea;
             margin-top: 10px;
             font-size: 1.1em;
+            transition: all 0.3s ease;
+        }
+        
+        .footer a:hover .watermark {
+            color: #764ba2;
+            transform: scale(1.05);
         }
         
         @media (max-width: 768px) {
@@ -209,7 +224,9 @@
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo">M NADAL & CO STRATEGIC ADVISORY</div>
+            <a href="https://www.linkedin.com/in/commodity" target="_blank" class="logo-link">
+                <div class="logo">M NADAL & CO STRATEGIC ADVISORY</div>
+            </a>
             <h1>Chaos & Order Edition 23</h1>
             <div class="subtitle">Oil Investment Decision Deferred</div>
             <div class="date">December 11, 2025</div>
@@ -219,7 +236,7 @@
             <p>Interactive data visualizations supporting the analysis in Chaos & Order Edition 23. Both triggers from Edition 22 technically fired—but the China demand is artificial with a visible expiration date, and the FCF floor is cracking. Decision: wait until April-May 2026.</p>
         </div>
         
-        <a href="https://chaosandorder.substack.com" class="newsletter-link" target="_blank">
+        <a href="https://chaosandorderinsight.substack.com" class="newsletter-link" target="_blank">
             📧 Read the Full Analysis on Substack
         </a>
         
@@ -262,8 +279,10 @@
         
         <div class="footer">
             <p>All charts created from publicly available data sources including EIA, IEA, S&P Global, Bloomberg, and company earnings reports.</p>
-            <p>Analysis represents personal market intelligence from M Nadal & Co's capital allocation process.</p>
-            <div class="watermark">M NADAL & CO</div>
+            <p style="margin-top: 10px;">Analysis by <strong>Marjorie F. Nadal</strong> | Former Managing Director, Commodities Trading (Credit Suisse, Lehman Brothers, BBVA, Société Générale)</p>
+            <a href="https://www.linkedin.com/in/commodity" target="_blank" style="text-decoration: none;">
+                <div class="watermark">M NADAL & CO</div>
+            </a>
         </div>
     </div>
 </body>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edition 24: Interactive Charts | Chaos & Order 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            padding: 40px 20px;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .edition-date {
+            font-size: 0.95em;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .chart-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 40px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+
+        .chart-card:hover {
+            border-color: #4a9eff;
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(74, 158, 255, 0.3);
+        }
+
+        .chart-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .chart-title {
+            font-size: 1.6em;
+            color: #4a9eff;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .chart-description {
+            color: #ccc;
+            font-size: 0.95em;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .chart-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #4a9eff;
+            font-weight: 600;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .chart-link::after {
+            content: '→';
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+
+        .chart-card:hover .chart-link::after {
+            transform: translateX(5px);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid #333;
+        }
+
+        .footer-link {
+            color: #4a9eff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #6bb6ff;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #2a2a2a;
+            border: 2px solid #4a9eff;
+            border-radius: 8px;
+            color: #4a9eff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #4a9eff;
+            color: #000;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .chart-card {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Edition 24: Interactive Charts</h1>
+            <p class="subtitle">2025 Track Record: Wins, Losses, and the Road to 2026</p>
+            <p class="edition-date">Chaos & Order by M Nadal | December 18, 2025</p>
+        </div>
+
+        <div class="charts-grid">
+            <a href="three-brain-trading.html" class="chart-card">
+                <span class="chart-icon">🧠</span>
+                <h2 class="chart-title">The Three-Brain Trading System</h2>
+                <p class="chart-description">
+                    Interactive flowchart showing how Brain 1 (Analyst), Brain 2 (Systematist), and Brain 3 (Override) 
+                    work together. Features real 2025 examples: Gold (+63%) with all three brains working in harmony, 
+                    and Silver (+73.5%) with Brain 3 override protecting gains.
+                </p>
+                <span class="chart-link">View Interactive Chart</span>
+            </a>
+
+            <a href="2025-track-record.html" class="chart-card">
+                <span class="chart-icon">📈</span>
+                <h2 class="chart-title">2025 Track Record Timeline</h2>
+                <p class="chart-description">
+                    Chronological timeline showing when predictions were published and when they materialized throughout 2025. 
+                    From December 2024 gold entry through Edition publications to market validations. No hindsight, no reordering—
+                    just what happened, when it happened.
+                </p>
+                <span class="chart-link">View Interactive Timeline</span>
+            </a>
+        </div>
+
+        <div class="back-link">
+            <a href="https://open.substack.com/pub/chaosandorderinsight/p/chaos-and-order-edition-24-the-year" class="back-button">
+                ← Back to Edition 24
+            </a>
+        </div>
+
+        <div class="footer">
+            <p style="color: #888; margin-bottom: 15px;">
+                Chaos & Order by M Nadal | M Nadal & Co Strategic Advisory
+            </p>
+            <p>
+                <a href="https://chaosandorderinsight.substack.com" class="footer-link">Newsletter</a> • 
+                <a href="mailto:mnadal@mnadalandco.com" class="footer-link">Contact</a>
+            </p>
+            <p style="margin-top: 30px; color: #666; font-size: 0.85em;">
+                © 2025 M Nadal & Co Strategic Advisory. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

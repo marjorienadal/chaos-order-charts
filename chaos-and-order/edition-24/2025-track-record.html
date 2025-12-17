@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 Track Record Timeline | Chaos & Order</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: #888;
+        }
+
+        .explanation {
+            text-align: center;
+            font-size: 0.95em;
+            margin-bottom: 50px;
+            color: #aaa;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-bottom: 30px;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 40px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #2a2a2a 0%, #4a9eff 50%, #2a2a2a 100%);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 60px;
+        }
+
+        .timeline-date {
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #4a9eff;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background: #1a1a1a;
+            border: 2px solid #4a9eff;
+            border-radius: 8px;
+            display: inline-block;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .timeline-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            position: relative;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: #4a9eff;
+            border: 4px solid #0a0a0a;
+            border-radius: 50%;
+            z-index: 10;
+        }
+
+        .event-card {
+            background: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .event-card:hover {
+            border-color: #4a9eff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(74, 158, 255, 0.2);
+        }
+
+        .event-card.prediction {
+            border-left: 4px solid #9e9e4a;
+        }
+
+        .event-card.validation {
+            border-left: 4px solid #4a9e4a;
+        }
+
+        .event-card.analysis {
+            border-left: 4px solid #9e4a9e;
+        }
+
+        .event-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .badge-prediction {
+            background: #9e9e4a;
+            color: #000;
+        }
+
+        .badge-validation {
+            background: #4a9e4a;
+            color: #000;
+        }
+
+        .badge-analysis {
+            background: #9e4a9e;
+            color: #fff;
+        }
+
+        .badge-trade {
+            background: #4a9eff;
+            color: #000;
+        }
+
+        .event-title {
+            font-size: 1.3em;
+            color: #4a9eff;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .event-meta {
+            font-size: 0.85em;
+            color: #888;
+            margin-bottom: 12px;
+        }
+
+        .event-content {
+            color: #ccc;
+            font-size: 0.95em;
+            line-height: 1.7;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .summary-section {
+            margin-top: 80px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 40px;
+        }
+
+        .summary-title {
+            font-size: 1.8em;
+            color: #4a9eff;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 20px;
+            background: #2a2a2a;
+            border-radius: 8px;
+        }
+
+        .stat-value {
+            font-size: 3em;
+            color: #4a9eff;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-box {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            border: 2px solid;
+        }
+
+        .legend-prediction {
+            background: #1a1a1a;
+            border-color: #9e9e4a;
+            border-left: 4px solid #9e9e4a;
+        }
+
+        .legend-validation {
+            background: #1a1a1a;
+            border-color: #4a9e4a;
+            border-left: 4px solid #4a9e4a;
+        }
+
+        .legend-analysis {
+            background: #1a1a1a;
+            border-color: #9e4a9e;
+            border-left: 4px solid #9e4a9e;
+        }
+
+        .legend-text {
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-content {
+                grid-template-columns: 1fr;
+                padding-left: 60px;
+            }
+
+            .timeline-marker {
+                left: 20px;
+            }
+
+            .timeline-date {
+                left: 0;
+                transform: none;
+                margin-left: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>2025 Track Record Timeline</h1>
+        <p class="subtitle">Chronological Sequence: Predictions → Validations</p>
+        <p class="explanation">
+            This timeline shows the actual chronological sequence of events throughout 2025. Predictions are shown when published, 
+            validations when they occurred. No hindsight, no reordering—just what happened, when it happened.
+        </p>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-box legend-prediction"></div>
+                <span class="legend-text">Prediction/Edition Published</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box legend-validation"></div>
+                <span class="legend-text">Market Validation</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box legend-analysis"></div>
+                <span class="legend-text">Rapid Analysis</span>
+            </div>
+        </div>
+
+        <div class="timeline">
+            <!-- December 2024: Gold Entry -->
+            <div class="timeline-item">
+                <div class="timeline-date">December 30, 2024</div>
+                <div class="timeline-content">
+                    <div class="timeline-marker"></div>
+                    <div class="event-card validation full-width">
+                        <span class="event-badge badge-trade">TRADE ENTRY</span>
+                        <div class="event-title">Gold Position Entered</div>
+                        <div class="event-meta">Entry: $2,605/oz</div>
+                        <div class="event-content">
+                            Entered gold position based on multipolar finance thesis: central bank buying acceleration, 
+                            BRICS currency discussions, geopolitical premium expansion. Position established before Edition 6 publication.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- March 28: Edition 1 -->
+            <div class="timeline-item">
+                <div class="timeline-date">March 28, 2025</div>
+                <div class="timeline-content">
+                    <div class="timeline-marker"></div>
+                    <div class="event-card prediction full-width">
+                        <span class="event-badge badge-prediction">EDITION 1 PUBLISHED</span>
+                        <div class="event-title">AI Sector Correlation Warning</div>
+                        <div class="event-meta">Chaos & Order Edition 1</div>
+                        <div class="event-content">
+                            Predicted "diversified" MAGA 7 holdings would exhibit 0.81+ correlation during AI-related stress events, 
+                            effectively functioning as a single position. Warned concentration risk mirrors 2008 systemic patterns.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- April 2-9: Tech Crash -->
+            <div class="timeline-item">
+                <div class="timeline-date">April 2-9, 2025</div>
+                <div class="timeline-content">
+                    <div class="timeline-marker"></div>
+                    <div class="event-card validation full-width">
+                        <span class="event-badge badge-validation">VALIDATED ✓</span>
+                        <div class="event-title">Tariff Crash: Tech Moved Together</div>
+                        <div class="event-meta">7 days after Edition 1</div>
+                        <div class="event-content">
+                            During April tariff volatility, MAGA 7 stocks exhibited exactly the predicted 0.81 correlation. 
+                            Tech dropped 10-13% in correlated fashion, validating that "diversified" holdings provided no protection.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- April 24: Edition 6 Gold Thesis -->
+            <div class="timeline-item">
+                <div class="timeline-date">April 24, 2025</div>
+                <div class="timeline-content">
+                    <div class="timeline-marker"></div>
+                    <div class="event-card prediction full-width">
+                        <span class="event-badge badge-prediction">EDITION 6 PUBLISHED</span>
+                        <div class="event-title">Gold: Multipolar Finance Structural Bid</div>
+                        <div class="event-meta">Chaos & Order Edition 6</div>
+                        <div class="event-content">
+                            Published comprehensive gold thesis documenting multipolar finance fragmentation, central bank buying 
+                            acceleration, geopolitical premium. Identified gold as "convexity insurance, not fear hedging." 
+                            Disclosed already holding position entered December 30, 2024 at $2,605/oz.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- May 22: Platinum -->
+            <div class="timeline-item">
+                <div class="timeline-date">May 22, 2025</div>
+                <div class="timeline-content">
+                    <div class="timeline-marker"></div>
+                    <div class="event-card prediction">
+                        <span class="event-badge badge-prediction">EDITION 9 PUBLISHED</span>
+                        <div class="event-title">Platinum: Most Underpriced Reserve Asset</div>
+                        <div class="event-meta">Chaos & Order Edition 9 | London Platinum Week</div>
+                        <div class="event-content">
+                            Identified platinum as most underpriced reserve asset. Gold/platinum ratio >3 vs 0.8 historical average. 
+                            Highlighted hydrogen economy, Asian market structure, discreet CB alternative potential.
+                        </div>
+                    </div>
+                    <div class="event-card validation">
+                        <span class="event-badge badge-trade">TRADE ENTRY</span>
+                        <div class="event-title">Platinum Position Entered</div>
+                        <div class="event-meta">Entry: $1,083/oz | Same day as publication</div>
+                        <div class="event-content">
+                            Positioned around London Platinum Week with precise timing on liquidity patterns. Understanding 
+                            Asian market structure and Singapore price drivers allowed positioning at optimal entry.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- September 28: First Brands -->
+            <div class="timeline-item">
+                <div class="timeline-date">September 28, 2025</div>
+                <div class="timeline-content">
+                    <div class="timeline-marker"></div>
+                    <div class="event-card validation full-width">
+                        <span class="event-badge badge-validation">EVENT OCCURRED</span>
+                        <div class="event-title">First Brands Bankruptcy Filed</div>
+                        <div class="event-meta">Over $10B in liabilities</div>
+                        <div class="event-content">
+                            First Brands Group filed for bankruptcy with over $10B in liabilities. Collateral pledged to multiple 
+                            lenders through off-balance-sheet vehicles. Exactly the opacity pattern that characterizes private 
+                            credit structural risks.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- October 8: SAB-15 -->
+            <div class="timeline-item">
+                <div class="timeline-date">October 8, 2025</div>
+                <div class="timeline-content">
+                    <div class="timeline-marker"></div>
+                    <div class="event-card prediction">
+                        <span class="event-badge badge-prediction">SAB-15 PUBLISHED</span>
+                        <div class="event-title">AI Capital Expenditure Reality Check</div>
+                        <div class="event-meta">Strategic Advisory Brief for Fortune 500 Boards</div>
+                        <div class="event-content">
+                            $350B AI spending vs $40B revenue = 9:1 ratio unsustainable. Predicted investor patience breaks 
+                            within 18-24 month window (Q2 2026 inflection). Documented 0.81 correlation making "diversified" 
+                            MAGA 7 holdings function as single position.
+                        </div>
+                    </div>
+                    <div class="event-card validation">
+                        <span class="event-badge badge-trade">PORTFOLIO ACTION</span>
+                        <div class="event-title">Exited All MAGA 7 Except Alphabet</div>
+                        <div class="event-meta">Reduced correlation exposure</div>
+                        <div class="event-content">
+                            Exited Meta, Microsoft, Amazon, Tesla, Nvidia. Kept only Alphabet based on vertical integration 
+                            thesis: custom chips (TPU), own supply chain, independent AI development (DeepMind, Gemini), 
+                            clearest revenue attribution.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- October 16: Edition 20 -->
+            <div class="timeline-item">
+                <div class="timeline-date">October 16, 2025</div>
+                <div class="timeline-content">
+                    <div class="timeline-marker"></div>
+                    <div class="event-card analysis full-width">
+                        <span class="event-badge badge-analysis">EDITION 20 PUBLISHED</span>
+                        <div class="event-title">Private Credit Opacity: "Golden Age of Fraud"</div>
+                        <div class="event-meta">Chaos & Order Edition 20 | 18 days after First Brands filing</div>
+                        <div class="event-content">
+                            Published comprehensive analysis of First Brands collapse validating broader private credit opacity risks. 
+                            $1.7T market exhibits dangerous mark-to-model valuations, leverage-on-leverage structures, off-balance-sheet 
+                            complexity. Blow-up confirmed systemic pattern warnings, not isolated incident. Called it "golden age of fraud" 
+                            citing Jim Chanos.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- October 17: Gold & Silver Exit -->
+            <div class="timeline-item">
+                <div class="timeline-date">October 17, 2025</div>
+                <div class="timeline-content">
+                    <div class="timeline-marker"></div>
+                    <div class="event-card validation">
+                        <span class="event-badge badge-trade">TRADE EXIT</span>
+                        <div class="event-title">Gold Position Exited</div>
+                        <div class="event-meta">Exit: $4,250/oz | Return: +63%</div>
+                        <div class="event-content">
+                            Exited gold position entered December 30, 2024. Multipolar finance thesis validated: central banks 
+                            accelerated purchases exactly as predicted, BRICS discussions intensified, geopolitical premiums expanded. 
+                            Exit based on operational reality and microstructure stress signals.
+                        </div>
+                    </div>
+                    <div class="event-card validation">
+                        <span class="event-badge badge-trade">TRADE EXIT</span>
+                        <div class="event-title">Silver Position Exited</div>
+                        <div class="event-meta">Exit: $50.21/oz | Return: +73.5%</div>
+                        <div class="event-content">
+                            Exited silver on same microstructure warning: intense interest in $40 puts on metal trading above $50. 
+                            As options market maker: "No premium at which I'd sell these puts." When you see such craze indicating 
+                            delivery stress and asymmetric liquidity risk, you're out. Silver later went to $64—missed gains but 
+                            protected +73.5% win.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- December 17: Current Status -->
+            <div class="timeline-item">
+                <div class="timeline-date">December 17, 2025</div>
+                <div class="timeline-content">
+                    <div class="timeline-marker"></div>
+                    <div class="event-card validation">
+                        <span class="event-badge badge-validation">VALIDATED ✓</span>
+                        <div class="event-title">Platinum Position Update</div>
+                        <div class="event-meta">Current: $1,922/oz | Return: +77%</div>
+                        <div class="event-content">
+                            Position entered May 22, 2025 at $1,083/oz rallied to $1,922 (+77%). Asian market structure understanding 
+                            and London Platinum Week timing proved decisive. Hydrogen economy thesis gaining traction. Still holding.
+                        </div>
+                    </div>
+                    <div class="event-card validation">
+                        <span class="event-badge badge-validation">UNFOLDING ⏳</span>
+                        <div class="event-title">AI Capex Timeline Pressure Building</div>
+                        <div class="event-meta">SAB-15 thesis tracking as predicted</div>
+                        <div class="event-content">
+                            Currently at 18-month mark where investor patience historically breaks. Market showing predicted jitteriness 
+                            around AI capex sustainability. Spending-to-revenue ratio timeline pressure building exactly as framework 
+                            analyzed. Q2 2026 inflection point approaching on schedule.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="summary-section">
+            <div class="summary-title">2025 Track Record Summary</div>
+            <div class="summary-stats">
+                <div class="stat-box">
+                    <div class="stat-value">23</div>
+                    <div class="stat-label">Chaos & Order Editions</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">18</div>
+                    <div class="stat-label">Strategic Advisory Briefs</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">150%+</div>
+                    <div class="stat-label">Portfolio Return (with leverage)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">10+</div>
+                    <div class="stat-label">Phase 1 Predictions Validated</div>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 30px; color: #888; line-height: 1.8;">
+                This timeline shows actual chronological sequence: when trades were entered, when editions were published, 
+                when validations occurred. Edition 1 predicted correlation 7 days before April crash. Edition 6 documented 
+                gold thesis for position already held 4 months. SAB-15 predicted AI capex pressure currently unfolding. 
+                Edition 20 analyzed First Brands 18 days after filing, showing rapid recognition of systemic pattern validation. 
+                Q3 2026 will publish comprehensive scored track record with full methodology.
+            </p>
+        </div>
+
+        <div style="text-align: center; margin-top: 60px; padding-top: 40px; border-top: 1px solid #333; color: #888;">
+            <p>Chaos & Order by M Nadal | December 2025</p>
+            <p style="margin-top: 10px;">Building Credibility Through Transparent Chronology: No Hindsight, No Reordering</p>
+        </div>
+    </div>
+</body>
+</html>

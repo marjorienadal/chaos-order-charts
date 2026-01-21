@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Bifurcation: Who Actually Benefits</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 20px;
+            background: #ffffff;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .main-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
+        .main-subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 50px;
+        }
+        .panels {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        .panel {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .panel-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #1a1a1a;
+            text-align: center;
+        }
+        .panel-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .chart-wrapper {
+            position: relative;
+            height: 450px;
+        }
+        .conclusion {
+            background: #fff9e6;
+            border: 3px solid #ff9800;
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+        }
+        .conclusion-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+        .conclusion-text {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.6;
+        }
+        @media (max-width: 1024px) {
+            .panels {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-title">The Great Bifurcation: Who Actually Benefits</div>
+        <div class="main-subtitle">Diverging outcomes in the AI era and monetary expansion (2020-2026)</div>
+        
+        <div class="panels">
+            <!-- Panel A: AI Benefits -->
+            <div class="panel">
+                <div class="panel-title">Panel A: AI Era Winners</div>
+                <div class="panel-subtitle">Technology concentration vs. median company reality</div>
+                <div class="chart-wrapper">
+                    <canvas id="chartA"></canvas>
+                </div>
+            </div>
+
+            <!-- Panel B: Monetary Benefits -->
+            <div class="panel">
+                <div class="panel-title">Panel B: Monetary Expansion Winners</div>
+                <div class="panel-subtitle">Central banks accumulate, households deplete</div>
+                <div class="chart-wrapper">
+                    <canvas id="chartB"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <div class="conclusion-title">The Pattern: Concentration, Not Distribution</div>
+            <div class="conclusion-text">
+                Both the AI revolution and monetary expansion follow the same playbook: benefits flow to those who control infrastructure (Big Tech, central banks) while the median participant (companies, households) experiences real decline. This isn't a bug—it's the feature.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Panel A: AI Era Winners
+        const ctxA = document.getElementById('chartA').getContext('2d');
+        
+        const dataA = {
+            labels: ['2020', '2021', '2022', '2023', '2024', '2025', 'Jan 2026'],
+            datasets: [
+                {
+                    label: 'MAGA7 Market Cap',
+                    data: [100, 140, 115, 170, 210, 245, 255],
+                    borderColor: '#00C853',
+                    backgroundColor: 'rgba(0, 200, 83, 0.1)',
+                    borderWidth: 4,
+                    tension: 0.2,
+                    pointRadius: 5,
+                    pointHoverRadius: 8,
+                    fill: true,
+                    yAxisID: 'y'
+                },
+                {
+                    label: 'Median S&P in Gold Terms',
+                    data: [100, 92, 85, 78, 68, 55, 50],
+                    borderColor: '#CC0000',
+                    backgroundColor: 'rgba(204, 0, 0, 0.1)',
+                    borderWidth: 4,
+                    tension: 0.2,
+                    pointRadius: 5,
+                    pointHoverRadius: 8,
+                    fill: true,
+                    yAxisID: 'y'
+                }
+            ]
+        };
+
+        const configA = {
+            type: 'line',
+            data: dataA,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 13,
+                                weight: 'bold'
+                            },
+                            usePointStyle: true,
+                            padding: 15
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleFont: { size: 13 },
+                        bodyFont: { size: 12 },
+                        padding: 10,
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y + ' (indexed)';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: '#f0f0f0'
+                        },
+                        ticks: {
+                            font: {
+                                size: 11,
+                                weight: 'bold'
+                            }
+                        }
+                    },
+                    y: {
+                        type: 'linear',
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Indexed to 100 (2020)',
+                            font: {
+                                size: 13,
+                                weight: 'bold'
+                            }
+                        },
+                        grid: {
+                            color: '#f0f0f0'
+                        },
+                        ticks: {
+                            font: {
+                                size: 11,
+                                weight: 'bold'
+                            }
+                        },
+                        min: 0,
+                        max: 280
+                    }
+                }
+            }
+        };
+
+        new Chart(ctxA, configA);
+
+        // Panel B: Monetary Expansion Winners
+        const ctxB = document.getElementById('chartB').getContext('2d');
+        
+        const dataB = {
+            labels: ['2020', '2021', '2022', '2023', '2024', '2025', 'Jan 2026'],
+            datasets: [
+                {
+                    label: 'Central Bank Gold Holdings',
+                    data: [100, 108, 118, 128, 142, 158, 165],
+                    borderColor: '#FFB300',
+                    backgroundColor: 'rgba(255, 179, 0, 0.1)',
+                    borderWidth: 4,
+                    tension: 0.2,
+                    pointRadius: 5,
+                    pointHoverRadius: 8,
+                    fill: true,
+                    yAxisID: 'y'
+                },
+                {
+                    label: 'Household Savings Rate',
+                    data: [100, 85, 72, 68, 62, 58, 55],
+                    borderColor: '#CC0000',
+                    backgroundColor: 'rgba(204, 0, 0, 0.1)',
+                    borderWidth: 4,
+                    tension: 0.2,
+                    pointRadius: 5,
+                    pointHoverRadius: 8,
+                    fill: true,
+                    yAxisID: 'y'
+                }
+            ]
+        };
+
+        const configB = {
+            type: 'line',
+            data: dataB,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 13,
+                                weight: 'bold'
+                            },
+                            usePointStyle: true,
+                            padding: 15
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleFont: { size: 13 },
+                        bodyFont: { size: 12 },
+                        padding: 10,
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y + ' (indexed)';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: '#f0f0f0'
+                        },
+                        ticks: {
+                            font: {
+                                size: 11,
+                                weight: 'bold'
+                            }
+                        }
+                    },
+                    y: {
+                        type: 'linear',
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Indexed to 100 (2020)',
+                            font: {
+                                size: 13,
+                                weight: 'bold'
+                            }
+                        },
+                        grid: {
+                            color: '#f0f0f0'
+                        },
+                        ticks: {
+                            font: {
+                                size: 11,
+                                weight: 'bold'
+                            }
+                        },
+                        min: 0,
+                        max: 180
+                    }
+                }
+            }
+        };
+
+        new Chart(ctxB, configB);
+    </script>
+</body>
+</html>

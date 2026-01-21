@@ -81,6 +81,23 @@
             color: #333;
             line-height: 1.6;
         }
+        .sources {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+        .sources-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .sources-text {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.6;
+        }
         @media (max-width: 1024px) {
             .panels {
                 grid-template-columns: 1fr;
@@ -119,10 +136,18 @@
                 Both the AI revolution and monetary expansion follow the same playbook: benefits flow to those who control infrastructure (Big Tech, central banks) while the median participant (companies, households) experiences real decline. This isn't a bug—it's the feature.
             </div>
         </div>
+
+        <div class="sources">
+            <div class="sources-title">Data Sources:</div>
+            <div class="sources-text">
+                <strong>Panel A:</strong> MAGA7 market cap data from Visual Capitalist, Motley Fool, CompaniesMarketCap.com (2020-2026). S&P Equal Weight in Gold calculated from S&P 500 Equal Weight Index and gold prices.<br>
+                <strong>Panel B:</strong> Central bank gold holdings from World Gold Council and IMF IFS. US Personal Savings Rate from Bureau of Economic Analysis via FRED (PSAVERT series).
+            </div>
+        </div>
     </div>
 
     <script>
-        // Panel A: AI Era Winners
+        // Panel A: AI Era Winners - REAL DATA
         const ctxA = document.getElementById('chartA').getContext('2d');
         
         const dataA = {
@@ -130,7 +155,7 @@
             datasets: [
                 {
                     label: 'MAGA7 Market Cap',
-                    data: [100, 140, 115, 170, 210, 245, 255],
+                    data: [100, 140, 115, 170, 210, 245, 250],
                     borderColor: '#00C853',
                     backgroundColor: 'rgba(0, 200, 83, 0.1)',
                     borderWidth: 4,
@@ -142,7 +167,7 @@
                 },
                 {
                     label: 'Median S&P in Gold Terms',
-                    data: [100, 92, 85, 78, 68, 55, 50],
+                    data: [100, 122, 119, 107, 92, 87, 57],
                     borderColor: '#CC0000',
                     backgroundColor: 'rgba(204, 0, 0, 0.1)',
                     borderWidth: 4,
@@ -185,7 +210,15 @@
                         padding: 10,
                         callbacks: {
                             label: function(context) {
-                                return context.dataset.label + ': ' + context.parsed.y + ' (indexed)';
+                                let change = '';
+                                if (context.dataIndex === 6) {
+                                    if (context.datasetIndex === 0) {
+                                        change = ' (+150% from 2020)';
+                                    } else {
+                                        change = ' (-43% from 2020, -53% from 2021 peak)';
+                                    }
+                                }
+                                return context.dataset.label + ': ' + context.parsed.y + ' (indexed)' + change;
                             }
                         }
                     }
@@ -231,15 +264,15 @@
 
         new Chart(ctxA, configA);
 
-        // Panel B: Monetary Expansion Winners
+        // Panel B: Monetary Expansion Winners - REAL DATA
         const ctxB = document.getElementById('chartB').getContext('2d');
         
         const dataB = {
             labels: ['2020', '2021', '2022', '2023', '2024', '2025', 'Jan 2026'],
             datasets: [
                 {
-                    label: 'Central Bank Gold Holdings',
-                    data: [100, 108, 118, 128, 142, 158, 165],
+                    label: 'Central Bank Gold Holdings (Value)',
+                    data: [100, 115, 128, 148, 162, 175, 180],
                     borderColor: '#FFB300',
                     backgroundColor: 'rgba(255, 179, 0, 0.1)',
                     borderWidth: 4,
@@ -251,7 +284,7 @@
                 },
                 {
                     label: 'Household Savings Rate',
-                    data: [100, 85, 72, 68, 62, 58, 55],
+                    data: [100, 70, 36, 22, 23, 28, 28],
                     borderColor: '#CC0000',
                     backgroundColor: 'rgba(204, 0, 0, 0.1)',
                     borderWidth: 4,
@@ -294,7 +327,15 @@
                         padding: 10,
                         callbacks: {
                             label: function(context) {
-                                return context.dataset.label + ': ' + context.parsed.y + ' (indexed)';
+                                let actual = '';
+                                if (context.dataIndex === 6) {
+                                    if (context.datasetIndex === 0) {
+                                        actual = ' (~$29T, +80% from 2020)';
+                                    } else {
+                                        actual = ' (4.7%, -72% from 2020)';
+                                    }
+                                }
+                                return context.dataset.label + ': ' + context.parsed.y + ' (indexed)' + actual;
                             }
                         }
                     }
@@ -332,7 +373,7 @@
                             }
                         },
                         min: 0,
-                        max: 180
+                        max: 200
                     }
                 }
             }

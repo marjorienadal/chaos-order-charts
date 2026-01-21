@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Three Contradictions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 40px;
+        }
+        .title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: #1a1a1a;
+        }
+        .contradiction {
+            margin-bottom: 35px;
+        }
+        .contradiction:last-of-type {
+            margin-bottom: 40px;
+        }
+        .label {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 10px;
+        }
+        .asset-name {
+            font-size: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .value {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .description {
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+            margin-left: 5px;
+        }
+        .bar-container {
+            width: 100%;
+            height: 50px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        .bar {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding-left: 15px;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            transition: width 0.8s ease;
+        }
+        .gold-bar {
+            background: linear-gradient(90deg, #FFD700 0%, #FFA500 100%);
+            width: 95%;
+        }
+        .ai-bar {
+            background: linear-gradient(90deg, #0099FF 0%, #0066CC 100%);
+            width: 60%;
+        }
+        .oil-bar {
+            background: linear-gradient(90deg, #333333 0%, #666666 100%);
+            width: 20%;
+        }
+        .conclusion {
+            text-align: center;
+            margin-top: 40px;
+            padding: 25px;
+            background: #f9f9f9;
+            border-left: 4px solid #CC0000;
+            border-radius: 8px;
+        }
+        .conclusion-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: #CC0000;
+            font-style: italic;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+            .title {
+                font-size: 22px;
+            }
+            .asset-name {
+                font-size: 16px;
+            }
+            .value {
+                font-size: 18px;
+            }
+            .bar-container {
+                height: 40px;
+            }
+            .conclusion-text {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">The Three Contradictions</div>
+        
+        <div class="contradiction">
+            <div class="label">
+                <div>
+                    <span class="asset-name" style="color: #FFA500;">Gold</span>
+                    <span class="description">(monetary crisis pricing)</span>
+                </div>
+                <span class="value" style="color: #FFA500;">$4,700</span>
+            </div>
+            <div class="bar-container">
+                <div class="bar gold-bar"></div>
+            </div>
+        </div>
+
+        <div class="contradiction">
+            <div class="label">
+                <div>
+                    <span class="asset-name" style="color: #0099FF;">AI Platforms</span>
+                    <span class="description">(utopia pricing)</span>
+                </div>
+                <span class="value" style="color: #0099FF;">30x+ P/E</span>
+            </div>
+            <div class="bar-container">
+                <div class="bar ai-bar"></div>
+            </div>
+        </div>
+
+        <div class="contradiction">
+            <div class="label">
+                <div>
+                    <span class="asset-name" style="color: #333333;">Oil</span>
+                    <span class="description">(demand destruction pricing)</span>
+                </div>
+                <span class="value" style="color: #333333;">$60</span>
+            </div>
+            <div class="bar-container">
+                <div class="bar oil-bar"></div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <div class="conclusion-text">"They cannot all be right."</div>
+        </div>
+    </div>
+</body>
+</html>

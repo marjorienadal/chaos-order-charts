@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Correlation Matrix Heatmap</title>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --ink:#0b1220;
+      --muted:#5b6475;
+      --line:#e6e8ee;
+
+      --purple: rgba(109,40,217,.12);
+      --purpleInk:#6d28d9;
+
+      --heat1:#fde68a; /* yellow */
+      --heat2:#fb923c; /* orange */
+      --heat3:#ef4444; /* red */
+    }
+
+    body{
+      margin:0;
+      background:var(--bg);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--ink);
+    }
+
+    .wrap{
+      max-width: 1100px;
+      margin: 34px auto;
+      padding: 0 18px 26px;
+    }
+
+    .card{
+      border:1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 10px 28px rgba(11,18,32,.06);
+      padding: 22px 22px 16px;
+      background: linear-gradient(180deg, rgba(109,40,217,.05), rgba(255,255,255,0) 42%);
+    }
+
+    .hdr{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom: 12px;
+    }
+
+    h1{
+      font-size: 22px;
+      margin:0;
+      letter-spacing: .2px;
+    }
+
+    .badge{
+      font-size: 12.5px;
+      color: var(--purpleInk);
+      background: var(--purple);
+      border:1px solid rgba(109,40,217,.18);
+      padding: 6px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+      font-weight: 700;
+    }
+
+    .panel{
+      border:1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      background: rgba(255,255,255,.92);
+    }
+
+    /* Heatmap table */
+    table{
+      width:100%;
+      border-collapse: separate;
+      border-spacing: 6px;
+      table-layout: fixed;
+    }
+
+    th, td{
+      border:1px solid rgba(230,232,238,.9);
+      border-radius: 12px;
+      padding: 10px 8px;
+      text-align: center;
+      font-size: 12.5px;
+      background:#fff;
+    }
+
+    th{
+      font-weight: 800;
+      color: var(--ink);
+      background: rgba(11,18,32,.02);
+    }
+
+    th.rowhdr{
+      text-align:left;
+      padding-left: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    td{
+      font-variant-numeric: tabular-nums;
+      font-weight: 800;
+      position: relative;
+    }
+
+    /* Heat colors (by band) */
+    .h1{ background: rgba(253,230,138,.75); } /* 0.60–0.70 */
+    .h2{ background: rgba(251,146,60,.75); }  /* 0.70–0.80 */
+    .h3{ background: rgba(239,68,68,.78); color:#fff; }   /* 0.80–1.00 */
+    .diag{ background: rgba(11,18,32,.06); font-weight: 900; }
+
+    /* Vertical group divider after GOOGL */
+    .dividerR{
+      box-shadow: inset -6px 0 0 rgba(109,40,217,.10);
+    }
+    .dividerH{
+      height: 8px;
+    }
+
+    .legend{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items:center;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border:1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 10px;
+      background:#fff;
+    }
+    .swatch{
+      width: 14px;
+      height: 14px;
+      border-radius: 5px;
+      border:1px solid rgba(11,18,32,.10);
+    }
+
+    .insight{
+      margin-top: 14px;
+      border-radius: 14px;
+      border:1px solid rgba(109,40,217,.18);
+      background: rgba(109,40,217,.07);
+      padding: 14px 16px;
+    }
+    .insight b{
+      display:block;
+      font-size: 14px;
+      margin-bottom: 6px;
+      letter-spacing:.1px;
+    }
+    .insight p{
+      margin:0;
+      font-size: 13.5px;
+      line-height: 1.4;
+      color: var(--ink);
+      font-weight: 650;
+    }
+
+    .footer{
+      display:flex;
+      justify-content:space-between;
+      gap: 14px;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="hdr">
+        <h1>Correlation Matrix Heatmap</h1>
+        <div class="badge">AI-related events (2024–2026)</div>
+      </div>
+
+      <div class="panel">
+        <table aria-label="Correlation coefficients heatmap during AI-related events, 2024 to 2026">
+          <colgroup>
+            <col style="width: 210px;">
+            <col span="4">
+            <col span="4">
+          </colgroup>
+
+          <thead>
+            <tr>
+              <th></th>
+              <th>NVDA</th>
+              <th>MSFT</th>
+              <th>META</th>
+              <th class="dividerR">GOOGL</th>
+              <th>LSEG</th>
+              <th>RELX</th>
+              <th>EXPN</th>
+              <th>TR</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <th class="rowhdr">NVDA (AI chip)</th>
+              <td class="diag">1.00</td>
+              <td class="h2">0.79</td>
+              <td class="h2">0.76</td>
+              <td class="h2 dividerR">0.74</td>
+              <td class="h1">0.68</td>
+              <td class="h1">0.65</td>
+              <td class="h1">0.62</td>
+              <td class="h1">0.64</td>
+            </tr>
+
+            <tr>
+              <th class="rowhdr">MSFT (AI svc)</th>
+              <td class="h2">0.79</td>
+              <td class="diag">1.00</td>
+              <td class="h3">0.82</td>
+              <td class="h3 dividerR">0.81</td>
+              <td class="h2">0.71</td>
+              <td class="h1">0.69</td>
+              <td class="h1">0.66</td>
+              <td class="h1">0.68</td>
+            </tr>
+
+            <tr>
+              <th class="rowhdr">META (AI inf)</th>
+              <td class="h2">0.76</td>
+              <td class="h3">0.82</td>
+              <td class="diag">1.00</td>
+              <td class="h3 dividerR">0.85</td>
+              <td class="h2">0.74</td>
+              <td class="h2">0.72</td>
+              <td class="h1">0.69</td>
+              <td class="h2">0.71</td>
+            </tr>
+
+            <tr>
+              <th class="rowhdr">GOOGL (AI dev)</th>
+              <td class="h2">0.74</td>
+              <td class="h3">0.81</td>
+              <td class="h3">0.85</td>
+              <td class="diag dividerR">1.00</td>
+              <td class="h2">0.73</td>
+              <td class="h2">0.71</td>
+              <td class="h1">0.68</td>
+              <td class="h2">0.70</td>
+            </tr>
+
+            <!-- spacer / group divider -->
+            <tr aria-hidden="true">
+              <td colspan="9" class="dividerH" style="border:none; background:transparent; padding:0;"></td>
+            </tr>
+
+            <tr>
+              <th class="rowhdr">LSEG (data)</th>
+              <td class="h1">0.68</td>
+              <td class="h2">0.71</td>
+              <td class="h2">0.74</td>
+              <td class="h2 dividerR">0.73</td>
+              <td class="diag">1.00</td>
+              <td class="h3">0.89</td>
+              <td class="h3">0.85</td>
+              <td class="h3">0.87</td>
+            </tr>
+
+            <tr>
+              <th class="rowhdr">RELX (legal)</th>
+              <td class="h1">0.65</td>
+              <td class="h1">0.69</td>
+              <td class="h2">0.72</td>
+              <td class="h2 dividerR">0.71</td>
+              <td class="h3">0.89</td>
+              <td class="diag">1.00</td>
+              <td class="h3">0.88</td>
+              <td class="h3">0.91</td>
+            </tr>
+
+            <tr>
+              <th class="rowhdr">EXPN (credit)</th>
+              <td class="h1">0.62</td>
+              <td class="h1">0.66</td>
+              <td class="h1">0.69</td>
+              <td class="h1 dividerR">0.68</td>
+              <td class="h3">0.85</td>
+              <td class="h3">0.88</td>
+              <td class="diag">1.00</td>
+              <td class="h3">0.86</td>
+            </tr>
+
+            <tr>
+              <th class="rowhdr">TR (legal/tax)</th>
+              <td class="h1">0.64</td>
+              <td class="h1">0.68</td>
+              <td class="h2">0.71</td>
+              <td class="h2 dividerR">0.70</td>
+              <td class="h3">0.87</td>
+              <td class="h3">0.91</td>
+              <td class="h3">0.86</td>
+              <td class="diag">1.00</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="legend" aria-label="Color scale legend">
+          <span style="font-weight:800;">Color scale:</span>
+          <span class="chip"><span class="swatch" style="background: rgba(253,230,138,.85)"></span>0.60–0.70</span>
+          <span class="chip"><span class="swatch" style="background: rgba(251,146,60,.85)"></span>0.70–0.80</span>
+          <span class="chip"><span class="swatch" style="background: rgba(239,68,68,.85)"></span>0.80–1.00</span>
+        </div>
+
+        <div class="insight">
+          <b>Key insight</b>
+          <p>Holding 3 AI infrastructure names + 3 data/analytics names = 0.75–0.85 correlation = NOT diversified. These move together during AI volatility.</p>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div>Chaos &amp; Order by M Nadal</div>
+        <div>February 4, 2026</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

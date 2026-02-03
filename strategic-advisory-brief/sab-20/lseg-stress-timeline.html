@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LSEG Stress Scenario Timeline</title>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --ink:#111827;          /* near-black */
+      --muted:#6b7280;        /* gray */
+      --line:#d1d5db;         /* light gray */
+      --accent:#6d28d9;       /* purple */
+      --accent2:#a78bfa;      /* light purple */
+      --panel:#f9fafb;        /* subtle panel */
+    }
+
+    body{
+      margin:0;
+      background: var(--bg);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color: var(--ink);
+    }
+
+    .wrap{
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px 28px;
+    }
+
+    .card{
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(109,40,217,0.05), rgba(255,255,255,0) 40%);
+      box-shadow: 0 8px 24px rgba(17,24,39,0.06);
+      padding: 22px 22px 18px;
+    }
+
+    .title{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap: 16px;
+      margin-bottom: 10px;
+    }
+
+    h1{
+      margin:0;
+      font-size: 20px;
+      letter-spacing: 0.2px;
+    }
+
+    .subtitle{
+      margin:0;
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .note{
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.45;
+    }
+
+    .footer{
+      display:flex;
+      justify-content:space-between;
+      gap: 14px;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    /* Helps when you want a perfect screenshot crop */
+    .svg-box{
+      margin-top: 14px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(209,213,219,0.9);
+      border-radius: 14px;
+      padding: 10px;
+    }
+
+    /* optional: ensure consistent rendering */
+    svg text{
+      font-family: inherit;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="title">
+        <h1>LSEG Stress Scenario Timeline</h1>
+        <p class="subtitle">Insert after “Stress Scenario Math”</p>
+      </div>
+
+      <div class="svg-box">
+        <!-- SVG is crisp for publishing / zooming -->
+        <svg width="100%" viewBox="0 0 1180 420" role="img" aria-label="Timeline from 2025 to 2028 showing comfortable, tight, and stressed phases if workflow revenue erosion accelerates">
+          <!-- defs -->
+          <defs>
+            <linearGradient id="accentFade" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#6d28d9" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="#a78bfa" stop-opacity="0.04"/>
+            </linearGradient>
+
+            <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+              <path d="M0,0 L9,3 L0,6 Z" fill="#6d28d9"></path>
+            </marker>
+
+            <filter id="softShadow" x="-10%" y="-10%" width="120%" height="120%">
+              <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#111827" flood-opacity="0.10"/>
+            </filter>
+          </defs>
+
+          <!-- background accent band -->
+          <rect x="20" y="24" width="1140" height="70" rx="14" fill="url(#accentFade)"></rect>
+
+          <!-- Year labels -->
+          <text x="60"  y="65" font-size="22" fill="#111827" font-weight="700">2025</text>
+          <text x="350" y="65" font-size="22" fill="#111827" font-weight="700">2026</text>
+          <text x="640" y="65" font-size="22" fill="#111827" font-weight="700">2027</text>
+          <text x="930" y="65" font-size="22" fill="#111827" font-weight="700">2028</text>
+
+          <!-- main timeline line -->
+          <line x1="60" y1="120" x2="1120" y2="120" stroke="#d1d5db" stroke-width="6" stroke-linecap="round"></line>
+
+          <!-- tick marks (quarters / years) -->
+          <line x1="110" y1="98" x2="110" y2="156" stroke="#111827" stroke-width="3" opacity="0.9"></line>
+          <line x1="400" y1="98" x2="400" y2="156" stroke="#111827" stroke-width="3" opacity="0.9"></line>
+          <line x1="690" y1="98" x2="690" y2="156" stroke="#111827" stroke-width="3" opacity="0.9"></line>
+          <line x1="980" y1="98" x2="980" y2="156" stroke="#111827" stroke-width="3" opacity="0.9"></line>
+
+          <!-- Top labels above ticks -->
+          <text x="110" y="92" font-size="12.5" fill="#6b7280" text-anchor="middle">Q3 2025</text>
+          <text x="400" y="92" font-size="12.5" fill="#6b7280" text-anchor="middle">Year 1</text>
+          <text x="690" y="92" font-size="12.5" fill="#6b7280" text-anchor="middle">Year 2</text>
+          <text x="980" y="92" font-size="12.5" fill="#6b7280" text-anchor="middle">Potential</text>
+
+          <!-- Event panels -->
+          <!-- Panel 1 -->
+          <g filter="url(#softShadow)">
+            <rect x="40" y="170" width="250" height="150" rx="16" fill="#f9fafb" stroke="#e5e7eb"></rect>
+          </g>
+          <text x="62" y="205" font-size="14" font-weight="700" fill="#111827">Q3 2025</text>
+          <text x="62" y="230" font-size="13.5" fill="#111827">Revenue +5%</text>
+          <text x="62" y="252" font-size="13.5" fill="#111827">Margins ↑</text>
+          <text x="62" y="274" font-size="13.5" fill="#111827">Comfortable</text>
+          <text x="62" y="296" font-size="13.5" fill="#111827">debt service</text>
+
+          <!-- Panel 2 -->
+          <g filter="url(#softShadow)">
+            <rect x="330" y="170" width="250" height="150" rx="16" fill="#f9fafb" stroke="#e5e7eb"></rect>
+          </g>
+          <text x="352" y="205" font-size="14" font-weight="700" fill="#111827">Year 1 (2026)</text>
+          <text x="352" y="230" font-size="13.5" fill="#111827">-15% workflow</text>
+          <text x="352" y="252" font-size="13.5" fill="#111827">revenue</text>
+          <text x="352" y="274" font-size="13.5" fill="#111827">Coverage OK</text>
+          <text x="352" y="296" font-size="13.5" fill="#111827">but tighter</text>
+
+          <!-- Panel 3 -->
+          <g filter="url(#softShadow)">
+            <rect x="620" y="170" width="250" height="150" rx="16" fill="#f9fafb" stroke="#e5e7eb"></rect>
+          </g>
+          <text x="642" y="205" font-size="14" font-weight="700" fill="#111827">Year 2 (2027)</text>
+          <text x="642" y="230" font-size="13.5" fill="#111827">-30% workflow</text>
+          <text x="642" y="252" font-size="13.5" fill="#111827">cumulative</text>
+          <text x="642" y="274" font-size="13.5" fill="#111827">Covenant risk</text>
+          <text x="642" y="296" font-size="13.5" fill="#111827">Credit spreads</text>
+          <text x="642" y="318" font-size="13.5" fill="#111827">widen</text>
+
+          <!-- Panel 4 -->
+          <g filter="url(#softShadow)">
+            <rect x="910" y="170" width="250" height="150" rx="16" fill="#f9fafb" stroke="#e5e7eb"></rect>
+          </g>
+          <text x="932" y="205" font-size="14" font-weight="700" fill="#111827">2028</text>
+          <text x="932" y="230" font-size="13.5" fill="#111827">Potential</text>
+          <text x="932" y="252" font-size="13.5" fill="#111827">Restructuring</text>
+          <text x="932" y="274" font-size="13.5" fill="#111827">Govt intervention</text>
+          <text x="932" y="296" font-size="13.5" fill="#111827">or debt-for-equity</text>
+          <text x="932" y="318" font-size="13.5" fill="#111827">swap</text>
+
+          <!-- connectors from ticks to panels -->
+          <line x1="110" y1="156" x2="165" y2="170" stroke="#d1d5db" stroke-width="3"></line>
+          <line x1="400" y1="156" x2="455" y2="170" stroke="#d1d5db" stroke-width="3"></line>
+          <line x1="690" y1="156" x2="745" y2="170" stroke="#d1d5db" stroke-width="3"></line>
+          <line x1="980" y1="156" x2="1035" y2="170" stroke="#d1d5db" stroke-width="3"></line>
+
+          <!-- bottom bracket line (visual “└────┴────┴────┴────” feel) -->
+          <path d="M60 340 L1120 340" stroke="#d1d5db" stroke-width="4" stroke-linecap="round" fill="none"></path>
+          <path d="M110 340 L110 360" stroke="#d1d5db" stroke-width="4" stroke-linecap="round"></path>
+          <path d="M400 340 L400 360" stroke="#d1d5db" stroke-width="4" stroke-linecap="round"></path>
+          <path d="M690 340 L690 360" stroke="#d1d5db" stroke-width="4" stroke-linecap="round"></path>
+          <path d="M980 340 L980 360" stroke="#d1d5db" stroke-width="4" stroke-linecap="round"></path>
+
+          <!-- annotations -->
+          <!-- Current health arrow -->
+          <line x1="155" y1="392" x2="155" y2="346" stroke="#6d28d9" stroke-width="3" marker-end="url(#arrowHead)"></line>
+          <text x="155" y="410" font-size="12.5" fill="#6d28d9" text-anchor="middle" font-weight="700">Current health</text>
+
+          <!-- Stress materializes arrow -->
+          <line x1="735" y1="392" x2="735" y2="346" stroke="#6d28d9" stroke-width="3" marker-end="url(#arrowHead)"></line>
+          <text x="735" y="410" font-size="12.5" fill="#6d28d9" text-anchor="middle" font-weight="700">Stress materializes</text>
+        </svg>
+      </div>
+
+      <p class="note">
+        Visual logic: comfortable → tighter → stressed over ~24 months <em>if</em> workflow erosion thesis plays out.
+        (This is not “fails tomorrow”.)
+      </p>
+
+      <div class="footer">
+        <div>Chaos &amp; Order by M Nadal</div>
+        <div>February 4, 2026</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

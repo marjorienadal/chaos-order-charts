@@ -14,16 +14,9 @@
       --purple: rgba(109,40,217,.12);
       --purpleInk:#6d28d9;
 
-      --panel:#ffffff;
-
       --red:#dc2626;
-      --redSoft: rgba(220,38,38,.10);
-
       --orange:#f97316;
-      --orangeSoft: rgba(249,115,22,.10);
-
       --green:#16a34a;
-      --greenSoft: rgba(22,163,74,.10);
     }
 
     body{
@@ -103,91 +96,6 @@
       </div>
 
       <div class="svgbox">
-        <svg width="100%" viewBox="0 0 1100 520" role="img" aria-label="Diagram showing two simultaneous AI disruption vectors: ROI timeline pressure for infrastructure builders and revenue destruction for data analytics incumbents, creating portfolio volatility">
+        <svg width="100%" viewBox="0 0 1100 700" role="img" aria-label="Diagram showing two simultaneous AI disruption vectors: ROI timeline pressure for infrastructure builders and revenue destruction for data analytics incumbents, creating portfolio volatility">
           <defs>
-            <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
-              <feDropShadow dx="0" dy="6" stdDeviation="9" flood-color="#0b1220" flood-opacity="0.12"/>
-            </filter>
-
-            <linearGradient id="topBand" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="#6d28d9" stop-opacity=".10"/>
-              <stop offset="100%" stop-color="#6d28d9" stop-opacity=".03"/>
-            </linearGradient>
-
-            <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-              <path d="M0,0 L9,3 L0,6 Z" fill="#0b1220"></path>
-            </marker>
-
-            <marker id="arrowHeadPurple" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-              <path d="M0,0 L9,3 L0,6 Z" fill="#6d28d9"></path>
-            </marker>
-          </defs>
-
-          <!-- header band -->
-          <rect x="18" y="18" width="1064" height="64" rx="14" fill="url(#topBand)"></rect>
-          <text x="40" y="54" font-size="15" fill="#0b1220" font-weight="900">October 2025 thesis + February 2026 reality</text>
-          <text x="40" y="74" font-size="12.5" fill="#5b6475">Different mechanics. Same outcome: portfolio volatility.</text>
-
-          <!-- TOP BLOCK: Infrastructure builders -->
-          <g filter="url(#shadow)">
-            <rect x="90" y="105" width="920" height="160" rx="18" fill="#ffffff" stroke="#e6e8ee"></rect>
-          </g>
-
-          <text x="120" y="142" font-size="16" fill="#0b1220" font-weight="950">AI Infrastructure Builders</text>
-          <text x="120" y="166" font-size="12.5" fill="#5b6475" font-weight="700">$350B spending annually</text>
-
-          <!-- flow column (top) -->
-          <rect x="470" y="148" width="160" height="38" rx="12" fill="rgba(249,115,22,.10)" stroke="rgba(249,115,22,.25)"></rect>
-          <text x="550" y="172" font-size="13" fill="#0b1220" font-weight="900" text-anchor="middle">$350B spend</text>
-
-          <line x1="550" y1="190" x2="550" y2="222" stroke="#0b1220" stroke-width="2.5" marker-end="url(#arrowHead)"></line>
-
-          <rect x="430" y="226" width="240" height="44" rx="14" fill="rgba(249,115,22,.08)" stroke="rgba(249,115,22,.22)"></rect>
-          <text x="550" y="254" font-size="13" fill="#0b1220" font-weight="900" text-anchor="middle">ROI timeline pressure</text>
-
-          <text x="740" y="252" font-size="12.5" fill="#5b6475" font-weight="700">(October 2025 thesis)</text>
-
-          <line x1="550" y1="270" x2="550" y2="302" stroke="#0b1220" stroke-width="2.5" marker-end="url(#arrowHead)"></line>
-
-          <rect x="470" y="306" width="160" height="38" rx="12" fill="rgba(22,163,74,.08)" stroke="rgba(22,163,74,.22)"></rect>
-          <text x="550" y="330" font-size="13" fill="#0b1220" font-weight="900" text-anchor="middle">$40B revenue</text>
-
-          <!-- divider bar -->
-          <rect x="90" y="288" width="920" height="10" rx="8" fill="rgba(109,40,217,.18)"></rect>
-
-          <!-- BOTTOM BLOCK: Incumbents -->
-          <g filter="url(#shadow)">
-            <rect x="90" y="310" width="920" height="160" rx="18" fill="#ffffff" stroke="#e6e8ee"></rect>
-          </g>
-
-          <text x="120" y="347" font-size="16" fill="#0b1220" font-weight="950">Data/Analytics Incumbents</text>
-          <text x="120" y="371" font-size="12.5" fill="#5b6475" font-weight="700">£XXB stable revenue (2021–2025)</text>
-
-          <!-- flow column (bottom) -->
-          <rect x="470" y="354" width="160" height="38" rx="12" fill="rgba(22,163,74,.08)" stroke="rgba(22,163,74,.22)"></rect>
-          <text x="550" y="378" font-size="13" fill="#0b1220" font-weight="900" text-anchor="middle">£XXB stable</text>
-
-          <line x1="550" y1="396" x2="550" y2="428" stroke="#6d28d9" stroke-width="2.8" marker-end="url(#arrowHeadPurple)"></line>
-
-          <rect x="430" y="432" width="240" height="44" rx="14" fill="rgba(220,38,38,.10)" stroke="rgba(220,38,38,.25)"></rect>
-          <text x="550" y="460" font-size="13" fill="#0b1220" font-weight="950" text-anchor="middle">Revenue destruction</text>
-
-          <text x="740" y="458" font-size="12.5" fill="#5b6475" font-weight="700">(February 2026 reality)</text>
-
-          <text x="470" y="497" font-size="12.5" fill="#5b6475" font-weight="700">Revenue under threat from AI tools</text>
-
-          <!-- Bottom statement box -->
-          <rect x="90" y="485" width="920" height="70" rx="18" fill="rgba(109,40,217,.07)" stroke="rgba(109,40,217,.18)"></rect>
-          <text x="120" y="518" font-size="14.5" fill="#0b1220" font-weight="950">Both create portfolio volatility simultaneously</text>
-          <text x="120" y="542" font-size="13" fill="#0b1220" font-weight="750">Correlation &gt; 0.85 = not diversified despite different dynamics</text>
-        </svg>
-      </div>
-
-      <div class="footer">
-        <div>Chaos &amp; Order by M Nadal</div>
-        <div>February 4, 2026</div>
-      </div>
-    </div>
-  </div>
-</body>
-</html>
+            <filter id="shadow" x="-10%" y="-10%" width="120%"

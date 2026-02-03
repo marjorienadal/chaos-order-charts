@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Jobs Displaced vs. Jobs Created</title>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --ink:#111827;
+      --muted:#6b7280;
+      --line:#d1d5db;
+
+      --red:#dc2626;
+      --redSoft:rgba(220,38,38,0.10);
+
+      --green:#16a34a;
+      --greenSoft:rgba(22,163,74,0.10);
+
+      --accent:#6d28d9;
+    }
+
+    body{
+      margin:0;
+      background: var(--bg);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color: var(--ink);
+    }
+
+    .wrap{
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px 28px;
+    }
+
+    .card{
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(109,40,217,0.05), rgba(255,255,255,0) 42%);
+      box-shadow: 0 8px 24px rgba(17,24,39,0.06);
+      padding: 22px 22px 18px;
+    }
+
+    .title{
+      display:flex;
+      align-items:baseline;
+      justify-content:flex-start;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    h1{
+      margin:0;
+      font-size: 20px;
+      letter-spacing: 0.2px;
+    }
+
+    .svg-box{
+      margin-top: 14px;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(209,213,219,0.9);
+      border-radius: 14px;
+      padding: 10px;
+    }
+
+    .caption{
+      margin: 10px 0 0;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .footer{
+      display:flex;
+      justify-content:space-between;
+      gap: 14px;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    svg text{ font-family: inherit; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="title">
+        <h1>Jobs Displaced vs. Jobs Created</h1>
+      </div>
+
+      <div class="svg-box">
+        <!--
+          Values used for visual scaling:
+          - Threatened: 2.5M midpoint of 2–3M
+          - Created: 0.1M (100K)
+          Scale: max bar width ~820px mapped to 2.5M
+        -->
+        <svg width="100%" viewBox="0 0 1180 460" role="img" aria-label="Bar chart comparing jobs threatened by AI versus jobs created by AI, highlighting a net negative impact above 95 percent">
+          <defs>
+            <filter id="softShadow" x="-10%" y="-10%" width="120%" height="120%">
+              <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#111827" flood-opacity="0.10"/>
+            </filter>
+
+            <linearGradient id="redFade" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#dc2626" stop-opacity="1"/>
+              <stop offset="100%" stop-color="#dc2626" stop-opacity="0.85"/>
+            </linearGradient>
+
+            <linearGradient id="greenFade" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#16a34a" stop-opacity="1"/>
+              <stop offset="100%" stop-color="#16a34a" stop-opacity="0.85"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Header band -->
+          <rect x="20" y="20" width="1140" height="72" rx="14" fill="rgba(17,24,39,0.02)"></rect>
+          <text x="50" y="54" font-size="15" fill="#111827" font-weight="800">36-month horizon</text>
+          <text x="50" y="77" font-size="12.5" fill="#6b7280">Illustrative scale (midpoint scenario: 2.5M displaced vs 100K created)</text>
+
+          <!-- Axis / baseline -->
+          <line x1="300" y1="150" x2="1120" y2="150" stroke="#e5e7eb" stroke-width="2"></line>
+          <line x1="300" y1="280" x2="1120" y2="280" stroke="#e5e7eb" stroke-width="2"></line>
+
+          <!-- Left labels -->
+          <text x="50" y="140" font-size="14" fill="#111827" font-weight="800">Jobs Threatened by AI</text>
+          <text x="50" y="162" font-size="12.5" fill="#6b7280">(Legal, Financial Services, Compliance, Research, etc.)</text>
+
+          <text x="50" y="270" font-size="14" fill="#111827" font-weight="800">Jobs Created by AI</text>
+          <text x="50" y="292" font-size="12.5" fill="#6b7280">(AI trainers, prompt engineers, safety researchers, PMs)</text>
+
+          <!-- Threatened bar (big) -->
+          <!-- Background rail -->
+          <rect x="300" y="120" width="820" height="46" rx="14" fill="rgba(220,38,38,0.10)"></rect>
+          <g filter="url(#softShadow)">
+            <rect x="300" y="120" width="820" height="46" rx="14" fill="url(#redFade)"></rect>
+          </g>
+          <text x="1135" y="149" font-size="14" fill="#111827" font-weight="800" text-anchor="end">2–3M</text>
+
+          <!-- Created bar (tiny) -->
+          <rect x="300" y="250" width="820" height="46" rx="14" fill="rgba(22,163,74,0.10)"></rect>
+          <g filter="url(#softShadow)">
+            <!-- 100K vs 2.5M midpoint => 4% of 820px ≈ 33px -->
+            <rect x="300" y="250" width="33" height="46" rx="14" fill="url(#greenFade)"></rect>
+          </g>
+          <text x="1135" y="279" font-size="14" fill="#111827" font-weight="800" text-anchor="end">~100K</text>
+
+          <!-- Divider / callout block -->
+          <rect x="20" y="332" width="1140" height="108" rx="16" fill="rgba(109,40,217,0.05)" stroke="rgba(109,40,217,0.18)"></rect>

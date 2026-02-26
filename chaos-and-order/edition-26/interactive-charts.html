@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chaos & Order Edition 26 — Charts</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #ffffff;
+    font-family: 'Georgia', serif;
+    color: #1a1a1a;
+    padding: 40px 20px;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .header h1 {
+    font-size: 13px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #6b5fa0;
+    margin-bottom: 12px;
+  }
+  .header h2 {
+    font-size: 28px;
+    font-weight: normal;
+    color: #1a1a1a;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.4;
+  }
+  .chart-section {
+    max-width: 820px;
+    margin: 0 auto 80px;
+  }
+  .chart-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #6b5fa0;
+    margin-bottom: 10px;
+  }
+  .chart-title {
+    font-size: 20px;
+    font-weight: normal;
+    color: #1a1a1a;
+    margin-bottom: 6px;
+    line-height: 1.35;
+  }
+  .chart-subtitle {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+  .chart-wrap {
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 32px;
+    position: relative;
+  }
+  .chart-wrap canvas {
+    max-height: 380px;
+  }
+  .source-note {
+    font-size: 11px;
+    color: #888;
+    margin-top: 16px;
+    font-style: italic;
+  }
+  .divider {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 80px auto;
+    max-width: 820px;
+  }
+  .annotation {
+    display: inline-block;
+    background: #6b5fa008;
+    border-left: 2px solid #6b5fa0;
+    padding: 12px 16px;
+    margin-top: 20px;
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    border-radius: 0 2px 2px 0;
+  }
+  .watermark {
+    position: absolute;
+    bottom: 12px;
+    right: 16px;
+    font-family: 'Georgia', serif;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #6b5fa0;
+    opacity: 0.6;
+    pointer-events: none;
+    user-select: none;
+    font-weight: normal;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Chaos & Order · Edition 26</h1>
+  <h2>The world's largest trading book is disguised as your pension</h2>
+</div>
+
+<!-- CHART 1: GPIF Allocation Shift -->
+<div class="chart-section">
+  <div class="chart-label">Chart 1 of 3</div>
+  <div class="chart-title">Japan's GPIF: The great reallocation</div>
+  <div class="chart-subtitle">Domestic bonds fell from ~67% to 25% of portfolio (2013–2024). That shift — timed with deliberate yen weakness — is why Japan's sovereign balance sheet looks nothing like it did ten years ago.</div>
+  <div class="chart-wrap">
+    <canvas id="gpifChart"></canvas>
+    <span class="watermark">MNadal & Co</span>
+    <div class="annotation">
+      The 2014 Abenomics pivot was the inflection point. Domestic bonds dropped from near-70% to 25% target. Foreign equity allocation tripled. The pension fund became the macro trade.
+    </div>
+  </div>
+  <div class="source-note">Sources: GPIF Annual Reports 2013–2024; Top1000funds.com; GPIF portfolio disclosures. Pre-2013 approximate from published historical records.</div>
+</div>
+
+<hr class="divider">
+
+<!-- CHART 2: Global Pension Fund Sizes -->
+<div class="chart-section">
+  <div class="chart-label">Chart 2 of 3</div>
+  <div class="chart-title">The $58.5 trillion divide: who's winning and who's pretending</div>
+  <div class="chart-subtitle">Seven markets account for 91% of ~$68 trillion in global pension assets (WTW, 2026). But asset size tells you less than what they're doing with it — and how independently they're allowed to do it.</div>
+  <div class="chart-wrap">
+    <canvas id="sizeChart"></canvas>
+    <span class="watermark">MNadal & Co</span>
+    <div class="annotation">
+      The US leads by a margin that dwarfs everyone else. It also invests its anchor reserve fund — Social Security — entirely in US government bonds. Scale without strategy is just a bigger problem.
+    </div>
+  </div>
+  <div class="source-note">Sources: Willis Towers Watson / Thinking Ahead Institute Global Pension Assets Study 2025; CPP Investments Annual Report FY2025; Norges Bank Investment Management; GPIF.</div>
+</div>
+
+<hr class="divider">
+
+<!-- CHART 3: The Doom Loop -->
+<div class="chart-section">
+  <div class="chart-label">Chart 3 of 3</div>
+  <div class="chart-title">Private credit growth vs. pension fund return assumptions: the doom loop</div>
+  <div class="chart-subtitle">Underfunded pension funds chased yield into private credit to justify return assumptions they couldn't meet elsewhere. When private credit stress arrives, the forced sellers are the same institutions already running funding gaps.</div>
+  <div class="chart-wrap">
+    <canvas id="doomChart"></canvas>
+    <span class="watermark">MNadal & Co</span>
+    <div class="annotation">
+      Private credit grew 467% (2010–2025) while pension funding gaps persisted. These aren't separate stories. They're two sides of the same trade — and it hasn't been tested in a real credit cycle yet.
+    </div>
+  </div>
+  <div class="source-note">Sources: Preqin Private Credit AUM 2010–2025; Pew Charitable Trusts State Pension Funding data. Private credit figures from Edition 20 sourcing. US state pension funded ratio approximate from Pew published ranges.</div>
+</div>
+
+<script>
+const purple = '#6b5fa0';
+const purpleLight = '#8b7fbf';
+const purpleFaint = '#6b5fa018';
+const gold = '#b8860b';
+const goldFaint = '#b8860b18';
+const red = '#c0392b';
+const redFaint = '#c0392b12';
+const green = '#27714a';
+
+// Shared defaults
+Chart.defaults.color = '#555';
+Chart.defaults.font.family = 'Georgia, serif';
+Chart.defaults.font.size = 12;
+
+// ── CHART 1: GPIF Allocation ──────────────────────────────────────────────
+const gpifCtx = document.getElementById('gpifChart').getContext('2d');
+
+const gpifYears = ['2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024'];
+const domesticBonds = [67, 67, 55, 43, 37, 34, 28, 27, 25, 25, 26, 25, 25, 28];
+const foreignEquities = [9, 10, 12, 19, 23, 23, 25, 25, 25, 25, 25, 24, 25, 24];
+const domesticEquities = [11, 11, 16, 18, 23, 23, 25, 25, 25, 25, 24, 24, 24, 24];
+const foreignBonds = [8, 8, 11, 14, 13, 14, 17, 18, 25, 25, 24, 24, 24, 24];
+
+new Chart(gpifCtx, {
+  type: 'line',
+  data: {
+    labels: gpifYears,
+    datasets: [
+      {
+        label: 'Domestic Bonds',
+        data: domesticBonds,
+        borderColor: red,
+        backgroundColor: redFaint,
+        borderWidth: 2.5,
+        tension: 0.3,
+        fill: false,
+        pointRadius: 3,
+        pointHoverRadius: 6,
+      },
+      {
+        label: 'Foreign Equities',
+        data: foreignEquities,
+        borderColor: purple,
+        backgroundColor: purpleFaint,
+        borderWidth: 2.5,
+        tension: 0.3,
+        fill: false,
+        pointRadius: 3,
+        pointHoverRadius: 6,
+      },
+      {
+        label: 'Domestic Equities',
+        data: domesticEquities,
+        borderColor: gold,
+        backgroundColor: goldFaint,
+        borderWidth: 2,
+        tension: 0.3,
+        fill: false,
+        pointRadius: 3,
+        pointHoverRadius: 6,
+        borderDash: [4, 3],
+      },
+      {
+        label: 'Foreign Bonds',
+        data: foreignBonds,
+        borderColor: green,
+        borderWidth: 2,
+        tension: 0.3,
+        fill: false,
+        pointRadius: 3,
+        pointHoverRadius: 6,
+        borderDash: [4, 3],
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: { color: '#444', padding: 20, boxWidth: 14, font: { size: 12 } }
+      },
+      tooltip: {
+        backgroundColor: '#ffffff',
+        borderColor: '#ddd',
+        borderWidth: 1,
+        titleColor: '#1a1a1a',
+        bodyColor: '#444',
+        callbacks: {
+          label: ctx => ` ${ctx.dataset.label}: ${ctx.raw}%`
+        }
+      },
+      annotation: {
+        annotations: {
+          pivot: {
+            type: 'line',
+            xMin: '2014',
+            xMax: '2014',
+            borderColor: '#ffffff30',
+            borderWidth: 1,
+            borderDash: [5, 5],
+            label: {
+              content: 'Abenomics pivot',
+              display: true,
+              position: 'start',
+              color: '#666',
+              font: { size: 11 }
+            }
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: { color: '#eeeeee' },
+        ticks: { color: '#666' }
+      },
+      y: {
+        min: 0,
+        max: 80,
+        grid: { color: '#eeeeee' },
+        ticks: {
+          color: '#666',
+          callback: v => v + '%'
+        },
+        title: { display: true, text: '% of portfolio', color: '#888', font: { size: 11 } }
+      }
+    }
+  }
+});
+
+// ── CHART 2: Pension Fund Sizes ───────────────────────────────────────────
+const sizeCtx = document.getElementById('sizeChart').getContext('2d');
+
+const funds = [
+  { name: 'United States', aum: 38000, note: 'SSF in govt bonds only' },
+  { name: 'Japan (GPIF)', aum: 1870, note: '25/25/25/25 global' },
+  { name: 'Australia', aum: 2600, note: 'Fastest growing P7' },
+  { name: 'Canada (CPP)', aum: 714, note: 'Gold standard model' },
+  { name: 'Netherlands', aum: 1800, note: 'Transitioning to DC' },
+  { name: 'UK', aum: 3200, note: 'Consolidating 86→8 funds' },
+  { name: 'Norway (GPFG)', aum: 1700, note: '1.5% of every listed co.' },
+  { name: 'Switzerland', aum: 1100, note: '152% of GDP' },
+];
+
+// Sort descending for readability
+funds.sort((a, b) => b.aum - a.aum);
+
+const barColors = funds.map(f => {
+  if (f.name === 'United States') return red;
+  if (f.name === 'Norway (GPFG)' || f.name === 'Canada (CPP)') return purple;
+  if (f.name === 'Japan (GPIF)') return gold;
+  return '#4a4a5a';
+});
+
+new Chart(sizeCtx, {
+  type: 'bar',
+  data: {
+    labels: funds.map(f => f.name),
+    datasets: [{
+      label: 'AUM (USD billions)',
+      data: funds.map(f => f.aum),
+      backgroundColor: barColors.map(c => c + 'cc'),
+      borderColor: barColors,
+      borderWidth: 1,
+      borderRadius: 2,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#ffffff',
+        borderColor: '#ddd',
+        borderWidth: 1,
+        titleColor: '#1a1a1a',
+        bodyColor: '#444',
+        callbacks: {
+          label: ctx => {
+            const f = funds[ctx.dataIndex];
+            return [
+              ` $${ctx.raw >= 1000 ? (ctx.raw/1000).toFixed(1)+'T' : ctx.raw+'B'}`,
+              ` ${f.note}`
+            ];
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: { color: '#eeeeee' },
+        ticks: {
+          color: '#666',
+          callback: v => v >= 1000 ? '$' + (v/1000).toFixed0 + 'T' : '$' + v + 'B'
+        },
+        title: { display: true, text: 'AUM in USD billions', color: '#888', font: { size: 11 } }
+      },
+      y: {
+        grid: { color: '#eeeeee' },
+        ticks: { color: '#333' }
+      }
+    }
+  }
+});
+
+// ── CHART 3: The Doom Loop ────────────────────────────────────────────────
+const doomCtx = document.getElementById('doomChart').getContext('2d');
+
+const doomYears = ['2010','2012','2014','2016','2018','2020','2022','2024','2025'];
+const privateCredit = [300, 380, 500, 700, 900, 900, 1200, 1600, 1700];
+const fundedRatio = [77, 73, 74, 72, 70, 67, 78, 80, 79]; // US state pension avg funded ratio %
+
+new Chart(doomCtx, {
+  type: 'bar',
+  data: {
+    labels: doomYears,
+    datasets: [
+      {
+        type: 'bar',
+        label: 'Private Credit AUM ($bn)',
+        data: privateCredit,
+        backgroundColor: purple + '55',
+        borderColor: purple,
+        borderWidth: 1,
+        borderRadius: 2,
+        yAxisID: 'y',
+      },
+      {
+        type: 'line',
+        label: 'US State Pension Avg Funded Ratio (%)',
+        data: fundedRatio,
+        borderColor: red,
+        backgroundColor: redFaint,
+        borderWidth: 2.5,
+        tension: 0.3,
+        fill: false,
+        pointRadius: 4,
+        pointHoverRadius: 7,
+        yAxisID: 'y2',
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: { color: '#444', padding: 20, boxWidth: 14 }
+      },
+      tooltip: {
+        backgroundColor: '#ffffff',
+        borderColor: '#ddd',
+        borderWidth: 1,
+        titleColor: '#1a1a1a',
+        bodyColor: '#444',
+        callbacks: {
+          label: ctx => {
+            if (ctx.datasetIndex === 0) return ` Private credit: $${ctx.raw}B`;
+            return ` Funded ratio: ${ctx.raw}%`;
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: { color: '#eeeeee' },
+        ticks: { color: '#666' }
+      },
+      y: {
+        position: 'left',
+        grid: { color: '#eeeeee' },
+        ticks: { color: purple, callback: v => '$' + v + 'B' },
+        title: { display: true, text: 'Private credit AUM', color: purple, font: { size: 11 } }
+      },
+      y2: {
+        position: 'right',
+        min: 55,
+        max: 100,
+        grid: { drawOnChartArea: false },
+        ticks: { color: red, callback: v => v + '%' },
+        title: { display: true, text: 'Avg funded ratio', color: red, font: { size: 11 } }
+      }
+    }
+  }
+});
+</script>
+
+</body>
+</html>

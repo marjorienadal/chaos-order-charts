@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B-S Pricer | M Nadal</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --border: #1e1e2e;
+    --border-bright: #2a2a3e;
+    --gold: #c9a96e;
+    --gold-dim: #7a6242;
+    --green: #4ade80;
+    --red: #f87171;
+    --blue: #60a5fa;
+    --text: #e2e8f0;
+    --text-dim: #64748b;
+    --text-muted: #334155;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    min-height: 100vh;
+    padding: 24px;
+  }
+
+  .header {
+    border-bottom: 1px solid var(--border-bright);
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .header h1 {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .header .sub {
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px;
+  }
+
+  .panel-title {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .field {
+    margin-bottom: 14px;
+  }
+
+  .field label {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .field input, .field select {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border-bright);
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    padding: 8px 10px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .field input:focus, .field select:focus {
+    border-color: var(--gold-dim);
+  }
+
+  .field select option {
+    background: var(--surface);
+  }
+
+  .btn {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--gold-dim);
+    color: var(--gold);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-top: 6px;
+  }
+
+  .btn:hover {
+    background: var(--gold-dim);
+    color: var(--bg);
+  }
+
+  .btn-secondary {
+    border-color: var(--border-bright);
+    color: var(--text-dim);
+    margin-top: 8px;
+  }
+
+  .btn-secondary:hover {
+    background: var(--border-bright);
+    color: var(--text);
+  }
+
+  .result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    margin-bottom: 16px;
+  }
+
+  .result-cell {
+    background: var(--bg);
+    padding: 12px;
+  }
+
+  .result-cell .label {
+    font-size: 8px;
+    letter-spacing: 0.25em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .result-cell .value {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .result-cell .value.call { color: var(--green); }
+  .result-cell .value.put { color: var(--red); }
+  .result-cell .value.highlight { color: var(--gold); }
+
+  .greeks-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--border);
+    margin-bottom: 16px;
+  }
+
+  .greek-cell {
+    background: var(--bg);
+    padding: 10px 8px;
+    text-align: center;
+  }
+
+  .greek-cell .g-label {
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .greek-cell .g-value {
+    font-size: 12px;
+    color: var(--blue);
+  }
+
+  .iv-section {
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+    margin-top: 4px;
+  }
+
+  .iv-title {
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .iv-result {
+    background: var(--bg);
+    border: 1px solid var(--border-bright);
+    padding: 14px;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .iv-result .iv-label {
+    font-size: 8px;
+    letter-spacing: 0.25em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .iv-result .iv-value {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--gold);
+  }
+
+  .iv-result .iv-sub {
+    font-size: 9px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+
+  .moneyness-bar {
+    margin: 12px 0;
+    height: 3px;
+    background: var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .moneyness-fill {
+    height: 100%;
+    background: var(--gold-dim);
+    transition: width 0.3s;
+  }
+
+  .status-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    padding: 2px 6px;
+    text-transform: uppercase;
+  }
+
+  .tag-itm { background: rgba(74,222,128,0.1); color: var(--green); border: 1px solid rgba(74,222,128,0.2); }
+  .tag-otm { background: rgba(248,113,113,0.1); color: var(--red); border: 1px solid rgba(248,113,113,0.2); }
+  .tag-atm { background: rgba(201,169,110,0.1); color: var(--gold); border: 1px solid rgba(201,169,110,0.2); }
+
+  .error {
+    font-size: 10px;
+    color: var(--red);
+    padding: 8px;
+    border: 1px solid rgba(248,113,113,0.2);
+    background: rgba(248,113,113,0.05);
+    margin-top: 8px;
+    display: none;
+  }
+
+  .divider {
+    grid-column: 1 / -1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  @media (max-width: 640px) {
+    .grid { grid-template-columns: 1fr; }
+    .greeks-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div style="max-width:900px;margin:0 auto;">
+  <div class="header">
+    <h1>Black-Scholes Pricer</h1>
+    <span class="sub">M Nadal & Co · Options Analytics</span>
+  </div>
+
+  <div class="grid">
+    <!-- INPUT PANEL -->
+    <div class="panel">
+      <div class="panel-title">Parameters</div>
+
+      <div class="field">
+        <label>Underlying Price (S)</label>
+        <input type="number" id="S" value="76.00" step="0.01">
+      </div>
+      <div class="field">
+        <label>Strike Price (K)</label>
+        <input type="number" id="K" value="56.00" step="0.01">
+      </div>
+      <div class="field">
+        <label>Time to Expiry (Days)</label>
+        <input type="number" id="T" value="167" step="1">
+      </div>
+      <div class="field">
+        <label>Risk-Free Rate (%)</label>
+        <input type="number" id="R" value="4.50" step="0.01">
+      </div>
+      <div class="field">
+        <label>Implied Volatility (%)</label>
+        <input type="number" id="V" value="40.00" step="0.1">
+      </div>
+      <div class="field">
+        <label>Option Type</label>
+        <select id="type">
+          <option value="both">Both (Call & Put)</option>
+          <option value="call">Call Only</option>
+          <option value="put" selected>Put Only</option>
+        </select>
+      </div>
+
+      <button class="btn" onclick="calculate()">▶ CALCULATE</button>
+
+      <!-- IV SOLVER -->
+      <div class="iv-section">
+        <div class="iv-title">Implied Volatility Solver</div>
+        <div class="field">
+          <label>Market Price (for IV solve)</label>
+          <input type="number" id="mktPrice" value="1.57" step="0.01">
+        </div>
+        <div class="field">
+          <label>Solve For</label>
+          <select id="solveType">
+            <option value="put" selected>Put IV</option>
+            <option value="call">Call IV</option>
+          </select>
+        </div>
+        <button class="btn btn-secondary" onclick="solveIV()">◈ SOLVE IMPLIED VOL</button>
+        <div class="error" id="ivError"></div>
+        <div class="iv-result" id="ivResult" style="display:none;">
+          <div class="iv-label">Implied Volatility</div>
+          <div class="iv-value" id="ivValue">-</div>
+          <div class="iv-sub" id="ivSub">-</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OUTPUT PANEL -->
+    <div class="panel">
+      <div class="panel-title">Results</div>
+
+      <div id="outputSection">
+        <div style="color:var(--text-muted);font-size:10px;text-align:center;padding:40px 0;">
+          Enter parameters and calculate
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function norm(x) {
+  const a1=0.254829592,a2=-0.284496736,a3=1.421413741,a4=-1.453152027,a5=1.061405429,p=0.3275911;
+  const sign = x<0?-1:1;
+  const t = 1/(1+p*Math.abs(x)/Math.sqrt(2));
+  const y = 1-((((a5*t+a4)*t+a3)*t+a2)*t+a1)*t*Math.exp(-x*x/2);
+  return 0.5*(1+sign*y);
+}
+
+function normPDF(x) {
+  return Math.exp(-0.5*x*x)/Math.sqrt(2*Math.PI);
+}
+
+function bs(S, K, T, r, sigma, type) {
+  if (T <= 0) return type==='call' ? Math.max(S-K,0) : Math.max(K-S,0);
+  const d1 = (Math.log(S/K) + (r + 0.5*sigma*sigma)*T) / (sigma*Math.sqrt(T));
+  const d2 = d1 - sigma*Math.sqrt(T);
+  let price, delta, gamma, theta, vega, rho;
+  gamma = normPDF(d1)/(S*sigma*Math.sqrt(T));
+  vega = S*normPDF(d1)*Math.sqrt(T)/100;
+  if (type==='call') {
+    price = S*norm(d1) - K*Math.exp(-r*T)*norm(d2);
+    delta = norm(d1);
+    theta = (-S*normPDF(d1)*sigma/(2*Math.sqrt(T)) - r*K*Math.exp(-r*T)*norm(d2))/365;
+    rho = K*T*Math.exp(-r*T)*norm(d2)/100;
+  } else {
+    price = K*Math.exp(-r*T)*norm(-d2) - S*norm(-d1);
+    delta = norm(d1)-1;
+    theta = (-S*normPDF(d1)*sigma/(2*Math.sqrt(T)) + r*K*Math.exp(-r*T)*norm(-d2))/365;
+    rho = -K*T*Math.exp(-r*T)*norm(-d2)/100;
+  }
+  return { price, delta, gamma, theta, vega, rho, d1, d2 };
+}
+
+function getMoneyness(S, K, type) {
+  const ratio = S/K;
+  if (type==='call') {
+    if (ratio > 1.02) return 'ITM';
+    if (ratio < 0.98) return 'OTM';
+    return 'ATM';
+  } else {
+    if (ratio < 0.98) return 'ITM';
+    if (ratio > 1.02) return 'OTM';
+    return 'ATM';
+  }
+}
+
+function calculate() {
+  const S = parseFloat(document.getElementById('S').value);
+  const K = parseFloat(document.getElementById('K').value);
+  const days = parseFloat(document.getElementById('T').value);
+  const r = parseFloat(document.getElementById('R').value)/100;
+  const sigma = parseFloat(document.getElementById('V').value)/100;
+  const type = document.getElementById('type').value;
+  const T = days/365;
+
+  let html = '';
+
+  const types = type==='both' ? ['call','put'] : [type];
+
+  types.forEach(t => {
+    const res = bs(S, K, T, r, sigma, t);
+    const mn = getMoneyness(S, K, t);
+    const tagClass = mn==='ITM'?'tag-itm':mn==='OTM'?'tag-otm':'tag-atm';
+    const pnlPer100 = res.price * 100;
+
+    html += `
+    <div style="margin-bottom:20px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <span style="font-size:10px;letter-spacing:0.2em;color:var(--text-dim);text-transform:uppercase;">${t.toUpperCase()}</span>
+        <span class="tag ${tagClass}">${mn}</span>
+      </div>
+      <div class="result-grid">
+        <div class="result-cell">
+          <div class="label">Theoretical Price</div>
+          <div class="value ${t} highlight">$${res.price.toFixed(4)}</div>
+        </div>
+        <div class="result-cell">
+          <div class="label">Per 100 Barrels</div>
+          <div class="value highlight">$${pnlPer100.toFixed(2)}</div>
+        </div>
+      </div>
+      <div class="greeks-grid">
+        <div class="greek-cell">
+          <div class="g-label">Delta</div>
+          <div class="g-value">${res.delta.toFixed(4)}</div>
+        </div>
+        <div class="greek-cell">
+          <div class="g-label">Gamma</div>
+          <div class="g-value">${res.gamma.toFixed(4)}</div>
+        </div>
+        <div class="greek-cell">
+          <div class="g-label">Theta/d</div>
+          <div class="g-value">${res.theta.toFixed(4)}</div>
+        </div>
+        <div class="greek-cell">
+          <div class="g-label">Vega/1%</div>
+          <div class="g-value">${res.vega.toFixed(4)}</div>
+        </div>
+        <div class="greek-cell">
+          <div class="g-label">Rho/1%</div>
+          <div class="g-value">${res.rho.toFixed(4)}</div>
+        </div>
+      </div>
+      <div class="status-row">
+        <span>d1: ${res.d1.toFixed(4)}</span>
+        <span>d2: ${res.d2.toFixed(4)}</span>
+        <span>T: ${T.toFixed(4)}y</span>
+      </div>
+    </div>`;
+  });
+
+  // Moneyness indicator
+  const pct = ((S/K)-1)*100;
+  const barWidth = Math.min(Math.max(50 + pct*2, 5), 95);
+  html += `
+  <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
+    <div style="font-size:8px;letter-spacing:0.2em;color:var(--text-muted);text-transform:uppercase;margin-bottom:6px;">Moneyness: S/K = ${(S/K).toFixed(4)} (${pct>0?'+':''}${pct.toFixed(2)}%)</div>
+    <div class="moneyness-bar"><div class="moneyness-fill" style="width:${barWidth}%"></div></div>
+    <div class="status-row"><span>Deep OTM</span><span>ATM</span><span>Deep ITM</span></div>
+  </div>`;
+
+  document.getElementById('outputSection').innerHTML = html;
+}
+
+function solveIV() {
+  const S = parseFloat(document.getElementById('S').value);
+  const K = parseFloat(document.getElementById('K').value);
+  const days = parseFloat(document.getElementById('T').value);
+  const r = parseFloat(document.getElementById('R').value)/100;
+  const T = days/365;
+  const mktPrice = parseFloat(document.getElementById('mktPrice').value);
+  const solveType = document.getElementById('solveType').value;
+
+  const errEl = document.getElementById('ivError');
+  const resEl = document.getElementById('ivResult');
+  errEl.style.display = 'none';
+
+  // Bisection method
+  let lo = 0.001, hi = 5.0, mid, price;
+  let found = false;
+
+  for (let i = 0; i < 200; i++) {
+    mid = (lo + hi) / 2;
+    const res = bs(S, K, T, r, mid, solveType);
+    price = res.price;
+    if (Math.abs(price - mktPrice) < 0.0001) { found = true; break; }
+    if (price < mktPrice) lo = mid;
+    else hi = mid;
+  }
+
+  if (!found && Math.abs(price - mktPrice) > 0.01) {
+    errEl.textContent = 'Could not converge. Check inputs — price may be outside valid range.';
+    errEl.style.display = 'block';
+    resEl.style.display = 'none';
+    return;
+  }
+
+  const ivPct = (mid * 100).toFixed(2);
+  const res = bs(S, K, T, r, mid, solveType);
+
+  document.getElementById('ivValue').textContent = ivPct + '%';
+  document.getElementById('ivSub').textContent = 
+    `${solveType.toUpperCase()} · Mkt $${mktPrice} · Theo $${res.price.toFixed(4)} · Δ ${res.delta.toFixed(3)}`;
+  resEl.style.display = 'block';
+
+  // Auto-populate IV field
+  document.getElementById('V').value = ivPct;
+}
+
+// Calculate on load
+calculate();
+</script>
+</body>
+</html>

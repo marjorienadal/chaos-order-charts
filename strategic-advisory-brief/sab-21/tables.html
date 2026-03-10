@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #1C2B4A;
+    --blue: #2E5FA3;
+    --lightblue: #D5E8F4;
+    --paleblue: #EEF4FA;
+    --red: #B83232;
+    --amber: #C07820;
+    --green: #1E6B3C;
+    --paleamber: #FDF3E3;
+    --palered: #FAEAEA;
+    --palegreen: #E8F5EE;
+    --grey: #F4F6F8;
+    --charcoal: #2C2C2C;
+    --mid: #666;
+    --light: #999;
+    --white: #FFFFFF;
+    --rule: #C8D8E8;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #F0F3F7;
+    padding: 60px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+    width: 1200px;
+  }
+
+  /* ─── VISUAL 1: CENTRAL BANK DILEMMA ─── */
+  .visual { background: white; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 20px rgba(28,43,74,0.10); }
+
+  .visual-header {
+    background: var(--navy);
+    padding: 28px 36px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .visual-header .title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: white;
+    letter-spacing: 0.02em;
+  }
+  .visual-header .subtitle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  /* DILEMMA BOXES */
+  .dilemma-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    border-top: none;
+  }
+
+  .dilemma-box {
+    padding: 32px 28px;
+    border-right: 1px solid var(--rule);
+    position: relative;
+  }
+  .dilemma-box:last-child { border-right: none; }
+
+  .dilemma-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dilemma-label::before {
+    content: '';
+    display: inline-block;
+    width: 3px;
+    height: 18px;
+    border-radius: 2px;
+  }
+
+  .box-cut .dilemma-label { color: var(--amber); }
+  .box-cut .dilemma-label::before { background: var(--amber); }
+  .box-cut { background: var(--paleamber); border-top: 3px solid var(--amber); }
+
+  .box-hike .dilemma-label { color: var(--red); }
+  .box-hike .dilemma-label::before { background: var(--red); }
+  .box-hike { background: var(--palered); border-top: 3px solid var(--red); }
+
+  .box-hold .dilemma-label { color: var(--blue); }
+  .box-hold .dilemma-label::before { background: var(--blue); }
+  .box-hold { background: var(--paleblue); border-top: 3px solid var(--blue); }
+
+  .dilemma-verdict {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--navy);
+    margin-bottom: 12px;
+    line-height: 1.1;
+  }
+
+  .dilemma-desc {
+    font-size: 13px;
+    color: var(--charcoal);
+    line-height: 1.65;
+  }
+
+  .dilemma-tag {
+    display: inline-block;
+    margin-top: 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 2px;
+  }
+  .box-cut .dilemma-tag { background: #F5DEB3; color: var(--amber); }
+  .box-hike .dilemma-tag { background: #F5C6C6; color: var(--red); }
+  .box-hold .dilemma-tag { background: var(--lightblue); color: var(--blue); }
+
+  .dilemma-footer {
+    background: var(--navy);
+    padding: 18px 36px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+    font-style: italic;
+    line-height: 1.5;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .dilemma-footer strong { color: white; font-style: normal; }
+
+  /* ─── VISUAL 2: SCENARIO GRID ─── */
+  .scenario-table { width: 100%; border-collapse: collapse; }
+
+  .scenario-table th {
+    background: var(--navy);
+    color: white;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 14px 20px;
+    text-align: left;
+  }
+
+  .scenario-table td {
+    padding: 16px 20px;
+    font-size: 13px;
+    color: var(--charcoal);
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .scenario-table tr.normal td { background: white; }
+  .scenario-table tr.normal:nth-child(even) td { background: var(--grey); }
+
+  .scenario-table tr.underpriced td {
+    background: #FEF8F8;
+    border-top: 2px solid var(--red);
+    border-bottom: 2px solid var(--red);
+  }
+  .scenario-table tr.underpriced td:first-child { border-left: 4px solid var(--red); }
+
+  .scenario-label {
+    font-family: 'DM Serif Display', serif;
+    font-size: 15px;
+    color: var(--navy);
+    margin-bottom: 3px;
+  }
+  .scenario-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--light);
+    letter-spacing: 0.08em;
+  }
+
+  .prob-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .prob-a { background: #E8F5EE; color: var(--green); }
+  .prob-b { background: #EEF4FA; color: var(--blue); }
+  .prob-c { background: #FDF3E3; color: var(--amber); }
+  .prob-d { background: #FAEAEA; color: var(--red); font-weight: 700; }
+
+  .scenario-note {
+    font-size: 11px;
+    color: var(--red);
+    font-weight: 600;
+    font-style: italic;
+    margin-top: 4px;
+  }
+
+  .table-caption {
+    padding: 14px 20px;
+    background: var(--grey);
+    font-size: 11px;
+    color: var(--mid);
+    border-top: 1px solid var(--rule);
+    font-style: italic;
+  }
+
+  /* ─── VISUAL 3: TRANSMISSION TIMELINE ─── */
+  .timeline-body { padding: 40px 36px 36px; }
+
+  .timeline-intro {
+    font-size: 13px;
+    color: var(--mid);
+    margin-bottom: 36px;
+    line-height: 1.6;
+    max-width: 700px;
+  }
+
+  .timeline-track {
+    position: relative;
+    padding-bottom: 20px;
+  }
+
+  .timeline-spine {
+    position: absolute;
+    left: 120px;
+    top: 18px;
+    bottom: 20px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--red) 0%, var(--amber) 45%, var(--blue) 100%);
+    z-index: 0;
+  }
+
+  .timeline-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .timeline-date {
+    width: 110px;
+    flex-shrink: 0;
+    text-align: right;
+    padding-right: 20px;
+    padding-top: 2px;
+  }
+  .timeline-date-main {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--navy);
+  }
+  .timeline-date-sub {
+    font-size: 10px;
+    color: var(--light);
+    margin-top: 2px;
+  }
+
+  .timeline-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 3px;
+    border: 2px solid white;
+    box-shadow: 0 0 0 1px var(--rule);
+    z-index: 2;
+  }
+
+  .timeline-content {
+    flex: 1;
+    padding-left: 20px;
+  }
+
+  .timeline-shock {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .timeline-event {
+    font-size: 14px;
+    color: var(--navy);
+    font-weight: 600;
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+
+  .timeline-desc {
+    font-size: 12px;
+    color: var(--mid);
+    line-height: 1.5;
+  }
+
+  .timeline-severity {
+    display: inline-block;
+    margin-top: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 2px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+  }
+  .sev-live { background: #FAEAEA; color: var(--red); }
+  .sev-building { background: #FDF3E3; color: var(--amber); }
+  .sev-structural { background: var(--paleblue); color: var(--blue); }
+
+  /* BRANDING STRIP */
+  .brand-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 36px;
+    border-top: 1px solid var(--rule);
+    background: white;
+  }
+  .brand-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 13px;
+    color: var(--navy);
+    letter-spacing: 0.04em;
+  }
+  .brand-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--light);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════ -->
+<!-- VISUAL 1: CENTRAL BANK DILEMMA        -->
+<!-- ══════════════════════════════════════ -->
+<div class="visual" id="visual1">
+  <div class="visual-header">
+    <div>
+      <div class="subtitle">The Stagflation Trap · M Nadal & Co · March 2026</div>
+      <div class="title">The Central Bank Dilemma</div>
+    </div>
+    <div class="subtitle" style="text-align:right">No clean exit exists</div>
+  </div>
+
+  <div class="dilemma-grid">
+    <div class="dilemma-box box-cut">
+      <div class="dilemma-label">Option A</div>
+      <div class="dilemma-verdict">Cut</div>
+      <div class="dilemma-desc">Signals tolerance for above-target inflation precisely when a supply shock is transmitting through the price level. Incompatible with credibility rebuilt at significant cost since 2022.</div>
+      <div class="dilemma-tag">Destroys credibility</div>
+    </div>
+    <div class="dilemma-box box-hike">
+      <div class="dilemma-label">Option B</div>
+      <div class="dilemma-verdict">Hike</div>
+      <div class="dilemma-desc">Accelerates demand destruction into an economy already losing momentum. Brings forward the recession central banks have spent three years trying to avoid.</div>
+      <div class="dilemma-tag">Triggers recession</div>
+    </div>
+    <div class="dilemma-box box-hold">
+      <div class="dilemma-label">Option C</div>
+      <div class="dilemma-verdict">Hold</div>
+      <div class="dilemma-desc">The least bad option. But holding into slowing growth with above-target inflation is stagflation by another name — and the option markets have not yet fully priced.</div>
+      <div class="dilemma-tag">Underpriced by markets</div>
+    </div>
+  </div>
+
+  <div class="dilemma-footer">
+    <strong>1973 parallel:</strong> The first oil shock produced policy error not because central bankers were incompetent, but because the shock was stagflationary by nature. The tools are the same in 2026. The margin for error is smaller.
+  </div>
+  <div class="brand-strip">
+    <div class="brand-name">M Nadal & Co Strategic Advisory</div>
+    <div class="brand-date">Strategic Advisory Brief · March 2026 · Not investment advice</div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════ -->
+<!-- VISUAL 2: SCENARIO GRID               -->
+<!-- ══════════════════════════════════════ -->
+<div class="visual" id="visual2">
+  <div class="visual-header">
+    <div>
+      <div class="subtitle">The Stagflation Trap · M Nadal & Co · March 2026</div>
+      <div class="title">Scenario Grid: What Markets Are and Are Not Pricing</div>
+    </div>
+  </div>
+
+  <table class="scenario-table">
+    <thead>
+      <tr>
+        <th style="width:200px">Scenario</th>
+        <th style="width:120px">Probability</th>
+        <th>Oil path</th>
+        <th>Rate path</th>
+        <th>Credit outcome</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="normal">
+        <td>
+          <div class="scenario-label">Deal / Normalisation</div>
+          <div class="scenario-sub">Scenario A</div>
+        </td>
+        <td><span class="prob-badge prob-a">50–55%</span></td>
+        <td>Brent fades to mid-60s as war premium unwinds</td>
+        <td>Rate cuts resume H2 2026; soft landing narrative restored</td>
+        <td>Refinancing wall manageable; credit spreads tighten</td>
+      </tr>
+      <tr class="normal">
+        <td>
+          <div class="scenario-label">Prolonged Stalemate</div>
+          <div class="scenario-sub">Scenario B</div>
+        </td>
+        <td><span class="prob-badge prob-b">~30%</span></td>
+        <td>Brent range-bound $75–85; war premium persistent</td>
+        <td>Hold all year; no cuts delivered in 2026</td>
+        <td>Refinancing stress surfaces Q3 2026; first restructurings visible</td>
+      </tr>
+      <tr class="normal">
+        <td>
+          <div class="scenario-label">Escalation</div>
+          <div class="scenario-sub">Scenario C</div>
+        </td>
+        <td><span class="prob-badge prob-c">~15%</span></td>
+        <td>Brent $95+ sustained; supply shock deepens</td>
+        <td>Hike probability rises materially; credibility defence</td>
+        <td>Credit market seizure risk; forced intervention required</td>
+      </tr>
+      <tr class="underpriced">
+        <td>
+          <div class="scenario-label" style="color:var(--red)">Underpriced Scenario</div>
+          <div class="scenario-sub" style="color:var(--red);opacity:0.7">Scenario D — building</div>
+          <div class="scenario-note">Gilt market is already here</div>
+        </td>
+        <td><span class="prob-badge prob-d">BUILDING</span></td>
+        <td>Any path — second-order effects independent of oil</td>
+        <td>Hold all 2026; fertiliser + freight + wages sustain inflation regardless of Hormuz resolution</td>
+        <td>Equity and credit markets have not caught up to where gilt market is now</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="table-caption">Scenario probabilities are indicative, not statistically derived. Represent analytical judgment as of March 2026.</div>
+  <div class="brand-strip">
+    <div class="brand-name">M Nadal & Co Strategic Advisory</div>
+    <div class="brand-date">Strategic Advisory Brief · March 2026 · Not investment advice</div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════ -->
+<!-- VISUAL 3: TRANSMISSION TIMELINE       -->
+<!-- ══════════════════════════════════════ -->
+<div class="visual" id="visual3">
+  <div class="visual-header">
+    <div>
+      <div class="subtitle">The Stagflation Trap · M Nadal & Co · March 2026</div>
+      <div class="title">Three Shocks, Three Speeds</div>
+    </div>
+    <div class="subtitle" style="text-align:right">Why this isn't over when oil settles</div>
+  </div>
+
+  <div class="timeline-body">
+    <div class="timeline-intro">
+      The three shocks from Operation Epic Fury are not sequential — they are simultaneous but arrive at different speeds. The energy shock is already in the price. The fertiliser and freight shocks are not yet fully priced because their CPI transmission is months away.
+    </div>
+
+    <div class="timeline-track">
+      <div class="timeline-spine"></div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">
+          <div class="timeline-date-main">NOW</div>
+          <div class="timeline-date-sub">Feb 28 – Mar 10</div>
+        </div>
+        <div class="timeline-dot" style="background:var(--red)"></div>
+        <div class="timeline-content">
+          <div class="timeline-shock" style="color:var(--red)">Energy shock · Rate repricing</div>
+          <div class="timeline-event">Brent +$20, TTF +70%, gilt market repricing</div>
+          <div class="timeline-desc">Commodity price move visible immediately. UK 10-year gilt records one of its largest weekly moves since September 2022. Rate cut consensus broken.</div>
+          <span class="timeline-severity sev-live">LIVE — already in the price</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">
+          <div class="timeline-date-main">APR – MAY</div>
+          <div class="timeline-date-sub">6–8 weeks out</div>
+        </div>
+        <div class="timeline-dot" style="background:var(--amber)"></div>
+        <div class="timeline-content">
+          <div class="timeline-shock" style="color:var(--amber)">Energy → CPI transmission</div>
+          <div class="timeline-event">March & April G7 CPI prints confirm the pass-through</div>
+          <div class="timeline-desc">For a late-February shock, March data shows the initial impact; April confirms it. February CPI will show essentially none of it. This is where consensus gets revised.</div>
+          <span class="timeline-severity sev-building">BUILDING — not yet in forecasts</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">
+          <div class="timeline-date-main">APR – MAY</div>
+          <div class="timeline-date-sub">Q1 earnings</div>
+        </div>
+        <div class="timeline-dot" style="background:var(--amber)"></div>
+        <div class="timeline-content">
+          <div class="timeline-shock" style="color:var(--amber)">Freight → corporate margins</div>
+          <div class="timeline-event">Q1 earnings season: guidance cuts and margin misses</div>
+          <div class="timeline-desc">Cape of Good Hope rerouting adds ~10–14 days per cargo. Permanent per-unit cost increase on ~15% of global container trade. Appears in Q1 guidance before aggregate data confirms it.</div>
+          <span class="timeline-severity sev-building">BUILDING — underpriced</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">
+          <div class="timeline-date-main">JUL – SEP</div>
+          <div class="timeline-date-sub">4–6 months out</div>
+        </div>
+        <div class="timeline-dot" style="background:var(--amber)"></div>
+        <div class="timeline-content">
+          <div class="timeline-shock" style="color:var(--amber)">Fertiliser → food prices</div>
+          <div class="timeline-event">Food CPI spike: spring planting decisions priced in</div>
+          <div class="timeline-desc">&gt;30% of globally traded urea transits Hormuz. Urea spot prices +~30% week one. Fertiliser shocks do not register immediately — they reach food prices 4–6 months later. Central bank models are likely to be behind this.</div>
+          <span class="timeline-severity sev-building">MOST UNDERESTIMATED SHOCK</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">
+          <div class="timeline-date-main">Q2 2026</div>
+          <div class="timeline-date-sub">April – June</div>
+        </div>
+        <div class="timeline-dot" style="background:var(--blue)"></div>
+        <div class="timeline-content">
+          <div class="timeline-shock" style="color:var(--blue)">Credit market stress</div>
+          <div class="timeline-event">Private credit covenant stress surfaces</div>
+          <div class="timeline-desc">Rising input costs hit revenue. Tighter financial conditions hit refinancing. The two arrive simultaneously. Lender communications, amendments, and restructuring announcements begin to appear.</div>
+          <span class="timeline-severity sev-structural">STRUCTURAL — building now</span>
+        </div>
+      </div>
+
+      <div class="timeline-item" style="margin-bottom:0">
+        <div class="timeline-date">
+          <div class="timeline-date-main">Q3 – Q4</div>
+          <div class="timeline-date-sub">2026</div>
+        </div>
+        <div class="timeline-dot" style="background:var(--blue)"></div>
+        <div class="timeline-content">
+          <div class="timeline-shock" style="color:var(--blue)">Refinancing wall</div>
+          <div class="timeline-event">$10 trillion refinancing wall meets no central bank cushion</div>
+          <div class="timeline-desc">The wall identified in August 2025 now faces a world where the rate cut path has been removed. Companies underwritten at 2020–2022 rates refinancing into a world where investment grade clears in the mid-5s to mid-6s and high yield starts with an 8.</div>
+          <span class="timeline-severity sev-structural">STRUCTURAL — no policy offset available</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="brand-strip">
+    <div class="brand-name">M Nadal & Co Strategic Advisory</div>
+    <div class="brand-date">Strategic Advisory Brief · March 2026 · Not investment advice</div>
+  </div>
+</div>
+
+</body>
+</html>

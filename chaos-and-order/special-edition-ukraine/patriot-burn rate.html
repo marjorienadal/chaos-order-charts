@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patriot Production vs Consumption</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 40px 20px;
+    box-sizing: border-box;
+  }
+
+  .container {
+    max-width: 860px;
+    width: 100%;
+  }
+
+  .title {
+    color: #c9a84c;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    color: #0a1628;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 6px;
+    font-weight: normal;
+  }
+
+  .deck {
+    color: #555;
+    font-size: 13px;
+    text-align: center;
+    margin-bottom: 28px;
+    font-style: italic;
+  }
+
+  .chart-wrapper {
+    position: relative;
+    width: 100%;
+    height: 400px;
+  }
+
+  .caveat {
+    color: #888;
+    font-size: 10px;
+    margin-top: 20px;
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  .source {
+    color: #c9a84c;
+    font-size: 10px;
+    text-align: right;
+    margin-top: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="title">Chaos &amp; Order | Special Edition — March 2026</div>
+  <div class="subtitle">Patriot PAC-3: Annual Production vs Single-Event Consumption</div>
+  <div class="deck">The production gap that cannot be closed in weeks</div>
+
+  <div class="chart-wrapper">
+    <canvas id="patriotChart"></canvas>
+  </div>
+
+  <div class="caveat">
+    Note: Annual US production figure (~700–800/year) drawn from Raytheon/RTX public earnings and CSIS estimates. Epic Fury Day 1 consumption (~803) per Ukrainian President Zelenskyy, BBC interview, March 2026. Ukraine monthly requirement (~60–65) per Zelenskyy, Euromaidan Press, March 2026. June 2025 Twelve-Day War consumption (~200–250 estimated) per CSIS stockpile analysis. All figures are indicative public estimates. Exact numbers are partly classified. Surge orders placed with Raytheon; meaningful output increases require 18–36 months.
+  </div>
+
+  <div class="source">M Nadal &amp; Co Strategic Advisory · chaosandorderinsight.substack.com</div>
+</div>
+
+<script>
+const ctx = document.getElementById('patriotChart').getContext('2d');
+
+const chart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: [
+      'US Annual\nProduction',
+      'Epic Fury\nDay 1',
+      'Ukraine Monthly\nRequirement (×12)',
+      'June 2025\nTwelve-Day War'
+    ],
+    datasets: [{
+      label: 'Patriot PAC-3 Interceptors',
+      data: [750, 803, 780, 230],
+      backgroundColor: [
+        'rgba(10, 22, 40, 0.85)',
+        'rgba(192, 57, 43, 0.85)',
+        'rgba(192, 57, 43, 0.6)',
+        'rgba(192, 57, 43, 0.7)'
+      ],
+      borderColor: [
+        '#0a1628',
+        '#c0392b',
+        '#c0392b',
+        '#c0392b'
+      ],
+      borderWidth: 1.5,
+      borderRadius: 3
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false
+      },
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            const labels = [
+              '~750 missiles produced per year (est.)',
+              '~803 fired on Day 1 of Operation Epic Fury',
+              '~65/month × 12 = ~780 annual Ukraine requirement',
+              '~200-250 estimated consumed in June 2025 war'
+            ];
+            return labels[context.dataIndex];
+          }
+        },
+        backgroundColor: '#0a1628',
+        titleColor: '#c9a84c',
+        bodyColor: '#ffffff',
+        padding: 12,
+        titleFont: { family: 'Georgia' },
+        bodyFont: { family: 'Georgia', size: 12 }
+      },
+      annotation: {}
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false
+        },
+        ticks: {
+          font: {
+            family: 'Georgia',
+            size: 12
+          },
+          color: '#0a1628'
+        }
+      },
+      y: {
+        beginAtZero: true,
+        max: 1000,
+        grid: {
+          color: 'rgba(0,0,0,0.06)'
+        },
+        ticks: {
+          font: {
+            family: 'Georgia',
+            size: 11
+          },
+          color: '#555'
+        },
+        title: {
+          display: true,
+          text: 'Number of Patriot PAC-3 Interceptors',
+          font: {
+            family: 'Georgia',
+            size: 11
+          },
+          color: '#555'
+        }
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>

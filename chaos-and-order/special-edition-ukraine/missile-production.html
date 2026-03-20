@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Missile Production vs Consumption</title>
+<style>
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 40px 20px;
+    box-sizing: border-box;
+  }
+
+  .container {
+    max-width: 900px;
+    width: 100%;
+  }
+
+  .title {
+    color: #c9a84c;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    color: #0a1628;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 8px;
+    font-weight: normal;
+  }
+
+  .deck {
+    color: #555;
+    font-size: 13px;
+    text-align: center;
+    margin-bottom: 28px;
+    font-style: italic;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  thead tr {
+    background: #0a1628;
+  }
+
+  thead th {
+    color: #c9a84c;
+    font-family: Georgia, serif;
+    font-weight: bold;
+    padding: 12px 16px;
+    text-align: left;
+    letter-spacing: 0.5px;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid #e8e0d0;
+  }
+
+  tbody tr:nth-child(even) {
+    background: #f9f7f4;
+  }
+
+  tbody td {
+    color: #2c2c2c;
+    padding: 11px 16px;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  tbody td:first-child {
+    color: #0a1628;
+    font-weight: bold;
+  }
+
+  .alert {
+    color: #c0392b;
+    font-weight: bold;
+  }
+
+  .caveat {
+    color: #888;
+    font-size: 10px;
+    margin-top: 16px;
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  .source {
+    color: #c9a84c;
+    font-size: 10px;
+    text-align: right;
+    margin-top: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="title">Chaos &amp; Order | Special Edition — March 2026</div>
+  <div class="subtitle">The Missile Gap: Production vs Consumption</div>
+  <div class="deck">Annual production capacity against single-event consumption rates</div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>System</th>
+        <th>Manufacturer</th>
+        <th>Est. Annual Production</th>
+        <th>Cost per Missile</th>
+        <th>Single-Event Consumption</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Patriot PAC-3</td>
+        <td>Raytheon/RTX (US)</td>
+        <td>~700–800/year (surge orders placed)</td>
+        <td>~$4M</td>
+        <td class="alert">~803 fired on Day 1 of Epic Fury</td>
+      </tr>
+      <tr>
+        <td>ASTER 30 (SAMP/T)</td>
+        <td>MBDA (France/Italy)</td>
+        <td>~300/year</td>
+        <td>~$1–2M</td>
+        <td class="alert">~20 per major Russian raid on Ukraine</td>
+      </tr>
+      <tr>
+        <td>THAAD</td>
+        <td>Lockheed Martin (US)</td>
+        <td>Fewer than 100/year</td>
+        <td>~$11M</td>
+        <td class="alert">~30% of total US stockpile used in June 2025 Twelve-Day War</td>
+      </tr>
+      <tr>
+        <td>SM-3</td>
+        <td>Raytheon/RTX (US)</td>
+        <td>~100–150/year</td>
+        <td>~$10–20M</td>
+        <td class="alert">80 expended in June 2025 Twelve-Day War</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="caveat">
+    Note: Production figures are public estimates drawn from Raytheon/RTX earnings, MBDA public statements, CSIS, and ISW assessments. Exact figures are partly commercially sensitive or classified. Consumption figures are based on Ukrainian official statements (Zelenskyy, BBC, March 2026), CSIS stockpile analysis, and open-source conflict reporting. All figures should be treated as indicative orders of magnitude, not precise accounting. Surge orders have been placed with Raytheon but meaningful output increases require 18–36 months of supply chain investment.
+  </div>
+
+  <div class="source">M Nadal &amp; Co Strategic Advisory · chaosandorderinsight.substack.com</div>
+</div>
+</body>
+</html>

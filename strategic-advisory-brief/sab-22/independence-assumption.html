@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Independence Assumption: Four Dependencies, Four Break Points</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@300;400;500&display=swap');
+
+  :root {
+    --navy: #0A1628;
+    --gold: #C9A84C;
+    --gold-light: #B8941F;
+    --gold-pale: rgba(201, 168, 76, 0.08);
+    --gold-border: rgba(201, 168, 76, 0.3);
+    --red: #8B2020;
+    --red-light: rgba(139, 32, 32, 0.07);
+    --red-border: rgba(139, 32, 32, 0.25);
+    --grey: #4A5568;
+    --grey-light: #718096;
+    --white: #FFFFFF;
+    --text: #1A1A2E;
+    --text-dim: #5A6478;
+    --text-faint: #9AA3B0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--white);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    padding: 48px 40px;
+    min-height: 100vh;
+  }
+
+  .chart-container { max-width: 860px; margin: 0 auto; }
+
+  .chart-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 8px;
+  }
+
+  .chart-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .chart-description {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    color: var(--text-dim);
+    margin-bottom: 40px;
+    line-height: 1.65;
+    max-width: 640px;
+    border-left: 2px solid var(--gold-border);
+    padding-left: 14px;
+  }
+
+  .chain { display: flex; flex-direction: column; }
+
+  .chain-spacer {
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .chain-spacer::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, #C9A84C, #8B2020);
+  }
+
+  .chain-spacer::after {
+    content: '▼';
+    font-size: 9px;
+    color: var(--gold-light);
+    background: var(--white);
+    padding: 2px 4px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .node {
+    border: 1px solid #D8D4CC;
+    border-top: 3px solid var(--gold);
+    padding: 20px 24px;
+    position: relative;
+    background: var(--white);
+  }
+
+  .node-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .node-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    color: var(--gold-light);
+    text-transform: uppercase;
+  }
+
+  .status {
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border: 1px solid var(--red-border);
+    color: var(--red);
+    background: var(--red-light);
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-left: 12px;
+  }
+
+  .node-condition {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 14px;
+    line-height: 1.35;
+  }
+
+  .dependency-note {
+    font-size: 9px;
+    color: var(--text-faint);
+    font-style: italic;
+    margin-bottom: 10px;
+    letter-spacing: 0.05em;
+  }
+
+  .break-point {
+    background: var(--red-light);
+    border: 1px solid var(--red-border);
+    border-left: 3px solid var(--red);
+    padding: 12px 14px;
+  }
+
+  .break-label {
+    font-size: 8.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .break-text {
+    font-size: 10.5px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .break-source {
+    font-size: 8.5px;
+    color: var(--text-faint);
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--red-border);
+    line-height: 1.5;
+  }
+
+  .conclusion {
+    margin-top: 32px;
+    padding: 20px 24px;
+    border: 1px solid var(--gold-border);
+    border-left: 3px solid var(--gold);
+    background: var(--gold-pale);
+  }
+
+  .conclusion-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15.5px;
+    font-weight: 400;
+    color: var(--navy);
+    line-height: 1.65;
+  }
+
+  .conclusion-text strong { font-weight: 600; }
+
+  .chart-footer {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #E8E4DC;
+    padding-top: 14px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .footer-credit {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--text-faint);
+    text-transform: uppercase;
+  }
+
+  .footer-date {
+    font-size: 9px;
+    color: var(--text-faint);
+    letter-spacing: 0.06em;
+    font-style: italic;
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 28px 20px; }
+    .chart-subtitle { font-size: 20px; }
+    .node-condition { font-size: 15px; }
+    .chart-footer { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="chart-container">
+
+  <div class="chart-title">The Correlation · Dependency Chain Analysis</div>
+  <div class="chart-subtitle">The Independence Assumption Requires Four Sequential Resolutions</div>
+  <div class="chart-description">
+    The scenario in which private credit, the refinancing wall, and the stagflation trap resolve independently requires four distinct conditions to hold in sequence. Each has a documented break point. None is currently on the required timeline.
+  </div>
+
+  <div class="chain">
+
+    <div class="node">
+      <div class="node-header">
+        <div class="node-number">Condition 01</div>
+        <div class="status">Break point confirmed</div>
+      </div>
+      <div class="node-condition">A ceasefire reopens Hormuz and removes the oil shock</div>
+      <div class="break-point">
+        <div class="break-label">Why this breaks</div>
+        <div class="break-text">Even a ceasefire tomorrow produces a minimum 85–110 day flow normalisation before tanker backlogs clear. The IEA 6-month restoration estimate is structurally wrong: built for a single strait, single resolution model. The two-clock model establishes that Hormuz and Bab el-Mandeb operate on independent timelines with no synchronisation mechanism.</div>
+        <div class="break-source">HFI Research tanker backlog analysis · Two-clock model published 30 March 2026 · IEA structural critique</div>
+      </div>
+    </div>
+
+    <div class="chain-spacer"></div>
+
+    <div class="node">
+      <div class="node-header">
+        <div>
+          <div class="node-number">Condition 02</div>
+          <div class="dependency-note">Depends on Condition 01</div>
+        </div>
+        <div class="status">Break point confirmed</div>
+      </div>
+      <div class="node-condition">The Fed cuts into a slowing economy, restoring the monetary cushion</div>
+      <div class="break-point">
+        <div class="break-label">Why this breaks</div>
+        <div class="break-text">The stagflation trap is operative. Every $10 sustained move higher in oil raises the terminal rate by approximately 25–50 basis points. March NFP +178,000 against consensus 60–65,000. The dollar went flat on a significant upside surprise: markets are pricing a Fed that is politically constrained and operationally paralysed. Rate cuts require the oil shock to resolve first — which requires Condition 01.</div>
+        <div class="break-source">Stagflation Trap SAB, March 2026 · NFP data BLS April 2026 · Robin Brooks dollar regime change analysis</div>
+      </div>
+    </div>
+
+    <div class="chain-spacer"></div>
+
+    <div class="node">
+      <div class="node-header">
+        <div>
+          <div class="node-number">Condition 03</div>
+          <div class="dependency-note">Depends on Conditions 01 + 02</div>
+        </div>
+        <div class="status">Break point confirmed</div>
+      </div>
+      <div class="node-condition">Leveraged borrowers refinance the maturity wall at acceptable rates</div>
+      <div class="break-point">
+        <div class="break-label">Why this breaks</div>
+        <div class="break-text">The 2021–2022 vintage cohort borrowed at 2–3%. Even with meaningful Fed easing, refinancing clears at 4.5–5.5% minimum — a doubling of debt service costs for the weakest borrowers. The basis trade is already unwinding: approximately 700,000 contracts in leveraged short Treasury futures retired since August 2024, $500bn DVP repo contracted since November 2024. The cheap funding conditions are gone independently of Fed policy.</div>
+        <div class="break-source">Corporate Bond Rollover Wall SAB, August 2025 · Adler basis trade unwind data · NY Fed primary dealer reports</div>
+      </div>
+    </div>
+
+    <div class="chain-spacer"></div>
+
+    <div class="node">
+      <div class="node-header">
+        <div>
+          <div class="node-number">Condition 04</div>
+          <div class="dependency-note">Depends on Conditions 01 + 02 + 03</div>
+        </div>
+        <div class="status">Break point confirmed</div>
+      </div>
+      <div class="node-condition">Private credit funds meet redemptions from recovered portfolio valuations</div>
+      <div class="break-point">
+        <div class="break-label">Why this breaks</div>
+        <div class="break-text">Private credit portfolio valuations are mark-to-model, not mark-to-market. Recovery requires borrower EBITDA to recover, which requires Condition 03. In the interim, pension funds carrying up to 15–20% private credit exposure face simultaneous private credit write-downs and public bond portfolio pressure — with fixed liabilities, actuarial review cycles, and no central bank put available. The forced seller appears one layer up from where the 5% cap provides containment.</div>
+        <div class="break-source">Private Credit opacity brief, October 2025 · Ares, Apollo, Blue Owl Q1 2026 gating data · Edition 26 pension fund analysis, February 2026</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="conclusion">
+    <div class="conclusion-text">
+      Four conditions. Four documented break points. Each condition depends on the resolution of the one before it. <strong>The independence assumption does not require any one of these to fail. It requires all four to hold simultaneously.</strong> The data from Q1 2026 suggests none of them are on the required timeline.
+    </div>
+  </div>
+
+  <div class="chart-footer">
+    <div class="footer-credit">Copyright M Nadal & Co Strategic Advisory · April 2026 · chaosandorderinsight.substack.com</div>
+    <div class="footer-date">Collision Course: The Simultaneity Problem</div>
+  </div>
+
+</div>
+</body>
+</html>

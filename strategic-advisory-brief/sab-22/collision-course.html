@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Three Legs, One Window: The Simultaneity Problem</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@300;400;500&display=swap');
+
+  :root {
+    --navy: #0A1628;
+    --gold: #C9A84C;
+    --gold-light: #B8941F;
+    --gold-pale: rgba(201, 168, 76, 0.08);
+    --gold-border: rgba(201, 168, 76, 0.3);
+    --red: #8B2020;
+    --red-light: rgba(139, 32, 32, 0.12);
+    --blue: #1E3A5F;
+    --blue-light: rgba(30, 58, 95, 0.12);
+    --green: #1A4731;
+    --green-light: rgba(26, 71, 49, 0.12);
+    --overlap: rgba(139, 32, 32, 0.08);
+    --white: #FFFFFF;
+    --text: #1A1A2E;
+    --text-dim: #5A6478;
+    --text-faint: #9AA3B0;
+    --border: #D8D4CC;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--white);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    padding: 48px 40px;
+  }
+
+  .chart-container { max-width: 900px; margin: 0 auto; }
+
+  .chart-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 8px;
+  }
+
+  .chart-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .chart-description {
+    font-size: 10.5px;
+    color: var(--text-dim);
+    margin-bottom: 36px;
+    line-height: 1.65;
+    max-width: 640px;
+    border-left: 2px solid var(--gold-border);
+    padding-left: 14px;
+  }
+
+  /* TIMELINE WRAPPER */
+  .timeline-wrapper {
+    border: 1px solid var(--border);
+    padding: 28px 24px 20px;
+    position: relative;
+  }
+
+  /* TIME AXIS */
+  .time-axis {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 0;
+    margin-bottom: 8px;
+  }
+
+  .axis-label-spacer { }
+
+  .axis-ticks {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px;
+  }
+
+  .tick {
+    font-size: 8.5px;
+    color: var(--text-faint);
+    letter-spacing: 0.06em;
+    text-align: center;
+  }
+
+  .tick.current {
+    color: var(--red);
+    font-weight: 500;
+  }
+
+  /* ROWS */
+  .band-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 0;
+    margin-top: 12px;
+    align-items: center;
+  }
+
+  .band-label {
+    padding-right: 16px;
+  }
+
+  .band-name {
+    font-size: 9.5px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
+  .band-name.credit { color: var(--blue); }
+  .band-name.refi { color: var(--green); }
+  .band-name.stagflation { color: var(--red); }
+
+  .band-sublabel {
+    font-size: 8.5px;
+    color: var(--text-faint);
+    line-height: 1.4;
+  }
+
+  /* GRID AREA */
+  .band-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    height: 44px;
+    position: relative;
+  }
+
+  .band-cell {
+    height: 100%;
+    position: relative;
+  }
+
+  /* Band fills */
+  .fill {
+    position: absolute;
+    top: 6px;
+    bottom: 6px;
+    border-radius: 2px;
+  }
+
+  /* Credit gating: Q4 2025 (col5) through Q2 2026 (col7) — peak Q1-Q2 2026 */
+  .credit-build {
+    left: 0; right: 0;
+    background: rgba(30, 58, 95, 0.18);
+    border-left: 2px solid var(--blue);
+  }
+  .credit-peak {
+    left: 0; right: 0;
+    background: rgba(30, 58, 95, 0.35);
+  }
+  .credit-tail {
+    left: 0; right: 0;
+    background: rgba(30, 58, 95, 0.18);
+    border-right: 2px solid var(--blue);
+  }
+
+  /* Refi wall: 2025 (col1-4) through 2027 (col8) — sustained */
+  .refi-build {
+    left: 0; right: 0;
+    background: rgba(26, 71, 49, 0.15);
+    border-left: 2px solid var(--green);
+  }
+  .refi-peak {
+    left: 0; right: 0;
+    background: rgba(26, 71, 49, 0.30);
+  }
+  .refi-tail {
+    left: 0; right: 0;
+    background: rgba(26, 71, 49, 0.15);
+    border-right: 2px solid var(--green);
+  }
+
+  /* Stagflation / CPI lag: starts Mar 2026 (col6), peaks Q2-Q3 2026 */
+  .stag-build {
+    left: 0; right: 0;
+    background: rgba(139, 32, 32, 0.15);
+    border-left: 2px solid var(--red);
+  }
+  .stag-peak {
+    left: 0; right: 0;
+    background: rgba(139, 32, 32, 0.30);
+  }
+  .stag-tail {
+    left: 0; right: 0;
+    background: rgba(139, 32, 32, 0.15);
+  }
+
+  /* Event markers */
+  .marker {
+    position: absolute;
+    top: 0;
+    width: 1px;
+    bottom: 0;
+    background: currentColor;
+    opacity: 0.5;
+  }
+
+  .marker-dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    border: 1.5px solid currentColor;
+    background: white;
+  }
+
+  .marker-text {
+    position: absolute;
+    bottom: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 7.5px;
+    white-space: nowrap;
+    color: var(--text-faint);
+    letter-spacing: 0.04em;
+  }
+
+  /* OVERLAP ZONE */
+  .overlap-zone {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: rgba(139, 32, 32, 0.055);
+    border-left: 1px dashed rgba(139, 32, 32, 0.3);
+    border-right: 1px dashed rgba(139, 32, 32, 0.3);
+    pointer-events: none;
+  }
+
+  .overlap-label {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 8px;
+    color: var(--red);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  /* NOW LINE */
+  .now-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--red);
+    opacity: 0.7;
+  }
+
+  .now-label {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 8px;
+    color: var(--red);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    font-weight: 500;
+    background: white;
+    padding: 0 4px;
+  }
+
+  /* EVENT ANNOTATIONS */
+  .annotations {
+    margin-top: 28px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .annotation {
+    padding: 12px 14px;
+    border-top: 2px solid;
+  }
+
+  .annotation.credit { border-color: var(--blue); background: var(--blue-light); }
+  .annotation.refi { border-color: var(--green); background: var(--green-light); }
+  .annotation.stagflation { border-color: var(--red); background: var(--red-light); }
+
+  .annotation-title {
+    font-size: 8.5px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .annotation.credit .annotation-title { color: var(--blue); }
+  .annotation.refi .annotation-title { color: var(--green); }
+  .annotation.stagflation .annotation-title { color: var(--red); }
+
+  .annotation-text {
+    font-size: 9.5px;
+    color: var(--text-dim);
+    line-height: 1.55;
+  }
+
+  /* OVERLAP CALLOUT */
+  .overlap-callout {
+    margin-top: 12px;
+    padding: 14px 18px;
+    border: 1px solid rgba(139, 32, 32, 0.25);
+    border-left: 3px solid var(--red);
+    background: var(--red-light);
+  }
+
+  .overlap-callout-title {
+    font-size: 8.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .overlap-callout-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14.5px;
+    color: var(--navy);
+    line-height: 1.55;
+  }
+
+  /* FOOTER */
+  .chart-footer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #E8E4DC;
+    padding-top: 12px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .footer-credit {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--text-faint);
+    text-transform: uppercase;
+  }
+
+  .footer-date {
+    font-size: 9px;
+    color: var(--text-faint);
+    font-style: italic;
+  }
+
+  @media (max-width: 640px) {
+    body { padding: 24px 16px; }
+    .annotations { grid-template-columns: 1fr; }
+    .band-label { padding-right: 10px; }
+    .band-name { font-size: 8.5px; }
+    .chart-subtitle { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="chart-container">
+
+  <div class="chart-title">Timeline Analysis · The Simultaneity Problem</div>
+  <div class="chart-subtitle">Three Legs, One Window: Why Sequential Absorption Is Not Available</div>
+  <div class="chart-description">
+    Each dynamic has its own timeline. The independence assumption requires them to peak sequentially, each resolving before the next arrives. The data shows they peak simultaneously in Q2 2026 — the window in which all three are simultaneously active and no central bank cushion is available.
+  </div>
+
+  <div class="timeline-wrapper">
+
+    <!-- TIME AXIS -->
+    <div class="time-axis">
+      <div class="axis-label-spacer"></div>
+      <div class="axis-ticks">
+        <div class="tick">Q3 '25</div>
+        <div class="tick">Q4 '25</div>
+        <div class="tick">Q1 '26</div>
+        <div class="tick current">Q2 '26 ▶</div>
+        <div class="tick">Q3 '26</div>
+        <div class="tick">Q4 '26</div>
+        <div class="tick">Q1 '27</div>
+        <div class="tick">Q2 '27</div>
+      </div>
+    </div>
+
+    <!-- LEG 1: PRIVATE CREDIT GATING -->
+    <div class="band-row">
+      <div class="band-label">
+        <div class="band-name credit">Private Credit</div>
+        <div class="band-sublabel">Gating &amp; LP stress</div>
+      </div>
+      <div class="band-grid" style="position:relative;">
+        <!-- Col 1: Q3 25 - quiet -->
+        <div class="band-cell"></div>
+        <!-- Col 2: Q4 25 - First Brands, early stress -->
+        <div class="band-cell"><div class="fill credit-build"></div></div>
+        <!-- Col 3: Q1 26 - gating confirmed -->
+        <div class="band-cell"><div class="fill credit-peak"></div></div>
+        <!-- Col 4: Q2 26 - earnings trigger, LP stress -->
+        <div class="band-cell"><div class="fill credit-peak"></div></div>
+        <!-- Col 5: Q3 26 - actuarial cycles force recognition -->
+        <div class="band-cell"><div class="fill credit-peak"></div></div>
+        <!-- Col 6: Q4 26 - tail -->
+        <div class="band-cell"><div class="fill credit-tail"></div></div>
+        <!-- Col 7-8: residual -->
+        <div class="band-cell"></div>
+        <div class="band-cell"></div>
+      </div>
+    </div>
+
+    <!-- LEG 2: REFINANCING WALL -->
+    <div class="band-row">
+      <div class="band-label">
+        <div class="band-name refi">Refinancing Wall</div>
+        <div class="band-sublabel">$10trn maturities</div>
+      </div>
+      <div class="band-grid">
+        <!-- Col 1: Q3 25 - building -->
+        <div class="band-cell"><div class="fill refi-build"></div></div>
+        <!-- Col 2: Q4 25 -->
+        <div class="band-cell"><div class="fill refi-build"></div></div>
+        <!-- Col 3: Q1 26 - peak pressure begins -->
+        <div class="band-cell"><div class="fill refi-peak"></div></div>
+        <!-- Col 4: Q2 26 - peak -->
+        <div class="band-cell"><div class="fill refi-peak"></div></div>
+        <!-- Col 5: Q3 26 - peak -->
+        <div class="band-cell"><div class="fill refi-peak"></div></div>
+        <!-- Col 6: Q4 26 - peak -->
+        <div class="band-cell"><div class="fill refi-peak"></div></div>
+        <!-- Col 7: Q1 27 - tail -->
+        <div class="band-cell"><div class="fill refi-tail"></div></div>
+        <!-- Col 8: Q2 27 - residual -->
+        <div class="band-cell"><div class="fill refi-build"></div></div>
+      </div>
+    </div>
+
+    <!-- LEG 3: STAGFLATION / CPI LAG -->
+    <div class="band-row">
+      <div class="band-label">
+        <div class="band-name stagflation">Stagflation Trap</div>
+        <div class="band-sublabel">CPI lag transmission</div>
+      </div>
+      <div class="band-grid">
+        <!-- Col 1-2: Q3-Q4 25 - pre-shock -->
+        <div class="band-cell"></div>
+        <div class="band-cell"></div>
+        <!-- Col 3: Q1 26 - war begins Feb 28, initial shock -->
+        <div class="band-cell"><div class="fill stag-build"></div></div>
+        <!-- Col 4: Q2 26 - March CPI, April CPI, full transmission -->
+        <div class="band-cell"><div class="fill stag-peak"></div></div>
+        <!-- Col 5: Q3 26 - fertiliser lag, food prices -->
+        <div class="band-cell"><div class="fill stag-peak"></div></div>
+        <!-- Col 6: Q4 26 - second round wage effects -->
+        <div class="band-cell"><div class="fill stag-peak"></div></div>
+        <!-- Col 7-8: tail -->
+        <div class="band-cell"><div class="fill stag-tail"></div></div>
+        <div class="band-cell"></div>
+      </div>
+    </div>
+
+    <!-- OVERLAP ZONE overlay — positioned over the band-grid columns 4-5 (Q2-Q3 26) -->
+    <!-- We handle this via the annotation callout below instead of absolute positioning for reliability -->
+
+  </div>
+
+  <!-- ANNOTATIONS -->
+  <div class="annotations">
+    <div class="annotation credit">
+      <div class="annotation-title">Private Credit · Q1–Q3 2026</div>
+      <div class="annotation-text">Gating confirmed Q1: Ares, Apollo, HPS, Blue Owl, Cliffwater. Q2 earnings trigger portfolio guidance cuts. Actuarial review cycles force LP-level recognition from June onwards. Forced seller emerges one layer up from the 5% cap.</div>
+    </div>
+    <div class="annotation refi">
+      <div class="annotation-title">Refinancing Wall · 2025–2027</div>
+      <div class="annotation-text">$10trn global corporate debt maturing over 36 months. 2021–2022 vintage cohort — borrowed at 2–3%, refinancing at 5.5–8%+. Basis trade already unwinding. Peak pressure Q1 2026 through Q4 2026. No Fed cushion available to ease the arithmetic.</div>
+    </div>
+    <div class="annotation stagflation">
+      <div class="annotation-title">Stagflation Trap · Q1–Q4 2026</div>
+      <div class="annotation-text">War began 28 Feb. Energy shock transmits to March CPI (initial signal), April CPI (confirmation), Q2 earnings (first full quarter). Fertiliser lag reaches food prices Q3. Fed paralysed: cannot cut into oil shock, cannot hike into slowing growth.</div>
+    </div>
+  </div>
+
+  <!-- OVERLAP CALLOUT -->
+  <div class="overlap-callout">
+    <div class="overlap-callout-title">The Convergence Window · Q2 2026</div>
+    <div class="overlap-callout-text">All three legs are simultaneously active from Q2 2026. The independence assumption requires sequential resolution: each dynamic absorbed before the next arrives. The timeline shows this is not available. The window in which the simultaneity problem fully expresses is now open.</div>
+  </div>
+
+  <div class="chart-footer">
+    <div class="footer-credit">Copyright M Nadal & Co Strategic Advisory · April 2026 · chaosandorderinsight.substack.com</div>
+    <div class="footer-date">Collision Course: The Simultaneity Problem</div>
+  </div>
+
+</div>
+</body>
+</html>

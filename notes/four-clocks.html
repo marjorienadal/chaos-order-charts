@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hormuz: Four Clocks</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0c0f14;
+    font-family: 'Source Serif 4', Georgia, serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  .container {
+    max-width: 900px;
+    width: 100%;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .header h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(22px, 4vw, 36px);
+    font-weight: 900;
+    color: #f0ebe0;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+
+  .header h1 span {
+    color: #c9943a;
+  }
+
+  .header p {
+    color: #7a7060;
+    font-size: 13px;
+    font-style: italic;
+    letter-spacing: 0.5px;
+  }
+
+  .clocks-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: #1a1e26;
+    border: 1px solid #2a2e38;
+  }
+
+  .clock-card {
+    background: #0f1218;
+    padding: 32px 28px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+
+  .clock-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--accent);
+    opacity: 0.7;
+  }
+
+  .clock-card:hover {
+    background: #131820;
+  }
+
+  .clock-number {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    opacity: 0.8;
+  }
+
+  .clock-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(16px, 2.5vw, 22px);
+    font-weight: 700;
+    color: #f0ebe0;
+    line-height: 1.2;
+    margin-bottom: 14px;
+  }
+
+  .clock-description {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #8a8278;
+    margin-bottom: 24px;
+    font-weight: 300;
+  }
+
+  .clock-timeline {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .timeline-bar {
+    flex: 1;
+    height: 3px;
+    background: #1e2330;
+    position: relative;
+    border-radius: 2px;
+  }
+
+  .timeline-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    opacity: 0.6;
+  }
+
+  .timeline-label {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    white-space: nowrap;
+    letter-spacing: 0.3px;
+  }
+
+  .unknown-badge {
+    display: inline-block;
+    background: rgba(180, 60, 60, 0.15);
+    border: 1px solid rgba(180, 60, 60, 0.3);
+    color: #c06060;
+    font-size: 10px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 2px;
+  }
+
+  .clock-1 { --accent: #c9943a; }
+  .clock-2 { --accent: #7a9fba; }
+  .clock-3 { --accent: #8faa7a; }
+  .clock-4 { --accent: #c06060; }
+
+  .clock-4 .clock-title {
+    color: #e8d0d0;
+  }
+
+  .new-tag {
+    display: inline-block;
+    background: rgba(192, 96, 96, 0.2);
+    border: 1px solid rgba(192, 96, 96, 0.4);
+    color: #c06060;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    margin-left: 8px;
+    vertical-align: middle;
+    font-family: 'Source Serif 4', serif;
+    font-weight: 400;
+  }
+
+  .footer {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4px;
+  }
+
+  .footer-note {
+    font-size: 11px;
+    color: #3a3e48;
+    font-style: italic;
+  }
+
+  .footer-brand {
+    font-size: 10px;
+    color: #3a3e48;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .convergence-note {
+    background: #0f1218;
+    border: 1px solid #2a2e38;
+    border-left: 3px solid #c9943a;
+    padding: 18px 24px;
+    margin-top: 2px;
+    text-align: center;
+  }
+
+  .convergence-note p {
+    color: #6a6258;
+    font-size: 13px;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .convergence-note strong {
+    color: #c9943a;
+    font-style: normal;
+    font-weight: 400;
+  }
+
+  @media (max-width: 600px) {
+    .clocks-grid {
+      grid-template-columns: 1fr;
+    }
+    .clock-card {
+      padding: 24px 20px;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>Hormuz: <span>Four Clocks</span></h1>
+    <p>Physical constraints that run on their own schedule</p>
+  </div>
+
+  <div class="clocks-grid">
+
+    <div class="clock-card clock-1">
+      <div class="clock-number">Clock 01</div>
+      <div class="clock-title">Tanker Backlog</div>
+      <div class="clock-description">900+ vessels stuck in or around the Gulf. Clearing the queue requires sequential transits through a constrained corridor. This is a logistics problem, not a diplomatic one.</div>
+      <div class="clock-timeline">
+        <div class="timeline-bar"><div class="timeline-fill" style="width:75%"></div></div>
+        <div class="timeline-label">85–110 days minimum</div>
+      </div>
+    </div>
+
+    <div class="clock-card clock-2">
+      <div class="clock-number">Clock 02</div>
+      <div class="clock-title">War Risk Insurance</div>
+      <div class="clock-description">Cargo rates at 3.75% of insured value vs 0.1% pre-war. Joint War Committee has not delisted the area. Insurers move on operational reality, not ceasefire announcements.</div>
+      <div class="clock-timeline">
+        <div class="timeline-bar"><div class="timeline-fill" style="width:55%"></div></div>
+        <div class="timeline-label">6–8 weeks minimum</div>
+      </div>
+    </div>
+
+    <div class="clock-card clock-3">
+      <div class="clock-number">Clock 03</div>
+      <div class="clock-title">Rerouting Costs</div>
+      <div class="clock-description">Cape of Good Hope adds 16–32 days and ~$930k in fuel per voyage. Hapag-Lloyd: no normal network for at least six to eight weeks even if ceasefire holds.</div>
+      <div class="clock-timeline">
+        <div class="timeline-bar"><div class="timeline-fill" style="width:55%"></div></div>
+        <div class="timeline-label">6–8 weeks minimum</div>
+      </div>
+    </div>
+
+    <div class="clock-card clock-4">
+      <div class="clock-number">Clock 04</div>
+      <div class="clock-title">The Mines <span class="new-tag">New</span></div>
+      <div class="clock-description">Laid haphazardly by small boats with no central coordination. No complete mapping. Some have drifted. Neither Iran nor the US has rapid mine clearance capability. Iran's FM confirmed: "technical limitations."</div>
+      <div class="clock-timeline">
+        <span class="unknown-badge">Unknown timeline</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="convergence-note">
+    <p>The paper market trades <strong>ceasefire probability</strong>. The physical market trades four clocks that run on their own schedule.<br>They don't converge on an announcement. <strong>They converge when the clocks stop.</strong></p>
+  </div>
+
+  <div class="footer">
+    <span class="footer-note">Sources: HFI Research · NYT / US Officials · Hapag-Lloyd · Joint War Committee · LSEG Shipping Research</span>
+    <span class="footer-brand">M Nadal &amp; Co · April 2026 · chaosandorderinsight.substack.com</span>
+  </div>
+
+</div>
+</body>
+</html>

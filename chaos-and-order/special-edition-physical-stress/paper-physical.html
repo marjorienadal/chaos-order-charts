@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paper Calm, Physical Stress — Chaos & Order</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&display=swap');
+
+  :root {
+    --navy: #0A1628;
+    --gold: #C9A84C;
+    --cream: #FAFAF7;
+    --light-gold: #F0E8D0;
+    --red: #B03A2E;
+    --mid: #4A5568;
+    --border: #D4C9A8;
+    --subtle: #E8E2D0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--navy);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 40px 64px;
+    border-left: 3px solid var(--navy);
+    border-right: 3px solid var(--navy);
+    min-height: 100vh;
+  }
+
+  .brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 10px;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+
+  .brand-rule {
+    width: 100%;
+    height: 2px;
+    background: var(--navy);
+    margin-bottom: 28px;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 44px;
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--navy);
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: var(--mid);
+    font-style: italic;
+    font-weight: 300;
+    margin-bottom: 36px;
+    line-height: 1.6;
+    border-left: 3px solid var(--gold);
+    padding-left: 14px;
+  }
+
+  .dateline {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 40px;
+    opacity: 0.7;
+  }
+
+  /* ── STAT BOXES ── */
+  .spread-callout {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border: 2px solid var(--navy);
+    margin-bottom: 40px;
+  }
+
+  .spread-box {
+    padding: 20px 20px 18px;
+    border-right: 1px solid var(--navy);
+    text-align: center;
+  }
+  .spread-box:last-child { border-right: none; }
+  .spread-box.highlight { background: var(--navy); }
+
+  .spread-label {
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 8px;
+  }
+  .spread-box.highlight .spread-label { color: rgba(201,168,76,0.7); }
+
+  .spread-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .spread-value.red { color: var(--red); }
+  .spread-value.gold { color: var(--gold); }
+  .spread-value.white { color: var(--cream); }
+
+  .spread-note {
+    font-size: 9px;
+    color: var(--mid);
+    font-style: italic;
+    line-height: 1.4;
+  }
+  .spread-box.highlight .spread-note { color: rgba(250,250,247,0.5); }
+
+  /* ── SECTION HEADING ── */
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--navy);
+  }
+
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .section-subtitle {
+    font-size: 11px;
+    color: var(--mid);
+    font-style: italic;
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  /* ── CURVE CHART ── */
+  .curve-wrap {
+    border: 1px solid var(--border);
+    padding: 28px 28px 20px;
+    margin-bottom: 40px;
+    background: #FDFCF8;
+  }
+
+  .legend {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 10px;
+    color: var(--mid);
+    letter-spacing: 0.3px;
+  }
+
+  .legend-swatch {
+    width: 24px;
+    height: 3px;
+    flex-shrink: 0;
+  }
+
+  .curve-bars { display: flex; flex-direction: column; gap: 0; }
+
+  .curve-section-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--mid);
+    opacity: 0.6;
+    padding: 10px 0 6px;
+  }
+
+  .curve-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 3px 0;
+  }
+
+  .curve-label {
+    width: 68px;
+    font-size: 11px;
+    color: var(--mid);
+    text-align: right;
+    flex-shrink: 0;
+    font-style: italic;
+  }
+
+  .curve-bar-track {
+    flex: 1;
+    height: 20px;
+    background: var(--subtle);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .curve-bar-fill {
+    height: 100%;
+  }
+
+  .curve-bar-fill.physical { background: var(--red); }
+  .curve-bar-fill.physical-faded { background: rgba(176,58,46,0.3); }
+  .curve-bar-fill.futures-hi { background: var(--navy); }
+  .curve-bar-fill.futures-mid { background: rgba(10,22,40,0.65); }
+  .curve-bar-fill.futures-lo { background: rgba(10,22,40,0.4); }
+
+  .curve-value {
+    width: 52px;
+    font-size: 12px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .curve-value.physical { color: var(--red); }
+  .curve-value.futures { color: var(--navy); }
+  .curve-value.faded { color: rgba(10,22,40,0.35); }
+
+  .curve-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 8px 0 4px;
+  }
+
+  .annotation {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 6px 0 2px;
+    padding-left: 80px;
+  }
+
+  .annotation-line {
+    flex: 1;
+    height: 1px;
+    border-top: 1px dashed var(--gold);
+  }
+
+  .annotation-text {
+    font-size: 9px;
+    color: var(--gold);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* ── FOOTER ── */
+  .chart-footer {
+    font-size: 9.5px;
+    color: rgba(74,85,104,0.65);
+    margin-top: 16px;
+    font-style: italic;
+    line-height: 1.7;
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+  }
+
+  .copyright {
+    margin-top: 40px;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--mid);
+    opacity: 0.5;
+    text-align: center;
+    padding-top: 20px;
+    border-top: 2px solid var(--navy);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="brand">Chaos &amp; Order · M Nadal &amp; Co Strategic Advisory</div>
+  <div class="brand-rule"></div>
+
+  <h1>Paper Calm,<br>Physical Stress</h1>
+  <p class="subtitle">The gap between what the futures market is pricing and what the physical market is experiencing is now $35 per barrel — and widening. Only one of them is the price you can actually pay.</p>
+  <div class="dateline">13 April 2026 · Special Edition · Hormuz Crisis Day 45</div>
+
+  <!-- STAT BOXES -->
+  <div class="spread-callout">
+    <div class="spread-box">
+      <div class="spread-label">Dated Brent Peak</div>
+      <div class="spread-value red">$144.42</div>
+      <div class="spread-note">7 Apr 2026<br>Record high since Platts began<br>publishing in 1987 · Bloomberg</div>
+    </div>
+    <div class="spread-box highlight">
+      <div class="spread-label">Physical vs Paper Gap</div>
+      <div class="spread-value white">$35.46</div>
+      <div class="spread-note">10 Apr: $131.97 physical<br>vs $96.51 ICE futures<br>Pre-war gap: under $1</div>
+    </div>
+    <div class="spread-box">
+      <div class="spread-label">ICE Brent Jun '26 Today</div>
+      <div class="spread-value gold">$102.10</div>
+      <div class="spread-note">13 Apr · +6.9% on blockade news<br>The paper market is beginning<br>to move toward physical reality</div>
+    </div>
+  </div>
+
+  <!-- CURVE SECTION -->
+  <div class="section-head">
+    <div class="section-title">The Backwardation Story</div>
+    <div class="section-rule"></div>
+  </div>
+  <p class="section-subtitle">ICE Brent futures curve (13 April 2026) versus verified physical price anchors. The market prices full resolution by early 2027. The physical world is not there yet.</p>
+
+  <div class="curve-wrap">
+
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:var(--red);"></div>
+        Physical · Dated Brent (Platts/Bloomberg)
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:var(--navy);"></div>
+        Paper · ICE Brent Futures (OilPrice.com, 13 Apr)
+      </div>
+    </div>
+
+    <div class="curve-bars">
+
+      <div class="curve-section-label">Physical Market</div>
+
+      <div class="curve-row">
+        <div class="curve-label">7 Apr peak</div>
+        <div class="curve-bar-track">
+          <div class="curve-bar-fill physical" style="width:96%;"></div>
+        </div>
+        <div class="curve-value physical">$144.42</div>
+      </div>
+
+      <div class="curve-row">
+        <div class="curve-label">10 Apr</div>
+        <div class="curve-bar-track">
+          <div class="curve-bar-fill physical" style="width:88%;"></div>
+        </div>
+        <div class="curve-value physical">$131.97</div>
+      </div>
+
+      <div class="curve-row">
+        <div class="curve-label">Pre-war</div>
+        <div class="curve-bar-track">
+          <div class="curve-bar-fill physical-faded" style="width:41%;"></div>
+        </div>
+        <div class="curve-value faded">~$62</div>
+      </div>
+
+      <hr class="curve-divider">
+
+      <div class="curve-section-label">Futures Curve — Pricing Resolution Timeline</div>
+
+      <div class="curve-row">
+        <div class="curve-label">Jun '26</div>
+        <div class="curve-bar-track">
+          <div class="curve-bar-fill futures-hi" style="width:68%;"></div>
+        </div>
+        <div class="curve-value futures">$102.10</div>
+      </div>
+
+      <div class="curve-row">
+        <div class="curve-label">Jul '26</div>
+        <div class="curve-bar-track">
+          <div class="curve-bar-fill futures-hi" style="width:64%;"></div>
+        </div>
+        <div class="curve-value futures">$95.40</div>
+      </div>
+
+      <div class="curve-row">
+        <div class="curve-label">Sep '26</div>
+        <div class="curve-bar-track">
+          <div class="curve-bar-fill futures-mid" style="width:58%;"></div>
+        </div>
+        <div class="curve-value futures">$87.58</div>
+      </div>
+
+      <div class="curve-row">
+        <div class="curve-label">Dec '26</div>
+        <div class="curve-bar-track">
+          <div class="curve-bar-fill futures-mid" style="width:55%;"></div>
+        </div>
+        <div class="curve-value futures">$82.71</div>
+      </div>
+
+      <div class="curve-row">
+        <div class="curve-label">Mar '27</div>
+        <div class="curve-bar-track">
+          <div class="curve-bar-fill futures-lo" style="width:53%;"></div>
+        </div>
+        <div class="curve-value futures">$79.97</div>
+      </div>
+
+      <div class="annotation">
+        <div class="annotation-line"></div>
+        <div class="annotation-text">Curve implies near-full resolution by Q1 2027</div>
+      </div>
+
+    </div>
+
+    <div class="chart-footer">
+      Physical prices: Platts Dated Brent assessment via Bloomberg (7 Apr, record high $144.42 since 1987) and CNBC (10 Apr, $131.97). Futures curve: ICE Brent contracts via OilPrice.com, 13 April 2026. Pre-war Brent approximately $62/bbl (January 2026). The spread between dated Brent and ICE front-month futures was under $1 before 28 February 2026. Today's blockade announcement has begun moving futures toward physical reality — but the four physical clocks (tanker backlog, war risk insurance, rerouting costs, mines) run on their own schedule, independent of any diplomatic or market announcement.
+    </div>
+  </div>
+
+  <div class="copyright">Copyright M Nadal &amp; Co Strategic Advisory · April 2026 · chaosandorderinsight.substack.com</div>
+
+</div>
+</body>
+</html>

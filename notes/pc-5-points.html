@@ -1,1 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Private Credit — Five Data Points</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap');
 
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #f5f2ed;
+    color: #1a1a1a;
+    font-family: 'IBM Plex Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 680px;
+    background: #ffffff;
+    border: 1px solid #e0dbd3;
+    padding: 52px 52px 40px 52px;
+  }
+
+  .header {
+    border-bottom: 2px solid #1a1a1a;
+    padding-bottom: 28px;
+    margin-bottom: 0px;
+  }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #b8860b;
+    margin-bottom: 14px;
+  }
+
+  .title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 12px;
+    color: #999;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+  }
+
+  .row {
+    padding: 28px 0;
+    border-bottom: 1px solid #ede9e3;
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 0 18px;
+  }
+
+  .row:last-of-type {
+    border-bottom: none;
+  }
+
+  .num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: #b8860b;
+    font-weight: 500;
+    padding-top: 3px;
+    letter-spacing: 0.05em;
+  }
+
+  .content {}
+
+  .point {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    color: #333;
+    line-height: 1.7;
+    font-weight: 300;
+    margin-bottom: 10px;
+  }
+
+  .point strong {
+    color: #1a1a1a;
+    font-weight: 500;
+  }
+
+  .figure {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: #b8860b;
+    font-weight: 500;
+  }
+
+  .meta-line {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: #aaa;
+    letter-spacing: 0.08em;
+  }
+
+  .source {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 11px;
+    color: #aaa;
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  .row.highlight {
+    background: #fdfaf4;
+    margin: 0 -52px;
+    padding: 28px 52px;
+    border-left: 3px solid #b8860b;
+    border-bottom: none;
+  }
+
+  .row.highlight .point {
+    color: #1a1a1a;
+  }
+
+  .footer {
+    margin-top: 32px;
+    padding-top: 18px;
+    border-top: 1px solid #e0dbd3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .brand {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: #bbb;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .brand span {
+    color: #b8860b;
+  }
+
+  .status {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: #bbb;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <div class="eyebrow">Private Credit — Stress Sequence</div>
+    <div class="title">Five Data Points.<br>Not Yet in the Same Conversation.</div>
+    <div class="subtitle">Q1 2026 earnings season · 14 April 2026</div>
+  </div>
+
+  <div class="row">
+    <div class="num">01</div>
+    <div class="content">
+      <div class="point"><strong>Jamie Dimon</strong> warned that losses on leveraged lending will be higher than expected. PIK loans, weak covenants, and aggressive assumptions cited explicitly.</div>
+      <div class="meta-line">
+        <span class="date">6 APR 2026</span>
+        <span class="source">Annual shareholder letter</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="num">02</div>
+    <div class="content">
+      <div class="point"><strong>CDX Financials Index</strong> launched — credit default swaps written directly on BDCs for the first time. <strong>Blue Owl excluded at inception</strong>: already trading too wide to include without skewing the entire index.</div>
+      <div class="meta-line">
+        <span class="date">10 APR 2026</span>
+        <span class="source">S&P Dow Jones / Reuters</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="num">03</div>
+    <div class="content">
+      <div class="point">Bad PIK at <span class="figure">6.4%</span> of direct lending borrowers, up from <span class="figure">2.5%</span> at end-2021. <span class="figure">$330bn</span> maturity wall, with <span class="figure">$130bn</span> maturing in 2028 alone.</div>
+      <div class="meta-line">
+        <span class="date">Q1 2026</span>
+        <span class="source">Private Debt News / industry data</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="num">04</div>
+    <div class="content">
+      <div class="point">A major Wall Street bank reported <span class="figure">$315mn</span> Q1 credit loss provisions against a leveraged lending book running into the hundreds of billions.</div>
+      <div class="meta-line">
+        <span class="date">13 APR 2026</span>
+        <span class="source">Q1 earnings release</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row highlight">
+    <div class="num">05</div>
+    <div class="content">
+      <div class="point"><strong>Wells Fargo</strong> disclosed <span class="figure">$36.2bn</span> in Corporate Debt Finance exposure — secured lending against private credit loan portfolios. <span class="figure">23%</span> is to BDCs as equity counterparty. Weighted average effective advance rate: <span class="figure">60.1%</span>. Total Q1 provision for credit losses: <span class="figure">$1.135bn</span> across the entire loan book. The private credit breakdown is not separately disclosed.</div>
+      <div class="meta-line">
+        <span class="date">14 APR 2026</span>
+        <span class="source">Wells Fargo 8-K, SEC filing</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="brand">© M Nadal & Co Strategic Advisory · <span>chaosandorderinsight.substack.com</span></div>
+    <div class="status">Q1 Earnings Season — In Progress</div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EU Gas Storage — April Levels 2024–2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #F7F4EF;
+    font-family: 'Source Serif 4', Georgia, serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+
+  .card {
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 24px rgba(0,0,0,0.06);
+    max-width: 680px;
+    width: 100%;
+    padding: 48px 52px 36px;
+  }
+
+  .label-top {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #9A7B2E;
+    margin-bottom: 6px;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #0A1628;
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+
+  .decline-arrow {
+    display: inline-block;
+    margin-left: 6px;
+    color: #9A7B2E;
+    font-size: 20px;
+  }
+
+  .subtitle {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 13px;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(10, 22, 40, 0.5);
+    margin-bottom: 44px;
+  }
+
+  .chart-area {
+    position: relative;
+    height: 320px;
+    margin-bottom: 32px;
+  }
+
+  /* Y axis labels */
+  .y-labels {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 36px;
+    height: calc(100% - 40px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .y-label {
+    font-size: 10px;
+    font-weight: 300;
+    color: rgba(10, 22, 40, 0.35);
+    font-family: 'Source Serif 4', Georgia, serif;
+    text-align: right;
+    line-height: 1;
+  }
+
+  /* Grid + bars area */
+  .plot-area {
+    position: absolute;
+    top: 0;
+    left: 44px;
+    right: 0;
+    bottom: 40px;
+  }
+
+  .grid-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(10, 22, 40, 0.07);
+  }
+
+  /* Bars */
+  .bars {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 48px;
+    padding: 0 24px;
+  }
+
+  .bar-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+    flex: 1;
+    max-width: 100px;
+  }
+
+  .bar-pct {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .bar-rect {
+    width: 100%;
+    max-width: 80px;
+    position: relative;
+    transition: filter 0.2s;
+    cursor: default;
+  }
+
+  .bar-rect:hover {
+    filter: brightness(0.92);
+  }
+
+  .col-2024 .bar-pct { color: #0A1628; }
+  .col-2025 .bar-pct { color: #4A5568; }
+  .col-2026 .bar-pct { color: #9A7B2E; }
+
+  .col-2024 .bar-rect { background: #0A1628; }
+  .col-2025 .bar-rect { background: #6B7A8D; }
+  .col-2026 .bar-rect { background: #C9A84C; }
+
+  /* X axis */
+  .x-axis {
+    position: absolute;
+    bottom: 0;
+    left: 44px;
+    right: 0;
+    height: 40px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 48px;
+    padding: 0 24px;
+  }
+
+  .x-label {
+    flex: 1;
+    max-width: 100px;
+    text-align: center;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: rgba(10, 22, 40, 0.5);
+    padding-top: 10px;
+    border-top: 1px solid rgba(10, 22, 40, 0.12);
+  }
+
+  .x-label.current {
+    color: #0A1628;
+  }
+
+  .annotation {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    padding: 16px 20px;
+    border-left: 3px solid #C9A84C;
+    background: #FBF8F2;
+    margin-bottom: 4px;
+  }
+
+  .annotation-text {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 12.5px;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(10, 22, 40, 0.65);
+    line-height: 1.65;
+  }
+
+  .annotation-text strong {
+    font-weight: 400;
+    font-style: normal;
+    color: #9A7B2E;
+  }
+
+  .divider {
+    height: 1px;
+    background: rgba(10, 22, 40, 0.08);
+    margin: 28px 0 18px;
+  }
+
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .footer-left {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 10px;
+    font-weight: 300;
+    color: rgba(10, 22, 40, 0.35);
+    letter-spacing: 0.06em;
+  }
+
+  .footer-right {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 10px;
+    font-weight: 300;
+    color: #9A7B2E;
+    letter-spacing: 0.04em;
+    text-align: right;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <div class="label-top">EU Natural Gas Storage</div>
+  <h1>Three Consecutive Aprils<span class="decline-arrow">↓</span></h1>
+  <div class="subtitle">Storage level at start of refill season, % of capacity</div>
+
+  <div class="chart-area">
+
+    <!-- Y axis labels -->
+    <div class="y-labels">
+      <div class="y-label">80%</div>
+      <div class="y-label">60%</div>
+      <div class="y-label">40%</div>
+      <div class="y-label">20%</div>
+      <div class="y-label">0%</div>
+    </div>
+
+    <!-- Plot area with grid lines -->
+    <div class="plot-area">
+      <!-- Grid lines at 80, 60, 40, 20, 0 -->
+      <div class="grid-line" style="bottom: 100%;"></div>
+      <div class="grid-line" style="bottom: 75%;"></div>
+      <div class="grid-line" style="bottom: 50%;"></div>
+      <div class="grid-line" style="bottom: 25%;"></div>
+      <div class="grid-line" style="bottom: 0%;"></div>
+
+      <!-- Bars -->
+      <div class="bars">
+
+        <!-- 2024: 59% of 80% scale = 73.75% height -->
+        <div class="bar-col col-2024">
+          <div class="bar-pct">59%</div>
+          <div class="bar-rect" style="height: 73.75%;"></div>
+        </div>
+
+        <!-- 2025: 34% of 80% scale = 42.5% height -->
+        <div class="bar-col col-2025">
+          <div class="bar-pct">34%</div>
+          <div class="bar-rect" style="height: 42.5%;"></div>
+        </div>
+
+        <!-- 2026: 28.9% of 80% scale = 36.1% height -->
+        <div class="bar-col col-2026">
+          <div class="bar-pct">28.9%</div>
+          <div class="bar-rect" style="height: 36.1%;"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- X axis labels -->
+    <div class="x-axis">
+      <div class="x-label">2024</div>
+      <div class="x-label">2025</div>
+      <div class="x-label current">2026</div>
+    </div>
+
+  </div>
+
+  <div class="annotation">
+    <div class="annotation-text">
+      Europe enters the 2026 refill season at <strong>28.9%</strong> — the lowest April level on record for the third consecutive year. To reach the EU's 90% regulatory target by November, approximately <strong>61 percentage points</strong> of injection capacity are required, against a backdrop of disrupted Qatari LNG supply and accelerating Russian gas phase-out.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="footer">
+    <div class="footer-left">Source: GIE AGSI+ · April 2026</div>
+    <div class="footer-right">© M Nadal &amp; Co Strategic Advisory · April 2026 · chaosandorderinsight.substack.com</div>
+  </div>
+
+</div>
+
+</body>
+</html>

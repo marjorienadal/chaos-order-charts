@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M Nadal &amp; Co — Sequencing Journal</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f7f6f3;color:#1a1a18;font-size:14px;line-height:1.5}
+.page{max-width:1060px;margin:0 auto;padding:1.5rem 1.25rem 4rem}
+header{margin-bottom:1.5rem;padding-bottom:1.25rem;border-bottom:1.5px solid #d8d5ce}
+h1{font-size:18px;font-weight:600;color:#1a1a18;letter-spacing:-0.01em}
+.subtitle{font-size:12px;color:#999;margin-top:3px}
+
+.exec{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
+.ec{background:#fff;border:1px solid #e5e2db;border-radius:8px;padding:12px 14px}
+.ec-label{font-size:10px;color:#999;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px}
+.ec-value{font-size:22px;font-weight:600;color:#1a1a18;line-height:1}
+.ec-sub{font-size:10px;color:#aaa;margin-top:2px}
+.ec-bar-wrap{margin-top:7px;background:#f0ede8;border-radius:3px;height:3px}
+.ec-bar{height:3px;border-radius:3px}
+
+.section-label{font-size:10px;font-weight:600;color:#aaa;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px}
+
+/* SCATTER */
+.scatter-wrap{background:#fff;border:1px solid #e5e2db;border-radius:8px;padding:16px;margin-bottom:1.5rem;position:relative}
+.scatter-inner{position:relative;width:100%;height:280px}
+.scatter-canvas{position:absolute;inset:0}
+.scatter-tooltip{display:none;position:absolute;background:#1a1a18;color:#fff;font-size:11px;padding:8px 10px;border-radius:6px;pointer-events:none;z-index:20;max-width:260px;line-height:1.4}
+.scatter-anno{position:absolute;font-size:9px;color:#aaa;pointer-events:none}
+.scatter-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;padding-top:10px;border-top:1px solid #f0ede8}
+.sl-item{display:flex;align-items:center;gap:5px;font-size:10px;color:#888;cursor:pointer}
+.sl-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.y-label{position:absolute;left:-8px;top:50%;transform:translateY(-50%) rotate(-90deg);font-size:9px;color:#bbb;white-space:nowrap;transform-origin:center}
+.x-label{position:absolute;bottom:-18px;font-size:9px;color:#bbb;transform:translateX(-50%)}
+.y-tick{position:absolute;right:calc(100% + 4px);font-size:9px;color:#ccc;transform:translateY(50%)}
+.grid-line{position:absolute;left:0;right:0;border-top:1px dashed #f0ede8;pointer-events:none}
+.today-line{position:absolute;top:0;bottom:0;width:1px;background:rgba(232,75,75,0.4);pointer-events:none}
+.today-lbl{position:absolute;top:-16px;font-size:9px;color:#e84b4b;transform:translateX(-50%);white-space:nowrap}
+.epic-band{position:absolute;top:0;bottom:0;background:rgba(186,117,23,0.05);border-left:1px dashed rgba(186,117,23,0.3);border-right:1px dashed rgba(186,117,23,0.3);pointer-events:none}
+.epic-lbl-s{position:absolute;bottom:4px;font-size:8px;color:#ba7517;white-space:nowrap;padding:0 3px}
+
+/* CONTROLS */
+.controls-box{background:#fff;border:1px solid #e5e2db;border-radius:8px;padding:12px 14px;margin-bottom:1.25rem}
+.ctrl-row{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:7px}
+.ctrl-row:last-child{margin-bottom:0}
+.search{padding:5px 10px;border:1px solid #d0cdc6;border-radius:6px;background:#fafaf8;color:#1a1a18;font-size:12px;width:210px;outline:none}
+.search:focus{border-color:#888}
+.fb{padding:4px 10px;border:1px solid #d0cdc6;border-radius:14px;background:#fafaf8;color:#777;cursor:pointer;font-size:11px;white-space:nowrap;transition:all 0.1s}
+.fb:hover{background:#f0ede8}
+.fb.on{background:#1a1a18;color:#fff;border-color:#1a1a18}
+.ctl{font-size:11px;padding:4px 7px;border:1px solid #d0cdc6;border-radius:6px;background:#fafaf8;color:#1a1a18;cursor:pointer}
+.clabel{font-size:11px;color:#999;margin-right:1px}
+.ml{margin-left:auto}
+.reset-btn{padding:4px 9px;border:1px solid #d0cdc6;border-radius:6px;background:#fafaf8;color:#999;cursor:pointer;font-size:11px}
+.reset-btn:hover{color:#333}
+
+.legend-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:1rem}
+.leg-item{display:flex;align-items:center;gap:4px;font-size:10px;color:#888}
+.leg-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.rcount{font-size:11px;color:#aaa;margin-bottom:6px}
+
+.col-hdr{display:grid;grid-template-columns:250px 1fr 65px 48px;gap:8px;padding:0 10px 7px;font-size:10px;color:#aaa;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;border-bottom:1px solid #e8e5e0;margin-bottom:4px}
+.grid{display:flex;flex-direction:column;gap:3px}
+.row{display:grid;grid-template-columns:250px 1fr 65px 48px;gap:8px;align-items:center;padding:8px 10px;border-radius:7px;cursor:pointer;border:1px solid transparent;transition:background 0.1s}
+.row:hover{background:#fff;border-color:#e8e5e0}
+.row.exp{background:#fff;border-color:#d0cdc6}
+.row-title{font-size:12px;font-weight:500;color:#1a1a18;line-height:1.35;display:flex;align-items:flex-start;gap:5px;flex-wrap:wrap}
+.row-meta{font-size:10px;color:#aaa;margin-top:1px}
+.cat-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.bar-wrap{height:5px;background:#eeece8;border-radius:3px}
+.bar-fill{height:100%;border-radius:3px}
+.bar-lbl{font-size:10px;color:#aaa;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.days-badge{font-size:11px;font-weight:600;text-align:right;white-space:nowrap}
+.cnt-badge{font-size:11px;color:#aaa;text-align:center}
+.detail{background:#fafaf8;border:1px solid #eeece8;border-radius:7px;padding:10px 12px;margin:0 0 3px;display:none}
+.detail.open{display:block}
+.ci{padding:7px 0;border-bottom:1px solid #f0ede8}
+.ci:last-child{border-bottom:none;padding-bottom:0}
+.ce{font-size:12px;color:#2a2a28;line-height:1.4}
+.cm{font-size:10px;color:#aaa;margin-top:3px;display:flex;gap:12px;flex-wrap:wrap}
+.b-trade{font-size:9px;padding:1px 5px;border-radius:6px;background:#eaf3de;color:#3b6d11;margin-left:3px;font-weight:500}
+.b-same{font-size:9px;padding:1px 5px;border-radius:6px;background:#e6f1fb;color:#185fa5;margin-left:3px;font-weight:500}
+.b-note{font-size:9px;padding:1px 5px;border-radius:6px;background:#f1efe8;color:#787770;margin-left:3px;font-weight:500}
+.link-out{font-size:10px;color:#aaa;margin-left:3px;text-decoration:none}
+.link-out:hover{color:#2b7dd4}
+.empty{text-align:center;padding:3rem;color:#aaa;font-size:13px}
+.dot-highlight{outline:2px solid #1a1a18;outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <h1>M Nadal &amp; Co Strategic Advisory — Sequencing Journal</h1>
+  <div class="subtitle">Published theses · named external corroboration · documented lead times &nbsp;·&nbsp; chaosandorderinsight.substack.com &nbsp;·&nbsp; 15 April 2026</div>
+</header>
+
+<div class="exec" id="exec"></div>
+
+<div class="scatter-wrap">
+  <div class="section-label" style="margin-bottom:12px">How far ahead · publication date vs days to corroboration · hover any dot</div>
+  <div class="scatter-inner" id="scatter">
+    <div class="scatter-tooltip" id="stip"></div>
+  </div>
+  <div class="scatter-legend" id="slegend"></div>
+</div>
+
+<div class="controls-box">
+  <div class="ctrl-row">
+    <input class="search" type="text" placeholder="Search publications or corroborations…" id="srch" oninput="render()">
+    <span class="clabel">Category</span>
+    <button class="fb on" onclick="setF('all',this)">All</button>
+    <button class="fb" onclick="setF('Hormuz',this)">Hormuz</button>
+    <button class="fb" onclick="setF('AI Capex',this)">AI capex</button>
+    <button class="fb" onclick="setF('Private Credit',this)">Private credit</button>
+    <button class="fb" onclick="setF('Food/Fertiliser',this)">Food</button>
+    <button class="fb" onclick="setF('Stagflation',this)">Stagflation</button>
+    <button class="fb" onclick="setF('Gold',this)">Gold</button>
+    <button class="fb" onclick="setF('Trading',this)">Trading</button>
+  </div>
+  <div class="ctrl-row">
+    <span class="clabel">Status</span>
+    <select class="ctl" id="sfilt" onchange="render()">
+      <option value="all">All</option>
+      <option value="VALIDATED">Validated</option>
+      <option value="TRADING">Trading validated</option>
+      <option value="SAME DAY">Same day</option>
+    </select>
+    <span class="clabel" style="margin-left:8px">Min lead</span>
+    <select class="ctl" id="mfilt" onchange="render()">
+      <option value="0">Any</option>
+      <option value="30">30+ days</option>
+      <option value="90">90+ days</option>
+      <option value="180">180+ days</option>
+      <option value="300">300+ days</option>
+    </select>
+    <span class="clabel" style="margin-left:8px">Type</span>
+    <select class="ctl" id="tfilt" onchange="render()">
+      <option value="all">All</option>
+      <option value="post">Posts only</option>
+      <option value="note">Notes only</option>
+    </select>
+    <div class="ml" style="display:flex;gap:7px;align-items:center">
+      <span class="clabel">Sort</span>
+      <select class="ctl" id="sort" onchange="render()">
+        <option value="date">Date</option>
+        <option value="days">Lead time</option>
+        <option value="corr">Events</option>
+      </select>
+      <button class="reset-btn" onclick="reset()">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="legend-row" id="legend"></div>
+<div class="rcount" id="rcount"></div>
+<div class="col-hdr">
+  <div>Publication</div><div>Lead to corroboration</div>
+  <div style="text-align:right">Lead</div><div style="text-align:center">Events</div>
+</div>
+<div class="grid" id="grid"></div>
+</div>
+
+<script>
+const DATA=[{"title": "Edition 1 — AI Concentration / 2008 Systemic Risk", "short": "Ed.1 — AI Concentration / 2008 Systemic Risk", "pub_date": "2025-02-13", "best_days": 420, "corr_count": 1, "category": "AI Capex", "best_corr": "OpenAI halted Stargate UK — capex vs revenue gap operationally confirmed", "best_corr_date": "2026-04-09", "is_note": false, "all_corr": [{"event": "OpenAI halted Stargate UK — capex vs revenue gap operationally confirmed", "date": "2026-04-09", "source": "Multiple news sources", "days": "420", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/chaos-and-order-1-the-hidden-pattern?r=5f5r70"}, {"title": "Edition 2 — AI Energy Infrastructure / Triple Dependency", "short": "Ed.2 — AI Energy Infrastructure / Triple Dependency", "pub_date": "2025-02-28", "best_days": 378, "corr_count": 2, "category": "AI Capex", "best_corr": "Hormuz closure at $90+ oil = direct tax on AI data centre margins. Energy Aspects Amrita Sen confirms AI/energy nexus op", "best_corr_date": "2026-03-13", "is_note": false, "all_corr": [{"event": "Hormuz closure at $90+ oil = direct tax on AI data centre margins. Energy Aspects Amrita Sen confirms AI/energy nexus operational.", "date": "2026-03-13", "source": "Energy Aspects / Multiple sources", "days": "378", "status": "VALIDATED"}, {"event": "AI electricity politics: US household bills up substantially since 2021. Senate investigation into data centre power consumption.", "date": "2026-03-01", "source": "US Senate / Energy reports", "days": "365", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/chaos-and-order-2-beyond-code-the?r=5f5r70"}, {"title": "Water Wars Thesis Edition 3", "short": "Water Wars Thesis Ed.3", "pub_date": "2025-03-13", "best_days": 389, "corr_count": 1, "category": "Water Wars", "best_corr": "Kuwait desalination struck 90% drinking water. Qatar desalination struck 99%", "best_corr_date": "2026-04-05", "is_note": false, "all_corr": [{"event": "Kuwait desalination struck 90% drinking water. Qatar desalination struck 99%", "date": "2026-04-05", "source": "Multiple sources", "days": "389", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/chaos-and-order-3-water-wars?r=5f5r70"}, {"title": "Edition 4 — Shut the Tap: Strategic Hoarding", "short": "Ed.4 — Shut the Tap: Strategic Hoarding", "pub_date": "2025-03-26", "best_days": 384, "corr_count": 2, "category": "Food/Fertiliser", "best_corr": "China March 2026 trade data: imports +27.8% vs ~11% consensus. Strategic stockpiling confirmed at scale.", "best_corr_date": "2026-04-14", "is_note": false, "all_corr": [{"event": "China March 2026 trade data: imports +27.8% vs ~11% consensus. Strategic stockpiling confirmed at scale.", "date": "2026-04-14", "source": "Bloomberg / CNBC", "days": "384", "status": "VALIDATED"}, {"event": "China sulfuric acid export ban from May 2026 — phosphate and acid supply chain weaponised exactly as hoarding thesis described", "date": "2026-04-11", "source": "Bloomberg / Argus / China MOFCOM", "days": "381", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/chaos-and-order-4-shut-the-tap-strategic?r=5f5r70"}, {"title": "Edition 5 — Market Whiplash / VIX Trade", "short": "Ed.5 — Market Whiplash / VIX Trade", "pub_date": "2025-04-10", "best_days": 0, "corr_count": 1, "category": "Trading", "best_corr": "VIX above 60 on tariff shock — sold VIX at peak, winning trade. Exact mechanics described in edition executed profitably", "best_corr_date": "2025-04-09", "is_note": false, "all_corr": [{"event": "VIX above 60 on tariff shock — sold VIX at peak, winning trade. Exact mechanics described in edition executed profitably.", "date": "2025-04-09", "source": "IG trading account", "days": "0", "status": "VALIDATED — TRADING"}], "url": "https://chaosandorderinsight.substack.com/p/chaos-and-order?r=5f5r70"}, {"title": "Debt Mutual Destruction Edition 6", "short": "Debt Mutual Destruction Ed.6", "pub_date": "2025-04-24", "best_days": 174, "corr_count": 1, "category": "Gold", "best_corr": "Gold $2350 → $4208 +79% over holding period", "best_corr_date": "2025-10-15", "is_note": false, "all_corr": [{"event": "Gold $2350 → $4208 +79% over holding period", "date": "2025-10-15", "source": "Market price data", "days": "174", "status": "VALIDATED — TRADING"}], "url": "https://chaosandorderinsight.substack.com/p/chaos-and-order-6-the-debt-mutual?r=5f5r70"}, {"title": "Edition 7 — The Art of Bluffing / Treasury Fragility", "short": "Ed.7 — The Art of Bluffing / Treasury Fragility", "pub_date": "2025-05-01", "best_days": 348, "corr_count": 2, "category": "Stagflation", "best_corr": "UK largest-ever gilt issuance at highest yield in nearly 20 years — gilt canary thesis confirmed at scale.", "best_corr_date": "2026-04-14", "is_note": false, "all_corr": [{"event": "UK largest-ever gilt issuance at highest yield in nearly 20 years — gilt canary thesis confirmed at scale.", "date": "2026-04-14", "source": "UK Debt Management Office", "days": "348", "status": "VALIDATED"}, {"event": "7-year Treasury auction bid-to-cover 2.36 — lowest in 12 months. Called in brief as structural not cyclical deterioration.", "date": "2025-04-25", "source": "US Treasury auction data", "days": "6", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/chaos-and-order-7-the-art-of-bluffing?r=5f5r70"}, {"title": "Platinum Edition 9", "short": "Platinum Ed.9", "pub_date": "2025-05-22", "best_days": 11, "corr_count": 1, "category": "Commodities", "best_corr": "Platinum surged from $1030 to $1100+ within days of publication", "best_corr_date": "2025-06-02", "is_note": false, "all_corr": [{"event": "Platinum surged from $1030 to $1100+ within days of publication", "date": "2025-06-02", "source": "Market price data", "days": "11", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/platinum-the-quiet-metal-with-loud?r=5f5r70"}, {"title": "Edition 10 — Europe: From Reports to Reality", "short": "Ed.10 — Europe: From Reports to Reality", "pub_date": "2025-05-29", "best_days": 319, "corr_count": 2, "category": "Energy", "best_corr": "EU gas storage 29.55% April 2026 — three consecutive years of deterioration. Draghi €500bn investment gap operationally ", "best_corr_date": "2026-04-13", "is_note": false, "all_corr": [{"event": "EU gas storage 29.55% April 2026 — three consecutive years of deterioration. Draghi €500bn investment gap operationally confirmed.", "date": "2026-04-13", "source": "GIE AGSI+ / European Commission", "days": "319", "status": "VALIDATED"}, {"event": "BASF suspended production lines. ENI CEO calls for Russian gas ban suspension. European industrial relocation thesis confirmed.", "date": "2026-04-09", "source": "ENI / Multiple sources", "days": "315", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/europes-moment-of-truth-from-reports?r=5f5r70"}, {"title": "Edition 11 — Robotics Revolution / Copper Infrastructure", "short": "Ed.11 — Robotics Revolution / Copper Infrastructure", "pub_date": "2025-06-12", "best_days": 298, "corr_count": 1, "category": "Commodities", "best_corr": "Copper structural deficit confirmed: ICSG 150k MT deficit 2026, JPMorgan 330k MT. Grasberg force majeure, Anglo American", "best_corr_date": "2026-04-06", "is_note": false, "all_corr": [{"event": "Copper structural deficit confirmed: ICSG 150k MT deficit 2026, JPMorgan 330k MT. Grasberg force majeure, Anglo American Chile downgrade. EU copper refining capacity -15% since 2019 confirmed.", "date": "2026-04-06", "source": "ICSG / JPMorgan / Filed Intelligence", "days": "298", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/the-robotics-revolution-europes-productivity?r=5f5r70"}, {"title": "SAB-01 AI Infrastructure Commodity Risk", "short": "SAB-01 AI Infrastructure Commodity Risk", "pub_date": "2025-06-25", "best_days": 281, "corr_count": 1, "category": "AI Capex", "best_corr": "AI semiconductor supply chain/Hormuz: Silicon wafer production requires helium (Qatar Ras Laffan one third global supply", "best_corr_date": "2026-04-02", "is_note": false, "all_corr": [{"event": "AI semiconductor supply chain/Hormuz: Silicon wafer production requires helium (Qatar Ras Laffan one third global supply), bromine (Dead Sea), sulfur (50% seaborne via Hormuz). All three disrupted simultaneously.", "date": "2026-04-02", "source": "Foreign Affairs First Light Brief", "days": "281", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/what-if-the-ai-infrastructure-boom?r=5f5r70"}, {"title": "Edition 12 — Critical Materials: Breaking China Stranglehold", "short": "Ed.12 — Critical Materials: Breaking China Strangl…", "pub_date": "2025-06-26", "best_days": 142, "corr_count": 2, "category": "Commodities", "best_corr": "SAB-18 Materials Allocation Crisis: AI infrastructure and defence production competing for same copper, rare earths, tra", "best_corr_date": "2025-11-15", "is_note": false, "all_corr": [{"event": "SAB-18 Materials Allocation Crisis: AI infrastructure and defence production competing for same copper, rare earths, transformers from supply chains at capacity limits.", "date": "2025-11-15", "source": "SAB-18 / Multiple sources", "days": "142", "status": "VALIDATED"}, {"event": "SAB-17 rare earth export quotas: China April 2025 controls on 7 heavy rare earths. EV battery costs +10% Q4. European carmakers forced production cuts.", "date": "2025-11-05", "source": "MOFCOM / IEA / SAB-17", "days": "132", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/critical-materials-strategy-how-to?r=5f5r70"}, {"title": "SAB-02 Quantum Computing Acceleration Risk", "short": "SAB-02 Quantum Computing Acceleration Risk", "pub_date": "2025-07-02", "best_days": 281, "corr_count": 1, "category": "AI Capex", "best_corr": "Google/Oratomic papers: quantum timeline shortened 20x. Caltech/Oratomic quantum error correction breakthrough accelerat", "best_corr_date": "2026-04-09", "is_note": false, "all_corr": [{"event": "Google/Oratomic papers: quantum timeline shortened 20x. Caltech/Oratomic quantum error correction breakthrough accelerates timeline exactly as SAB-02 warned.", "date": "2026-04-09", "source": "Google Quantum AI / Caltech / Oratomic", "days": "281", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/what-if-quantum-computing-arrives?r=5f5r70"}, {"title": "SAB-04 Autonomous AI Market Manipulation", "short": "SAB-04 Autonomous AI Market Manipulation", "pub_date": "2025-07-16", "best_days": 265, "corr_count": 1, "category": "AI Capex", "best_corr": "Google/Oratomic quantum papers confirm AI capability acceleration timeline. Claude Mythos April 2026: model independentl", "best_corr_date": "2026-04-07", "is_note": false, "all_corr": [{"event": "Google/Oratomic quantum papers confirm AI capability acceleration timeline. Claude Mythos April 2026: model independently identified 16-year-old FFmpeg vulnerability and escaped sandbox — AI autonomous capability confirmed.", "date": "2026-04-07", "source": "Anthropic / Google Quantum AI", "days": "265", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/what-if-ai-becomes-an-autonomous?r=5f5r70"}, {"title": "SAB-05 Multipolar Finance / Global Monetary Fragmentation", "short": "SAB-05 Multipolar Finance / Global Monetary Fragme…", "pub_date": "2025-07-23", "best_days": 262, "corr_count": 2, "category": "Monetary Architecture", "best_corr": "Rubio as Secretary of State — March 2023 quote resurfaces: secondary economy totally independent of US already operating", "best_corr_date": "2026-04-11", "is_note": false, "all_corr": [{"event": "Rubio as Secretary of State — March 2023 quote resurfaces: secondary economy totally independent of US already operating. CB gold holdings exceeded dollar reserves first time Bretton Woods II era.", "date": "2026-04-11", "source": "Fox News Hannity 2023 / Central bank data", "days": "262", "status": "VALIDATED"}, {"event": "Iran collecting Hormuz tolls in Bitcoin and USDT. mBridge $55bn volume deployment-ready 2026. OIL1 launched Davos 2026. Hyperliquid tokenised oil #2 after Bitcoin. Secondary economy operating.", "date": "2026-04-01", "source": "Bloomberg / Multiple sources", "days": "252", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/what-if-de-dollarisation-accelerates?r=5f5r70"}, {"title": "Edition 14 — The Defence Build-Up Europe Forgot", "short": "Ed.14 — The Defence Build-Up Europe Forgot", "pub_date": "2025-07-24", "best_days": 265, "corr_count": 1, "category": "Geopolitics", "best_corr": "Tim Ash April 2026: Ukraine drone capability — all-robotic assault captured territory. Ukraine established as number one", "best_corr_date": "2026-04-15", "is_note": false, "all_corr": [{"event": "Tim Ash April 2026: Ukraine drone capability — all-robotic assault captured territory. Ukraine established as number one drone defender. Gulf states signing defence cooperation agreements with Ukraine.", "date": "2026-04-15", "source": "Timothy Ash Substack", "days": "265", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/chaos-and-order-edition-14-the-defence?r=5f5r70"}, {"title": "SAB-06 Insurance Availability Crisis", "short": "SAB-06 Insurance Availability Crisis", "pub_date": "2025-07-30", "best_days": 226, "corr_count": 1, "category": "Insurance/Shipping", "best_corr": "Hormuz war risk premiums 3.75% vs 0.1% pre-war — 33x normal. 24-hour quote validity. Tanker insurance $185k per supertan", "best_corr_date": "2026-03-13", "is_note": false, "all_corr": [{"event": "Hormuz war risk premiums 3.75% vs 0.1% pre-war — 33x normal. 24-hour quote validity. Tanker insurance $185k per supertanker transit. Exact mechanism described in SAB-06 activated at scale.", "date": "2026-03-13", "source": "Lloyds JWC / Marine tracking", "days": "226", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/strategic-intelligence-brief-the?r=5f5r70"}, {"title": "Edition 15 — New Fiscal Architecture / European Institutional", "short": "Ed.15 — New Fiscal Architecture / European Institu…", "pub_date": "2025-08-07", "best_days": 248, "corr_count": 1, "category": "Geopolitics", "best_corr": "Orban defeated April 12 2026 — Hungary energy axis in question. Germany/Brussels institutional dysfunction thesis confir", "best_corr_date": "2026-04-12", "is_note": false, "all_corr": [{"event": "Orban defeated April 12 2026 — Hungary energy axis in question. Germany/Brussels institutional dysfunction thesis confirmed as Hungarian veto removed.", "date": "2026-04-12", "source": "Multiple election sources", "days": "248", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/chaos-and-order-edition-15-the-new?r=5f5r70"}, {"title": "Currency Debasement Special Edition", "short": "Currency Debasement Special Edition", "pub_date": "2025-08-07", "best_days": 206, "corr_count": 1, "category": "Gold", "best_corr": "Warsh nominated as Fed chair — will cut rates under political pressure into inflation. Exactly the \"fiscal dominance\" sc", "best_corr_date": "2026-03-01", "is_note": false, "all_corr": [{"event": "Warsh nominated as Fed chair — will cut rates under political pressure into inflation. Exactly the \"fiscal dominance\" scenario described in the debasement piece.", "date": "2026-03-01", "source": "Multiple news sources", "days": "206", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/currency-debasement-the-art-of-quietly?r=5f5r70"}, {"title": "SAB-09 Corporate Bond Rollover Wall Crisis", "short": "SAB-09 Corporate Bond Rollover Wall Crisis", "pub_date": "2025-08-20", "best_days": 232, "corr_count": 2, "category": "Private Credit", "best_corr": "Bad PIK at 6.4% of direct lending borrowers vs 2.5% end-2021. CDX Financials Index launched April 10 — institutional sho", "best_corr_date": "2026-04-10", "is_note": false, "all_corr": [{"event": "Bad PIK at 6.4% of direct lending borrowers vs 2.5% end-2021. CDX Financials Index launched April 10 — institutional short infrastructure now live. $330bn maturity wall confirmed.", "date": "2026-04-10", "source": "S&P Global / JPMorgan / Private Debt News", "days": "232", "status": "VALIDATED"}, {"event": "Private credit industry-wide gating confirmed: Ares $1.2bn redemptions, Apollo/BlackRock HPS same. Cliffwater $33bn fund 14% requests 7% honoured. $20.8bn Q1 redemptions industry-wide. Morgan Stanley 8% default rate projection.", "date": "2026-04-07", "source": "FT / Bloomberg / Morgan Stanley", "days": "229", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/strategic-intelligence-brief-the-5dd?r=5f5r70"}, {"title": "Edition 16 — Professional Services Pricing Cliff", "short": "Ed.16 — Professional Services Pricing Cliff", "pub_date": "2025-08-21", "best_days": 166, "corr_count": 1, "category": "AI Capex", "best_corr": "SAB-19 Feb 2026: LSEG -12.8% RELX -16.5% Experian -8.25% in single session. £15bn combined market cap destroyed as enter", "best_corr_date": "2026-02-03", "is_note": false, "all_corr": [{"event": "SAB-19 Feb 2026: LSEG -12.8% RELX -16.5% Experian -8.25% in single session. £15bn combined market cap destroyed as enterprise customers test Claude tools vs Refinitiv. AI disruption of data/analytics confirmed at market scale.", "date": "2026-02-03", "source": "Market data / SAB-19", "days": "166", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/chaos-and-order-edition-16-the-professional?r=5f5r70"}, {"title": "Global Fertiliser Chokepoints SAB", "short": "Global Fertiliser Chokepoints SAB", "pub_date": "2025-09-03", "best_days": 211, "corr_count": 2, "category": "Food/Fertiliser", "best_corr": "BoE/Food & Drink Federation 9-10% food inflation forecast", "best_corr_date": "2026-04-02", "is_note": false, "all_corr": [{"event": "BoE/Food & Drink Federation 9-10% food inflation forecast", "date": "2026-04-02", "source": "Goldman Sachs / Food & Drink Federation", "days": "211", "status": "VALIDATED"}, {"event": "Goldman Sachs nitrogen note March 2026", "date": "2026-03-27", "source": "Goldman Sachs", "days": "205", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/strategic-intelligence-brief-global?r=5f5r70"}, {"title": "SAB-11 Global Fertiliser Chokepoints", "short": "SAB-11 Global Fertiliser Chokepoints", "pub_date": "2025-09-03", "best_days": 223, "corr_count": 1, "category": "Food/Fertiliser", "best_corr": "China sulfuric acid export ban from May 2026 confirmed. Both nitrogen and phosphate supply chains hit simultaneously. Ur", "best_corr_date": "2026-04-14", "is_note": false, "all_corr": [{"event": "China sulfuric acid export ban from May 2026 confirmed. Both nitrogen and phosphate supply chains hit simultaneously. Urea $770/ton Brazil, ammonia $1015 US Midwest, DAP $773 FOB NOLA. Petter Ostbo 208 reactions.", "date": "2026-04-14", "source": "Petter Ostbo LinkedIn / China MOFCOM", "days": "223", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/strategic-intelligence-brief-global?r=5f5r70"}, {"title": "Edition 17 — Family Office Revolution / New Money Architecture", "short": "Ed.17 — Family Office Revolution / New Money Archi…", "pub_date": "2025-09-04", "best_days": 217, "corr_count": 1, "category": "Private Credit", "best_corr": "FT $20.8bn industry-wide Q1 2026 private credit redemptions. Family offices leading redemption requests — exactly the so", "best_corr_date": "2026-04-09", "is_note": false, "all_corr": [{"event": "FT $20.8bn industry-wide Q1 2026 private credit redemptions. Family offices leading redemption requests — exactly the sophisticated capital exodus described in Ed.17.", "date": "2026-04-09", "source": "Financial Times", "days": "217", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/chaos-and-order-edition-17-the-family?r=5f5r70"}, {"title": "Edition 19 — Commodity Origami / Benchmark Fragmentation", "short": "Ed.19 — Commodity Origami / Benchmark Fragmentation", "pub_date": "2025-10-02", "best_days": 195, "corr_count": 2, "category": "Monetary Architecture", "best_corr": "Pierre Aycard April 2026: US Treasury threatening secondary sanctions on China/HK/UAE/Oman banks. Accelerates dollar alt", "best_corr_date": "2026-04-15", "is_note": false, "all_corr": [{"event": "Pierre Aycard April 2026: US Treasury threatening secondary sanctions on China/HK/UAE/Oman banks. Accelerates dollar alternative architecture. Parallel systems development not replacement — confirmed.", "date": "2026-04-15", "source": "Pierre Aycard / Treasury statements", "days": "195", "status": "VALIDATED"}, {"event": "Iran collecting Hormuz tolls in Bitcoin and USDT — payment rail separated from Brent pricing exactly as described. Pricing power vs payment currency distinction operationally confirmed.", "date": "2026-03-26", "source": "Bloomberg / Multiple sources", "days": "175", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/chaos-and-order-edition-19-commodity?r=5f5r70"}, {"title": "AI Capex Reality Check SAB", "short": "AI Capex Reality Check SAB", "pub_date": "2025-10-08", "best_days": 175, "corr_count": 1, "category": "AI Capex", "best_corr": "Oracle cuts 30000 jobs to fund data centres", "best_corr_date": "2026-04-01", "is_note": false, "all_corr": [{"event": "Oracle cuts 30000 jobs to fund data centres", "date": "2026-04-01", "source": "Oracle/TD Cowen", "days": "175", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/strategic-advisory-brief-ai-capital?r=5f5r70"}, {"title": "Edition 20 — Private Credit Infrastructure Takeover", "short": "Ed.20 — Private Credit Infrastructure Takeover", "pub_date": "2025-10-16", "best_days": 176, "corr_count": 2, "category": "Private Credit", "best_corr": "CDX Financials Index launched April 10 2026. Blue Owl excluded at launch — already trading too wide. Bad PIK 6.4% vs 2.5", "best_corr_date": "2026-04-10", "is_note": false, "all_corr": [{"event": "CDX Financials Index launched April 10 2026. Blue Owl excluded at launch — already trading too wide. Bad PIK 6.4% vs 2.5% end-2021. $330bn maturity wall. Industry-wide gating $20.8bn Q1 confirmed.", "date": "2026-04-10", "source": "S&P / JPMorgan / FT", "days": "176", "status": "VALIDATED"}, {"event": "First Brands Group Sep 2025 bankruptcy: $12bn liabilities, same collateral pledged to multiple lenders via off-balance-sheet vehicles. Jim Chanos: golden age of fraud. Opacity thesis confirmed within 2 weeks of publication.", "date": "2025-09-28", "source": "Bloomberg / FT / Jim Chanos", "days": "18", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/chaos-and-order-20-private-credits?r=5f5r70"}, {"title": "SAB-16 Gold Market Structure Vulnerability", "short": "SAB-16 Gold Market Structure Vulnerability", "pub_date": "2025-10-22", "best_days": 175, "corr_count": 2, "category": "Gold", "best_corr": "CB holdings exceeded dollar reserves first time Bretton Woods II era. PBOC 17 consecutive months buying. Gold $4798 Apri", "best_corr_date": "2026-04-15", "is_note": false, "all_corr": [{"event": "CB holdings exceeded dollar reserves first time Bretton Woods II era. PBOC 17 consecutive months buying. Gold $4798 April 2026. Swiss gold exports to China +254% August 2025. Paper/physical bifurcation structural not temporary.", "date": "2026-04-15", "source": "WGC / PBOC / Swiss Federal Customs", "days": "175", "status": "VALIDATED"}, {"event": "Dubai physical dislocation: gold flowing in, unable to exit. Price discount emerging. Putin export restriction decree. Physical/paper divergence in gold confirmed at scale.", "date": "2026-04-01", "source": "Bloomberg / Multiple sources", "days": "161", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/gold-market-structure-vulnerability?r=5f5r70"}, {"title": "SAB-18 Materials Allocation Crisis", "short": "SAB-18 Materials Allocation Crisis", "pub_date": "2025-11-26", "best_days": 131, "corr_count": 1, "category": "Commodities", "best_corr": "Copper structural deficit confirmed ICSG 150k MT 2026, JPMorgan 330k MT — first deficit since 2009. Grasberg force majeu", "best_corr_date": "2026-04-06", "is_note": false, "all_corr": [{"event": "Copper structural deficit confirmed ICSG 150k MT 2026, JPMorgan 330k MT — first deficit since 2009. Grasberg force majeure. Anglo American Chile downgrade. SAB-18 AI vs defence supply collision confirmed.", "date": "2026-04-06", "source": "ICSG / JPMorgan / Filed Intelligence", "days": "131", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/the-materials-allocation-crisis?r=5f5r70"}, {"title": "Edition 23 — Oil at $60 Why Not Deploying", "short": "Ed.23 — Oil at $60 Why Not Deploying", "pub_date": "2025-12-11", "best_days": 83, "corr_count": 1, "category": "Trading", "best_corr": "Epic Fury Special Edition Mar 2026 confirmed: China SPR stockpiling was artificial demand masking structural weakness. C", "best_corr_date": "2026-03-04", "is_note": false, "all_corr": [{"event": "Epic Fury Special Edition Mar 2026 confirmed: China SPR stockpiling was artificial demand masking structural weakness. Commercial demand 0-300k bpd vs 920k headline. WTI call at $0.64 entry returned ~900%.", "date": "2026-03-04", "source": "Epic Fury Special Edition / EIA data", "days": "83", "status": "VALIDATED — TRADING"}], "url": "https://chaosandorderinsight.substack.com/p/chaos-and-order-edition-23-oil-at?r=5f5r70"}, {"title": "Edition 24 — Year in Review / 2025 Track Record", "short": "Ed.24 — Year in Review / 2025 Track Record", "pub_date": "2025-12-18", "best_days": 302, "corr_count": 1, "category": "Trading", "best_corr": "Gold +63% (entry $2605 Dec 2024, exit $4250 Oct 2025). Silver +73.5% (entry $28.94, exit $50.21). Platinum +77% (entry $", "best_corr_date": "2025-10-17", "is_note": false, "all_corr": [{"event": "Gold +63% (entry $2605 Dec 2024, exit $4250 Oct 2025). Silver +73.5% (entry $28.94, exit $50.21). Platinum +77% (entry $1083 May 2025, current $1921). Debasement and multipolar finance theses validated in trading returns.", "date": "2025-10-17", "source": "M Nadal trading account / IBKR", "days": "302", "status": "VALIDATED — TRADING"}], "url": "https://chaosandorderinsight.substack.com/p/chaos-and-order-edition-24-the-year?r=5f5r70"}, {"title": "Edition 25 — AI Engine, Quiet Barrel, New Money Map", "short": "Ed.25 — AI Engine, Quiet Barrel, New Money Map", "pub_date": "2026-01-22", "best_days": 36, "corr_count": 1, "category": "Hormuz", "best_corr": "Operation Epic Fury Feb 27 2026. TTF gas jumped ~70% over March including 50% single-session spike on Qatari LNG fears. ", "best_corr_date": "2026-02-27", "is_note": false, "all_corr": [{"event": "Operation Epic Fury Feb 27 2026. TTF gas jumped ~70% over March including 50% single-session spike on Qatari LNG fears. Oil spiked Brent $69→$81. Gas indexed to oil = electricity costs explode — confirmed within 36 days.", "date": "2026-02-27", "source": "Market data / Multiple sources", "days": "36", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/chaos-and-order-edition-25-the-ai?r=5f5r70"}, {"title": "Ukrainian Drone Strikes thesis", "short": "Ukrainian Drone Strikes thesis", "pub_date": "2026-02-28", "best_days": 32, "corr_count": 1, "category": "Ukraine", "best_corr": "Russian gasoline export ban 1 April", "best_corr_date": "2026-04-01", "is_note": true, "all_corr": [{"event": "Russian gasoline export ban 1 April", "date": "2026-04-01", "source": "Russian Government", "days": "32", "status": "VALIDATED"}], "url": ""}, {"title": "Epic Fury Special Edition", "short": "Epic Fury Special Edition", "pub_date": "2026-03-04", "best_days": 40, "corr_count": 2, "category": "Hormuz", "best_corr": "Brent structurally superior to WTI — Trump TACO pattern on WTI not Brent", "best_corr_date": "2026-04-13", "is_note": false, "all_corr": [{"event": "Brent structurally superior to WTI — Trump TACO pattern on WTI not Brent", "date": "2026-04-13", "source": "Multiple price data", "days": "40", "status": "VALIDATED"}, {"event": "WTI $79 call entered at $0.64 — returned ~900% by March", "date": "2026-03-12", "source": "IG trading account", "days": "8", "status": "VALIDATED — TRADING"}], "url": "https://chaosandorderinsight.substack.com/p/chaos-and-order-special-edition-epic?r=5f5r70"}, {"title": "Stagflation Trap SAB", "short": "Stagflation Trap SAB", "pub_date": "2026-03-10", "best_days": 36, "corr_count": 4, "category": "Stagflation", "best_corr": "IMF global growth 2.5% adverse scenario at persistent $100 oil. Weakest since pandemic.", "best_corr_date": "2026-04-15", "is_note": false, "all_corr": [{"event": "IMF global growth 2.5% adverse scenario at persistent $100 oil. Weakest since pandemic.", "date": "2026-04-15", "source": "IMF", "days": "36", "status": "VALIDATED"}, {"event": "Dombrovskis EU Commission on record stagflationary shock", "date": "2026-04-03", "source": "European Commission", "days": "24", "status": "VALIDATED"}, {"event": "Rogoff: biggest stagflationary shock in 50 years", "date": "2026-03-27", "source": "Project Syndicate", "days": "17", "status": "VALIDATED"}, {"event": "UK 10Y gilt crossed 5.07%", "date": "2026-03-27", "source": "Bloomberg", "days": "17", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/strategic-advisory-brief-the-stagflation?r=5f5r70"}, {"title": "Gold Debasement Thesis", "short": "Gold Debasement Thesis", "pub_date": "2026-03-10", "best_days": 33, "corr_count": 1, "category": "Gold", "best_corr": "Robin Brooks: debasement trade attracted skittish buyers who sell in bad shocks", "best_corr_date": "2026-04-12", "is_note": true, "all_corr": [{"event": "Robin Brooks: debasement trade attracted skittish buyers who sell in bad shocks", "date": "2026-04-12", "source": "Robin Brooks Substack", "days": "33", "status": "CORROBORATED"}], "url": ""}, {"title": "Physical Disruption thesis", "short": "Physical Disruption thesis", "pub_date": "2026-03-17", "best_days": 16, "corr_count": 2, "category": "Hormuz", "best_corr": "FT: Vitol Trafigura Mercuria wrongfooted", "best_corr_date": "2026-04-02", "is_note": true, "all_corr": [{"event": "FT: Vitol Trafigura Mercuria wrongfooted", "date": "2026-04-02", "source": "Financial Times", "days": "16", "status": "VALIDATED"}, {"event": "Qatalum aluminium smelter shutdown as gas supplies cut. Norsk Hydro declared force majeure to aluminium customers. Alba (Bahrain) warned of shipment disruptions. LME warehouses saw 100,000 tonnes withdrawn as physical premiums spiked.", "date": "2026-03-17", "source": "Market data / Bloomberg / Reuters", "days": "0", "status": "VALIDATED"}], "url": ""}, {"title": "Brent/WTI at $10.89 SAB", "short": "Brent/WTI at $10.89 SAB", "pub_date": "2026-03-18", "best_days": 15, "corr_count": 2, "category": "Hormuz", "best_corr": "ActionForex safety of the barrel deliverability thesis", "best_corr_date": "2026-04-02", "is_note": false, "all_corr": [{"event": "ActionForex safety of the barrel deliverability thesis", "date": "2026-04-02", "source": "ActionForex", "days": "15", "status": "VALIDATED"}, {"event": "Spread reached $19.06 next day (19 Mar) — Brent $115.53 vs WTI $96.47. Published at $10.89, confirmed within 24 hours at $19.06. Largest Brent/WTI spread since Katrina.", "date": "2026-03-19", "source": "IG Markets / IBKR / Market data", "days": "1", "status": "VALIDATED — TRADING"}], "url": "https://chaosandorderinsight.substack.com/p/strategic-advisory-brief-brentwti?r=5f5r70"}, {"title": "Ukraine Special Edition", "short": "Ukraine Special Edition", "pub_date": "2026-03-23", "best_days": 21, "corr_count": 2, "category": "Ukraine", "best_corr": "Islamabad talks collapsed April 12-13 after 21 hours. Sticking points included Iran demanding near-bomb-grade uranium ha", "best_corr_date": "2026-04-13", "is_note": false, "all_corr": [{"event": "Islamabad talks collapsed April 12-13 after 21 hours. Sticking points included Iran demanding near-bomb-grade uranium handover and $27bn frozen assets. Munitions competition: every Patriot used in Gulf = one fewer for Ukraine. Iran/Ukraine link confirmed operationally.", "date": "2026-04-13", "source": "Multiple news sources", "days": "21", "status": "VALIDATED"}, {"event": "FT: Trump used Ukraine weapons as explicit blackmail for Hormuz coalition", "date": "2026-04-02", "source": "Financial Times", "days": "10", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/chaos-and-order-special-edition-ukraine?r=5f5r70"}, {"title": "Private Credit / Lehman Murabaha", "short": "Private Credit / Lehman Murabaha", "pub_date": "2026-03-25", "best_days": 20, "corr_count": 1, "category": "Private Credit", "best_corr": "Wells Fargo Q1 8-K: $36.2bn Corporate Debt Finance exposure. 23% to BDCs.", "best_corr_date": "2026-04-14", "is_note": true, "all_corr": [{"event": "Wells Fargo Q1 8-K: $36.2bn Corporate Debt Finance exposure. 23% to BDCs.", "date": "2026-04-14", "source": "Wells Fargo 8-K SEC", "days": "20", "status": "CORROBORATED — sequence building"}], "url": ""}, {"title": "Hormuz Toll Road Special Edition", "short": "Hormuz Toll Road Special Edition", "pub_date": "2026-03-26", "best_days": 10, "corr_count": 3, "category": "Hormuz", "best_corr": "Laffer curve framing confirmed — Iran pricing below revenue-maximising level", "best_corr_date": "2026-04-05", "is_note": true, "all_corr": [{"event": "Laffer curve framing confirmed — Iran pricing below revenue-maximising level", "date": "2026-04-05", "source": "Multiple analytical sources", "days": "10", "status": "VALIDATED"}, {"event": "China-Pakistan restore normal passage language", "date": "2026-04-01", "source": "China-Pakistan Joint Statement", "days": "6", "status": "VALIDATED"}, {"event": "FT corroboration of toll road model", "date": "2026-03-27", "source": "Financial Times", "days": "1", "status": "VALIDATED"}], "url": ""}, {"title": "Tomorrow Never Dies Special Edition", "short": "Tomorrow Never Dies Special Edition", "pub_date": "2026-03-30", "best_days": 2, "corr_count": 1, "category": "Hormuz", "best_corr": "Bab el-Mandeb formally engaged — Houthis declared war", "best_corr_date": "2026-03-28", "is_note": false, "all_corr": [{"event": "Bab el-Mandeb formally engaged — Houthis declared war", "date": "2026-03-28", "source": "Multiple sources", "days": "2", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/special-edition-tomorrow-never-dies?r=5f5r70"}, {"title": "TAL Pipeline European Energy Vulnerability", "short": "TAL Pipeline European Energy Vulnerability", "pub_date": "2026-03-30", "best_days": 11, "corr_count": 1, "category": "Energy", "best_corr": "TAL pipeline sabotage confirmed Terzo di Tolmezzo", "best_corr_date": "2026-04-10", "is_note": true, "all_corr": [{"event": "TAL pipeline sabotage confirmed Terzo di Tolmezzo", "date": "2026-04-10", "source": "Welt am Sonntag / MiRO spokeswoman", "days": "11", "status": "VALIDATED"}], "url": ""}, {"title": "Two-Clock Model", "short": "Two-Clock Model", "pub_date": "2026-03-30", "best_days": 16, "corr_count": 1, "category": "Hormuz", "best_corr": "Saudi Arabia pressing Trump to end blockade specifically because of Bab el-Mandeb Houthi activation threat", "best_corr_date": "2026-04-15", "is_note": true, "all_corr": [{"event": "Saudi Arabia pressing Trump to end blockade specifically because of Bab el-Mandeb Houthi activation threat", "date": "2026-04-15", "source": "Foreign Affairs First Light Brief", "days": "16", "status": "VALIDATED"}], "url": ""}, {"title": "Where's the Beef Edition 27", "short": "Where's the Beef Ed.27", "pub_date": "2026-04-02", "best_days": 13, "corr_count": 2, "category": "Food/Fertiliser", "best_corr": "China sulfuric acid export ban May confirmed. Petter Ostbo LinkedIn 208 reactions: urea $770 Brazil ammonia $1015 US Mid", "best_corr_date": "2026-04-15", "is_note": false, "all_corr": [{"event": "China sulfuric acid export ban May confirmed. Petter Ostbo LinkedIn 208 reactions: urea $770 Brazil ammonia $1015 US Midwest.", "date": "2026-04-15", "source": "Petter Ostbo LinkedIn / China MOFCOM", "days": "13", "status": "VALIDATED"}, {"event": "BoE warned Iran war shock intensifying risks. Food and Drink Federation moved UK food inflation forecast to 9-10%", "date": "2026-04-02", "source": "Bank of England / FDF", "days": "0", "status": "VALIDATED — SAME DAY"}], "url": "https://chaosandorderinsight.substack.com/p/chaos-and-order-edition-27-wheres?r=5f5r70"}, {"title": "Collision Course SAB", "short": "Collision Course SAB", "pub_date": "2026-04-07", "best_days": 4, "corr_count": 2, "category": "Private Credit", "best_corr": "Fed querying major US banks on private credit exposure — regulatory pressure arriving", "best_corr_date": "2026-04-11", "is_note": false, "all_corr": [{"event": "Fed querying major US banks on private credit exposure — regulatory pressure arriving", "date": "2026-04-11", "source": "Bloomberg via El-Erian Substack", "days": "4", "status": "VALIDATED"}, {"event": "Apollo and Ares limited redemptions — El-Erian", "date": "2026-04-13", "source": "Bloomberg/El-Erian", "days": "3", "status": "VALIDATED"}], "url": "https://chaosandorderinsight.substack.com/p/collision-course-the-simultaneity?r=5f5r70"}, {"title": "Four Clocks Framework", "short": "Four Clocks Framework", "pub_date": "2026-04-11", "best_days": 3, "corr_count": 2, "category": "Hormuz", "best_corr": "EIA STEO assumed conflict ends April — blockade announced 13 April. EIA overtaken within one week.", "best_corr_date": "2026-04-14", "is_note": true, "all_corr": [{"event": "EIA STEO assumed conflict ends April — blockade announced 13 April. EIA overtaken within one week.", "date": "2026-04-14", "source": "EIA STEO / War Zone / TWZ", "days": "3", "status": "VALIDATED — IEA/EIA systematically underestimating duration"}, {"event": "Michael Preponderance of Evidence adds Clock Zero", "date": "2026-04-11", "source": "Preponderance of Evidence Substack", "days": "0", "status": "VALIDATED"}], "url": ""}, {"title": "Paper Calm Physical Stress", "short": "Paper Calm Physical Stress", "pub_date": "2026-04-13", "best_days": 2, "corr_count": 5, "category": "Hormuz", "best_corr": "El-Erian NYT chart shows paper-physical divergence", "best_corr_date": "2026-04-11", "is_note": false, "all_corr": [{"event": "El-Erian NYT chart shows paper-physical divergence", "date": "2026-04-11", "source": "El-Erian/NYT", "days": "2", "status": "VALIDATED"}, {"event": "FT confirms last pre-war tankers reaching refineries 20 April. Forties Blend near $149. TotalEnergies CEO Pouyanné on record.", "date": "2026-04-14", "source": "FT / Jamie Smyth / Energy Aspects", "days": "1", "status": "VALIDATED — accelerating"}, {"event": "HFI: 11-13mb/d outage 77-91mn bbls lost IEA SPR physically incapable of offsetting", "date": "2026-04-14", "source": "HFI Research Substack", "days": "1", "status": "VALIDATED — accelerating"}, {"event": "BP flags exceptional oil trading Q1 — K-shaped impact visible in single earnings statement", "date": "2026-04-14", "source": "BP Trading Statement / FT", "days": "1", "status": "VALIDATED"}, {"event": "Brent +7% on blockade news same day as publication", "date": "2026-04-13", "source": "Trading Economics/Bloomberg", "days": "0", "status": "VALIDATED — SAME DAY"}], "url": "https://chaosandorderinsight.substack.com/p/special-edition-paper-calm-physical?r=5f5r70"}, {"title": "Europe The Bill Special Edition", "short": "Europe The Bill Special Edition", "pub_date": "2026-04-15", "best_days": 0, "corr_count": 1, "category": "Energy", "best_corr": "FT Ron Bousso Reuters: ARA jet fuel stocks lowest since March 2023 Lufthansa grounding warning.", "best_corr_date": "2026-04-15", "is_note": false, "all_corr": [{"event": "FT Ron Bousso Reuters: ARA jet fuel stocks lowest since March 2023 Lufthansa grounding warning.", "date": "2026-04-15", "source": "Reuters / FT / IMF / IEA", "days": "0", "status": "VALIDATED — SAME DAY"}], "url": "https://chaosandorderinsight.substack.com/p/special-edition-europe-the-bill?r=5f5r70"}];
+
+const CAT={'Hormuz':'#2b7dd4','AI Capex':'#6b5fd4','Private Credit':'#c4501f',
+'Food/Fertiliser':'#4d7a1a','Stagflation':'#9a6010','Gold':'#c4970f',
+'Commodities':'#128060','Energy':'#128060','Monetary Architecture':'#b83d6a',
+'Ukraine':'#787770','Geopolitics':'#787770','Water Wars':'#2b7dd4',
+'Insurance/Shipping':'#b83d6a','Trading':'#e8a020'};
+
+const MAX_DAYS=430;
+let fcat='all', exp=new Set(), highlighted=null;
+
+function fd(s){if(!s||s==='NaT'||s==='nan')return'';const p=s.split('-');const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];try{return m[parseInt(p[1])-1]+' '+p[0];}catch(e){return s;}}
+
+function setF(c,b){fcat=c;document.querySelectorAll('.fb').forEach(x=>x.classList.remove('on'));b.classList.add('on');render();}
+
+function reset(){
+  fcat='all';document.querySelectorAll('.fb').forEach(x=>x.classList.remove('on'));
+  document.querySelector('.fb').classList.add('on');
+  document.getElementById('srch').value='';
+  document.getElementById('sfilt').value='all';
+  document.getElementById('mfilt').value='0';
+  document.getElementById('tfilt').value='all';
+  document.getElementById('sort').value='date';
+  render();
+}
+
+function getFiltered(){
+  const q=document.getElementById('srch').value.toLowerCase();
+  const sf=document.getElementById('sfilt').value;
+  const mf=parseInt(document.getElementById('mfilt').value)||0;
+  const tf=document.getElementById('tfilt').value;
+  return DATA.filter(p=>{
+    if(fcat!=='all'&&p.category!==fcat)return false;
+    if(q&&!p.title.toLowerCase().includes(q)&&!p.best_corr.toLowerCase().includes(q)&&!p.category.toLowerCase().includes(q))return false;
+    if(p.best_days<mf)return false;
+    if(tf==='post'&&p.is_note)return false;
+    if(tf==='note'&&!p.is_note)return false;
+    if(sf!=='all'){
+      const st=p.all_corr.map(c=>c.status||'').join(' ');
+      if(sf==='TRADING'&&!st.includes('TRADING'))return false;
+      if(sf==='SAME DAY'&&!st.includes('SAME'))return false;
+      if(sf==='VALIDATED'&&!st.includes('VALIDATED'))return false;
+    }
+    return true;
+  });
+}
+
+function buildScatter(data){
+  const wrap=document.getElementById('scatter');
+  // Clear old dots/annotations but keep tooltip
+  wrap.querySelectorAll('.sdot,.sanno,.grid-line,.today-line,.today-lbl,.epic-band,.epic-lbl-s,.y-tick,.x-label').forEach(e=>e.remove());
+
+  const tip=document.getElementById('stip');
+  const W=wrap.offsetWidth||900;
+  const H=280;
+  const PAD={l:42,r:20,t:24,b:28};
+  const plotW=W-PAD.l-PAD.r;
+  const plotH=H-PAD.t-PAD.b;
+
+  const START=new Date('2025-01-15').getTime();
+  const END=new Date('2026-05-01').getTime();
+  const TSPAN=END-START;
+  const YMAX=440;
+
+  function xPct(d){return PAD.l+(new Date(d).getTime()-START)/TSPAN*plotW;}
+  function yPix(days){return PAD.t+plotH-(days/YMAX)*plotH;}
+
+  // Grid lines
+  [0,100,200,300,400].forEach(y=>{
+    const gl=document.createElement('div');
+    gl.className='grid-line';
+    gl.style.cssText='top:'+(PAD.t+plotH-(y/YMAX)*plotH)+'px;left:'+PAD.l+'px;right:'+PAD.r+'px';
+    wrap.appendChild(gl);
+    const tk=document.createElement('div');
+    tk.className='y-tick';
+    tk.style.cssText='top:'+(PAD.t+plotH-(y/YMAX)*plotH)+'px;left:'+(PAD.l-4)+'px';
+    tk.textContent=y===0?'0':y+'d';
+    wrap.appendChild(tk);
+  });
+
+  // X axis labels
+  ['2025-02-01','2025-07-01','2026-01-01','2026-04-15'].forEach(d=>{
+    const lbl=document.createElement('div');
+    lbl.className='x-label';
+    lbl.style.left=xPct(d)+'px';
+    const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const p=d.split('-');
+    lbl.textContent=p[1]==='01'?p[0]:months[parseInt(p[1])-1]+' '+p[0].slice(2);
+    wrap.appendChild(lbl);
+  });
+
+  // Epic Fury band
+  const ef1=xPct('2026-02-27'), ef2=xPct('2026-04-16');
+  const band=document.createElement('div');
+  band.className='epic-band';
+  band.style.cssText='left:'+ef1+'px;width:'+(ef2-ef1)+'px;top:'+PAD.t+'px;bottom:'+PAD.b+'px';
+  const elbl=document.createElement('div');
+  elbl.className='epic-lbl-s';
+  elbl.style.cssText='left:'+(ef1+3)+'px;bottom:'+(PAD.b+4)+'px';
+  elbl.textContent='Epic Fury cluster';
+  wrap.appendChild(band);wrap.appendChild(elbl);
+
+  // Today line
+  const todX=xPct('2026-04-15');
+  const tl=document.createElement('div');
+  tl.className='today-line';
+  tl.style.cssText='left:'+todX+'px;top:'+PAD.t+'px;bottom:'+PAD.b+'px';
+  const tlbl=document.createElement('div');
+  tlbl.className='today-lbl';
+  tlbl.style.left=todX+'px';
+  tlbl.textContent='Today';
+  wrap.appendChild(tl);wrap.appendChild(tlbl);
+
+  // Annotation for top-left cluster
+  const anno=document.createElement('div');
+  anno.className='sanno';
+  anno.style.cssText='position:absolute;left:'+(PAD.l+8)+'px;top:'+(PAD.t+2)+'px;font-size:9px;color:#aaa;pointer-events:none';
+  anno.textContent='Long-range calls (300+ days ahead)';
+  wrap.appendChild(anno);
+
+  // Annotation for bottom-right
+  const anno2=document.createElement('div');
+  anno2.className='sanno';
+  anno2.style.cssText='position:absolute;left:'+(ef1-2)+'px;top:'+(PAD.t+4)+'px;font-size:9px;color:#ba7517;pointer-events:none;white-space:nowrap';
+  anno2.textContent='Fast confirmations';
+  wrap.appendChild(anno2);
+
+  // Dots
+  data.forEach(p=>{
+    if(!p.pub_date)return;
+    const x=xPct(p.pub_date);
+    const y=yPix(p.best_days);
+    const col=CAT[p.category]||'#888';
+    const r=Math.min(10,Math.max(5,4+p.corr_count*1.5));
+    const isTrade=p.all_corr.some(c=>c.status&&c.status.includes('TRADING'));
+
+    const dot=document.createElement('div');
+    dot.className='sdot';
+    dot.style.cssText=[
+      'position:absolute',
+      'left:'+(x-r)+'px',
+      'top:'+(y-r)+'px',
+      'width:'+(r*2)+'px',
+      'height:'+(r*2)+'px',
+      'border-radius:50%',
+      'background:'+col,
+      'border:'+(isTrade?'2.5px solid #e8a020':'2px solid rgba(255,255,255,0.8)'),
+      'cursor:pointer',
+      'transition:transform 0.1s',
+      'opacity:0.85',
+      'z-index:2'
+    ].join(';');
+
+    dot.addEventListener('mouseenter',function(e){
+      dot.style.transform='scale(1.5)';
+      dot.style.zIndex='10';
+      dot.style.opacity='1';
+      tip.style.display='block';
+      const rectW=wrap.getBoundingClientRect();
+      const dotRect=dot.getBoundingClientRect();
+      const relX=dotRect.left-rectW.left;
+      const relY=dotRect.top-rectW.top;
+      tip.innerHTML='<strong>'+p.short+'</strong><br>'+fd(p.pub_date)+(p.best_days>0?'<br><span style="color:#f5a623">'+p.best_days+' days ahead of consensus</span>':'<br><span style="color:#64b5f6">Corroborated same day</span>')+'<br><span style="color:#aaa;font-size:10px">'+p.best_corr.substring(0,80)+(p.best_corr.length>80?'…':'')+'</span>'+(isTrade?'<br><span style="color:#81c784">↑ Trading validated</span>':'');
+      const tipLeft=Math.min(relX-10,W-270);
+      tip.style.left=Math.max(0,tipLeft)+'px';
+      tip.style.top=(relY-72)+'px';
+    });
+    dot.addEventListener('mouseleave',function(){
+      dot.style.transform='';dot.style.zIndex='2';dot.style.opacity='0.85';
+      tip.style.display='none';
+    });
+    dot.addEventListener('click',function(){
+      // Scroll to row in table
+      const rows=document.querySelectorAll('.row');
+      rows.forEach(r=>{
+        if(r.querySelector('.row-title')&&r.querySelector('.row-title').textContent.includes(p.short.substring(0,20))){
+          r.scrollIntoView({behavior:'smooth',block:'center'});
+          r.style.background='#fff7e6';
+          setTimeout(()=>r.style.background='',1500);
+        }
+      });
+      if(p.url)window.open(p.url,'_blank');
+    });
+
+    wrap.appendChild(dot);
+  });
+
+  // Legend
+  const cats=[...new Set(data.map(p=>p.category))].filter(c=>CAT[c]).sort();
+  document.getElementById('slegend').innerHTML=
+    cats.map(c=>'<span class="sl-item"><span class="sl-dot" style="background:'+CAT[c]+'"></span>'+c+'</span>').join('')+
+    '<span class="sl-item" style="margin-left:16px"><span class="sl-dot" style="background:#888;width:6px;height:6px"></span><span style="font-size:10px;color:#aaa">dot size = corroborations</span></span>'+
+    '<span class="sl-item"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#888;border:2px solid #e8a020;margin-right:4px"></span><span style="font-size:10px;color:#aaa">gold ring = trading validated</span></span>';
+}
+
+function buildExec(data){
+  const days=data.filter(p=>p.best_days>0).map(p=>p.best_days);
+  const avg=days.length?Math.round(days.reduce((a,b)=>a+b,0)/days.length):0;
+  const mx=days.length?Math.max(...days):0;
+  const over90=days.filter(d=>d>=90).length;
+  const pct90=days.length?Math.round(over90/days.length*100):0;
+  const trading=data.filter(p=>p.all_corr.some(c=>c.status&&c.status.includes('TRADING'))).length;
+  const sameDay=data.filter(p=>p.all_corr.some(c=>c.status&&c.status.includes('SAME'))).length;
+  const totalCorr=data.reduce((s,p)=>s+p.corr_count,0);
+  document.getElementById('exec').innerHTML=
+    '<div class="ec"><div class="ec-label">Publications tracked</div><div class="ec-value">'+data.length+'</div><div class="ec-sub">'+totalCorr+' named corroborations</div></div>'+
+    '<div class="ec"><div class="ec-label">Avg lead time</div><div class="ec-value">'+avg+'<span style="font-size:13px;font-weight:400;color:#aaa">d</span></div><div class="ec-sub">Max '+mx+'d ahead of consensus</div><div class="ec-bar-wrap"><div class="ec-bar" style="width:'+Math.min(100,avg/4.3)+'%;background:#6b5fd4"></div></div></div>'+
+    '<div class="ec"><div class="ec-label">Called 90+ days ahead</div><div class="ec-value">'+over90+'<span style="font-size:13px;font-weight:400;color:#aaa"> of '+days.length+'</span></div><div class="ec-sub">'+pct90+'% called 3+ months early</div><div class="ec-bar-wrap"><div class="ec-bar" style="width:'+pct90+'%;background:#2b7dd4"></div></div></div>'+
+    '<div class="ec"><div class="ec-label">Trading validated</div><div class="ec-value">'+trading+'</div><div class="ec-sub">'+sameDay+' same-day corroborations</div><div class="ec-bar-wrap"><div class="ec-bar" style="width:'+Math.min(100,trading/data.length*100)+'%;background:#e8a020"></div></div></div>';
+}
+
+function render(){
+  const data=getFiltered();
+  const s=document.getElementById('sort').value;
+  let sorted=[...data];
+  if(s==='days')sorted.sort((a,b)=>b.best_days-a.best_days);
+  else if(s==='corr')sorted.sort((a,b)=>b.corr_count-a.corr_count);
+  else sorted.sort((a,b)=>a.pub_date.localeCompare(b.pub_date));
+
+  buildExec(data);
+  buildScatter(data);
+
+  const cats=[...new Set(data.map(p=>p.category))].sort();
+  document.getElementById('legend').innerHTML=cats.map(c=>'<span class="leg-item"><span class="leg-dot" style="background:'+(CAT[c]||'#888')+'"></span>'+c+'</span>').join('');
+  document.getElementById('rcount').textContent='Showing '+data.length+' of '+DATA.length+' publications';
+
+  const grid=document.getElementById('grid');
+  if(!sorted.length){grid.innerHTML='<div class="empty">No matching publications</div>';return;}
+
+  grid.innerHTML=sorted.map(p=>{
+    const pp=Math.min(100,(p.best_days/MAX_DAYS)*100);
+    const col=CAT[p.category]||'#888';
+    const isExp=exp.has(p.title);
+    const dl=p.best_days>0?p.best_days+'d':'same day';
+    const isTrade=p.all_corr.some(c=>c.status&&c.status.includes('TRADING'));
+    const isSame=p.all_corr.some(c=>c.status&&c.status.includes('SAME'));
+    const badge=isTrade?'<span class="b-trade">trading</span>':(isSame?'<span class="b-same">same day</span>':'');
+    const noteBadge=p.is_note?'<span class="b-note">note</span>':'';
+    const linkEl=p.url?'<a class="link-out" href="'+p.url+'" target="_blank" onclick="event.stopPropagation()" title="Read on Substack">↗</a>':'';
+    const k='k'+p.title.replace(/[^a-z0-9]/gi,'').substring(0,22);
+    return '<div class="row '+(isExp?'exp':'')+'" onclick="tog('+JSON.stringify(p.title)+')">'+
+      '<div><div class="row-title"><span class="cat-dot" style="background:'+col+'"></span>'+p.short+badge+noteBadge+linkEl+'</div>'+
+      '<div class="row-meta">'+fd(p.pub_date)+'</div></div>'+
+      '<div><div class="bar-wrap"><div class="bar-fill" style="width:'+pp+'%;background:'+col+';opacity:0.5"></div></div>'+
+      '<div class="bar-lbl">'+p.best_corr.substring(0,72)+(p.best_corr.length>72?'…':'')+'</div></div>'+
+      '<div class="days-badge" style="color:'+col+'">'+dl+'</div>'+
+      '<div class="cnt-badge">'+p.corr_count+'</div></div>'+
+      '<div class="detail '+(isExp?'open':'')+'" id="'+k+'">'+
+      p.all_corr.map(c=>'<div class="ci"><div class="ce">'+c.event+'</div>'+
+        '<div class="cm"><span>'+fd(c.date)+'</span><span>'+c.source+'</span>'+
+        '<span style="color:'+col+'">'+c.days+'d</span>'+
+        '<span style="color:#2d7a3a">'+c.status+'</span></div></div>').join('')+
+      '</div>';
+  }).join('');
+}
+
+function tog(t){if(exp.has(t))exp.delete(t);else exp.add(t);render();}
+
+window.addEventListener('resize',()=>render());
+render();
+</script>
+</body>
+</html>

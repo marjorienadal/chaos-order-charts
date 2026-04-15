@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Sequencing Trap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #F7F4EF;
+    font-family: 'Source Serif 4', Georgia, serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+  .card {
+    background: #FFFFFF;
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 2px 24px rgba(0,0,0,0.06);
+    max-width: 680px;
+    width: 100%;
+    padding: 48px 52px 36px;
+  }
+  .label-top {
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #9A7B2E;
+    margin-bottom: 6px;
+  }
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #0A1628;
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+  .subtitle {
+    font-size: 13px;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(10,22,40,0.5);
+    margin-bottom: 40px;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .stat-box {
+    padding: 24px 20px;
+    border: 1px solid rgba(10,22,40,0.08);
+    background: #FAFAF8;
+  }
+
+  .stat-box.highlight {
+    border-color: rgba(201,168,76,0.4);
+    background: #FBF8F2;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(10,22,40,0.45);
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .stat-number {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .stat-box.highlight .stat-number { color: #C9A84C; }
+  .stat-box:not(.highlight) .stat-number { color: #0A1628; }
+
+  .stat-desc {
+    font-size: 12px;
+    font-weight: 300;
+    color: rgba(10,22,40,0.55);
+    line-height: 1.5;
+  }
+
+  .arrow-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 8px 0 24px;
+    padding: 16px 0;
+    border-top: 1px solid rgba(10,22,40,0.06);
+    border-bottom: 1px solid rgba(10,22,40,0.06);
+  }
+
+  .arrow-item {
+    text-align: center;
+    flex: 1;
+  }
+
+  .arrow-date {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #0A1628;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .arrow-desc {
+    font-size: 11px;
+    font-weight: 300;
+    color: rgba(10,22,40,0.5);
+    line-height: 1.4;
+  }
+
+  .arrow-sep {
+    font-size: 20px;
+    color: rgba(201,168,76,0.5);
+    flex-shrink: 0;
+  }
+
+  .arrow-item.red .arrow-date { color: #8B1A1A; }
+  .arrow-item.gold .arrow-date { color: #9A7B2E; }
+
+  .contradiction {
+    background: rgba(139,26,26,0.04);
+    border: 1px solid rgba(139,26,26,0.15);
+    padding: 16px 20px;
+    margin-bottom: 20px;
+  }
+
+  .contradiction-text {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 13.5px;
+    font-weight: 400;
+    color: #0A1628;
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  .contradiction-text strong {
+    font-style: normal;
+    color: #8B1A1A;
+  }
+
+  .annotation {
+    padding: 16px 20px;
+    border-left: 3px solid #C9A84C;
+    background: #FBF8F2;
+    margin-bottom: 4px;
+  }
+  .annotation-text {
+    font-size: 12.5px;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(10,22,40,0.65);
+    line-height: 1.65;
+  }
+  .annotation-text strong { font-weight: 400; font-style: normal; color: #9A7B2E; }
+  .divider { height: 1px; background: rgba(10,22,40,0.08); margin: 28px 0 18px; }
+  .footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .footer-left { font-size: 10px; font-weight: 300; color: rgba(10,22,40,0.35); letter-spacing: 0.06em; }
+  .footer-right { font-size: 10px; font-weight: 300; color: #9A7B2E; letter-spacing: 0.04em; text-align: right; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="label-top">EU Energy Policy · Q1 2026</div>
+  <h1>Buying What It Is Banning</h1>
+  <div class="subtitle">Europe's Yamal LNG dependency at the moment of legislated phase-out</div>
+
+  <div class="two-col">
+    <div class="stat-box highlight">
+      <span class="stat-label">Yamal LNG cargoes taken, Q1 2026</span>
+      <span class="stat-number">97%</span>
+      <div class="stat-desc">of available cargoes purchased by European buyers — the highest share since 2022</div>
+    </div>
+    <div class="stat-box">
+      <span class="stat-label">Spent on Russian LNG, Q1 2026</span>
+      <span class="stat-number">$3.3bn</span>
+      <div class="stat-desc">paid to Russia in a single quarter, as Qatar LNG remains offline</div>
+    </div>
+  </div>
+
+  <div class="arrow-row">
+    <div class="arrow-item">
+      <span class="arrow-date">Q1 2026</span>
+      <div class="arrow-desc">97% Yamal dependency<br>$3.3bn paid to Russia</div>
+    </div>
+    <div class="arrow-sep">→</div>
+    <div class="arrow-item gold">
+      <span class="arrow-date">25 Apr 2026</span>
+      <div class="arrow-desc">Short-term Russian LNG<br>contracts phase-out begins</div>
+    </div>
+    <div class="arrow-sep">→</div>
+    <div class="arrow-item red">
+      <span class="arrow-date">End 2027</span>
+      <div class="arrow-desc">Full EU ban on<br>Russian LNG imports</div>
+    </div>
+  </div>
+
+  <div class="contradiction">
+    <div class="contradiction-text">
+      Europe is <strong>most dependent</strong> on the supply it is <strong>legislating to ban</strong> — at the exact moment the alternative supply is offline.
+    </div>
+  </div>
+
+  <div class="annotation">
+    <div class="annotation-text">
+      The Commission's Gas Coordination Group confirmed on April 9 that the system can still reach <strong>80% storage by November</strong> under optimistic LNG assumptions. That is not 90%. And it assumes LNG supply that is not currently flowing. ENI CEO Descalzi called publicly for suspension of the Russian gas ban on April 13. The institutional consensus is narrowing.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="footer">
+    <div class="footer-left">Sources: gCaptain · thetradehub.eu · EU Council · Reuters · April 2026</div>
+    <div class="footer-right">© M Nadal &amp; Co Strategic Advisory · April 2026 · chaosandorderinsight.substack.com</div>
+  </div>
+</div>
+</body>
+</html>

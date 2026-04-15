@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M Nadal &amp; Co — Sequencing Journal</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f7f6f3;color:#1a1a18;font-size:14px;line-height:1.5}
+.page{max-width:1060px;margin:0 auto;padding:1.5rem 1.25rem 4rem}
+header{margin-bottom:1.75rem;padding-bottom:1.25rem;border-bottom:1.5px solid #d8d5ce}
+h1{font-size:18px;font-weight:600;color:#1a1a18;letter-spacing:-0.01em}
+.subtitle{font-size:12px;color:#888;margin-top:3px}
+
+/* EXEC SUMMARY */
+.exec{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
+.exec-card{background:#fff;border:1px solid #e5e2db;border-radius:8px;padding:12px 14px}
+.exec-label{font-size:10px;color:#999;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px}
+.exec-value{font-size:22px;font-weight:600;color:#1a1a18;line-height:1}
+.exec-sub{font-size:11px;color:#888;margin-top:3px}
+.exec-bar-wrap{margin-top:8px;background:#f0ede8;border-radius:3px;height:4px}
+.exec-bar{height:4px;border-radius:3px}
+
+/* TIMELINE */
+.tl-section{margin-bottom:1.75rem}
+.tl-label{font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px}
+.tl-outer{position:relative;background:#fff;border:1px solid #e5e2db;border-radius:8px;padding:22px 16px 14px;overflow:hidden}
+.tl-axis{position:relative;height:3px;background:#eee;border-radius:2px;margin:0 0 0}
+.tl-dot{position:absolute;top:-5px;width:13px;height:13px;border-radius:50%;border:2px solid #fff;cursor:pointer;transform:translateX(-50%);transition:transform 0.15s}
+.tl-dot:hover{transform:translateX(-50%) scale(1.3)}
+.tl-today{position:absolute;top:-18px;width:2px;background:#e84b4b;transform:translateX(-50%)}
+.tl-today-label{position:absolute;top:-28px;font-size:9px;color:#e84b4b;transform:translateX(-50%);white-space:nowrap;font-weight:600}
+.tl-year{position:absolute;bottom:-16px;font-size:9px;color:#aaa;transform:translateX(-50%)}
+.tl-tooltip{display:none;position:absolute;background:#1a1a18;color:#fff;font-size:11px;padding:6px 9px;border-radius:5px;white-space:nowrap;pointer-events:none;z-index:10;max-width:260px;white-space:normal;line-height:1.35}
+.tl-corr-cluster{position:absolute;top:10px;display:flex;flex-direction:column;gap:2px;align-items:center}
+.tl-corr-mark{width:2px;height:8px;border-radius:1px;background:#ccc;opacity:0.5}
+.epic-band{position:absolute;top:0;bottom:0;background:rgba(186,117,23,0.06);border-left:1px dashed rgba(186,117,23,0.3);border-right:1px dashed rgba(186,117,23,0.3)}
+.epic-label{position:absolute;top:3px;font-size:9px;color:#ba7517;white-space:nowrap;padding:0 3px}
+
+/* CONTROLS */
+.controls-wrap{background:#fff;border:1px solid #e5e2db;border-radius:8px;padding:12px 14px;margin-bottom:1.25rem}
+.controls-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px}
+.controls-row:last-child{margin-bottom:0}
+.search{padding:6px 10px;border:1px solid #d0cdc6;border-radius:6px;background:#fafaf8;color:#1a1a18;font-size:12px;width:220px;outline:none}
+.search:focus{border-color:#888}
+.filter-btn{padding:4px 10px;border:1px solid #d0cdc6;border-radius:14px;background:#fafaf8;color:#6b6b66;cursor:pointer;font-size:11px;white-space:nowrap;transition:all 0.12s}
+.filter-btn:hover{background:#f0ede8;border-color:#aaa}
+.filter-btn.active{background:#1a1a18;color:#fff;border-color:#1a1a18}
+.ctrl-label{font-size:11px;color:#888;margin-right:2px}
+select.ctrl{font-size:11px;padding:4px 7px;border:1px solid #d0cdc6;border-radius:6px;background:#fafaf8;color:#1a1a18;cursor:pointer}
+.date-input{font-size:11px;padding:4px 7px;border:1px solid #d0cdc6;border-radius:6px;background:#fafaf8;color:#1a1a18;width:110px}
+.clear-btn{padding:4px 9px;border:1px solid #d0cdc6;border-radius:6px;background:#fafaf8;color:#888;cursor:pointer;font-size:11px}
+.clear-btn:hover{color:#333;border-color:#888}
+.ml-auto{margin-left:auto}
+
+/* TABLE */
+.col-header{display:grid;grid-template-columns:250px 1fr 65px 48px;gap:8px;padding:0 10px 7px;font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;border-bottom:1px solid #e5e2db;margin-bottom:4px}
+.grid{display:flex;flex-direction:column;gap:3px}
+.row{display:grid;grid-template-columns:250px 1fr 65px 48px;gap:8px;align-items:center;padding:8px 10px;border-radius:7px;cursor:pointer;border:1px solid transparent;transition:background 0.1s}
+.row:hover{background:#fff;border-color:#e5e2db}
+.row.expanded{background:#fff;border-color:#d0cdc6}
+.row-title{font-size:12px;font-weight:500;color:#1a1a18;line-height:1.35;display:flex;align-items:flex-start;gap:5px}
+.row-date{font-size:10px;color:#999;margin-top:2px}
+.cat-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.bar-wrap{position:relative;height:5px;background:#eeece8;border-radius:3px}
+.bar-fill{height:100%;border-radius:3px}
+.bar-label{font-size:10px;color:#888;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.days-badge{font-size:11px;font-weight:600;text-align:right;white-space:nowrap}
+.count-badge{font-size:11px;color:#888;text-align:center}
+.detail{background:#fafaf8;border:1px solid #e8e5e0;border-radius:7px;padding:10px 12px;margin:0 0 3px;display:none}
+.detail.open{display:block}
+.corr-item{padding:7px 0;border-bottom:1px solid #eee}
+.corr-item:last-child{border-bottom:none;padding-bottom:0}
+.corr-event{font-size:12px;color:#2a2a28;line-height:1.4}
+.corr-meta{font-size:11px;color:#999;margin-top:3px;display:flex;gap:12px;flex-wrap:wrap}
+.badge-trading{font-size:9px;padding:1px 5px;border-radius:7px;background:#eaf3de;color:#3b6d11;margin-left:4px;font-weight:500}
+.badge-sameday{font-size:9px;padding:1px 5px;border-radius:7px;background:#e6f1fb;color:#185fa5;margin-left:4px;font-weight:500}
+.link-icon{font-size:10px;color:#888;margin-left:4px;text-decoration:none;opacity:0.5}
+.link-icon:hover{opacity:1}
+.empty{text-align:center;padding:3rem;color:#999;font-size:13px}
+.results-count{font-size:11px;color:#888;padding:0 2px 6px}
+.legend-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:1rem}
+.leg-item{display:flex;align-items:center;gap:4px;font-size:10px;color:#777}
+.leg-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <h1>M Nadal &amp; Co Strategic Advisory — Sequencing Journal</h1>
+  <div class="subtitle">Published theses with named external corroboration &amp; documented lead times &nbsp;·&nbsp; chaosandorderinsight.substack.com &nbsp;·&nbsp; Updated 15 April 2026</div>
+</header>
+
+<!-- EXEC SUMMARY -->
+<div class="exec" id="exec"></div>
+
+<!-- TIMELINE -->
+<div class="tl-section">
+  <div class="tl-label">Publication → corroboration timeline</div>
+  <div class="tl-outer" id="tl-outer">
+    <div class="tl-axis" id="tl-axis"></div>
+  </div>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls-wrap">
+  <div class="controls-row">
+    <input class="search" type="text" placeholder="Search publications, corroborations…" id="srch" oninput="render()">
+    <span class="ctrl-label">Category</span>
+    <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+    <button class="filter-btn" onclick="setFilter('Hormuz',this)">Hormuz</button>
+    <button class="filter-btn" onclick="setFilter('AI Capex',this)">AI capex</button>
+    <button class="filter-btn" onclick="setFilter('Private Credit',this)">Private credit</button>
+    <button class="filter-btn" onclick="setFilter('Food/Fertiliser',this)">Food</button>
+    <button class="filter-btn" onclick="setFilter('Stagflation',this)">Stagflation</button>
+    <button class="filter-btn" onclick="setFilter('Gold',this)">Gold</button>
+    <button class="filter-btn" onclick="setFilter('Trading',this)">Trading</button>
+  </div>
+  <div class="controls-row">
+    <span class="ctrl-label">Status</span>
+    <select class="ctrl" id="statusFilter" onchange="render()">
+      <option value="all">All statuses</option>
+      <option value="VALIDATED">Validated</option>
+      <option value="CORROBORATED">Corroborated</option>
+      <option value="TRADING">Trading validated</option>
+      <option value="SAME DAY">Same day</option>
+    </select>
+    <span class="ctrl-label" style="margin-left:8px">Published from</span>
+    <input class="date-input" type="date" id="dateFrom" onchange="render()" value="2025-02-01">
+    <span class="ctrl-label">to</span>
+    <input class="date-input" type="date" id="dateTo" onchange="render()" value="2026-04-15">
+    <span class="ctrl-label" style="margin-left:8px">Min lead</span>
+    <select class="ctrl" id="minLead" onchange="render()">
+      <option value="0">Any</option>
+      <option value="30">30+ days</option>
+      <option value="90">90+ days</option>
+      <option value="180">180+ days</option>
+      <option value="300">300+ days</option>
+    </select>
+    <div class="ml-auto" style="display:flex;gap:8px;align-items:center">
+      <span class="ctrl-label">Sort</span>
+      <select class="ctrl" id="sortBy" onchange="render()">
+        <option value="date">Publication date</option>
+        <option value="days">Days ahead</option>
+        <option value="corr">Corroborations</option>
+      </select>
+      <button class="clear-btn" onclick="clearFilters()">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="legend-row" id="legend"></div>
+<div class="results-count" id="rcount"></div>
+
+<div class="col-header">
+  <div>Publication</div>
+  <div>Lead time to corroboration</div>
+  <div style="text-align:right">Lead</div>
+  <div style="text-align:center">Events</div>
+</div>
+<div class="grid" id="grid"></div>
+
+</div>
+
+<script>
+const DATA = [{"title":"Edition 1 — AI Concentration / 2008 Systemic Risk","short":"Ed.1 — AI Concentration / 2008 Systemic Risk","pub_date":"2025-02-13","best_days":420,"corr_count":1,"category":"AI Capex","best_corr":"OpenAI halted Stargate UK — capex vs revenue gap operationally confirmed","best_corr_date":"2026-04-09","all_corr":[{"event":"OpenAI halted Stargate UK — capex vs revenue gap operationally confirmed","date":"2026-04-09","source":"Multiple news sources","days":"420","status":"VALIDATED"}],"url":""},{"title":"Edition 2 — AI Energy Infrastructure / Triple Dependency","short":"Ed.2 — AI Energy Infrastructure / Triple Dependency","pub_date":"2025-02-28","best_days":378,"corr_count":2,"category":"AI Capex","best_corr":"Hormuz closure at $90+ oil = direct tax on AI data centre margins. Energy Aspects Amrita Sen confirms AI/energy nexus operational.","best_corr_date":"2026-03-13","all_corr":[{"event":"Hormuz closure at $90+ oil = direct tax on AI data centre margins. Energy Aspects Amrita Sen confirms AI/energy nexus operational.","date":"2026-03-13","source":"Energy Aspects / Multiple sources","days":"378","status":"VALIDATED"},{"event":"AI electricity politics: US household bills up substantially since 2021. Senate investigation into data centre power consumption.","date":"2026-03-01","source":"US Senate / Energy reports","days":"365","status":"VALIDATED"}],"url":""},{"title":"Water Wars Thesis Edition 3","short":"Water Wars Thesis Ed.3","pub_date":"2025-03-13","best_days":389,"corr_count":1,"category":"Water Wars","best_corr":"Kuwait desalination struck 90% drinking water. Qatar desalination struck 99%","best_corr_date":"2026-04-05","all_corr":[{"event":"Kuwait desalination struck 90% drinking water. Qatar desalination struck 99%","date":"2026-04-05","source":"Multiple sources","days":"389","status":"VALIDATED"}],"url":""},{"title":"Edition 4 — Shut the Tap: Strategic Hoarding","short":"Ed.4 — Shut the Tap: Strategic Hoarding","pub_date":"2025-03-26","best_days":384,"corr_count":2,"category":"Food/Fertiliser","best_corr":"China March 2026 trade data: imports +27.8% vs ~11% consensus. Strategic stockpiling confirmed at scale.","best_corr_date":"2026-04-14","all_corr":[{"event":"China March 2026 trade data: imports +27.8% vs ~11% consensus. Strategic stockpiling confirmed at scale.","date":"2026-04-14","source":"Bloomberg / CNBC","days":"384","status":"VALIDATED"},{"event":"China sulfuric acid export ban from May 2026 — phosphate and acid supply chain weaponised exactly as hoarding thesis described","date":"2026-04-11","source":"Bloomberg / Argus / China MOFCOM","days":"381","status":"VALIDATED"}],"url":""},{"title":"Edition 5 — Market Whiplash / VIX Trade","short":"Ed.5 — Market Whiplash / VIX Trade","pub_date":"2025-04-10","best_days":0,"corr_count":1,"category":"Trading","best_corr":"VIX above 60 on tariff shock — sold VIX at peak, winning trade.","best_corr_date":"2025-04-09","all_corr":[{"event":"VIX above 60 on tariff shock — sold VIX at peak, winning trade. Exact mechanics described in edition executed profitably.","date":"2025-04-09","source":"IG trading account","days":"0","status":"VALIDATED — TRADING"}],"url":""},{"title":"Debt Mutual Destruction Edition 6","short":"Debt Mutual Destruction Ed.6","pub_date":"2025-04-24","best_days":174,"corr_count":1,"category":"Gold","best_corr":"Gold $2350 → $4208 +79% over holding period","best_corr_date":"2025-10-15","all_corr":[{"event":"Gold $2350 → $4208 +79% over holding period","date":"2025-10-15","source":"Market price data","days":"174","status":"VALIDATED — TRADING"}],"url":""},{"title":"Edition 7 — The Art of Bluffing / Treasury Fragility","short":"Ed.7 — The Art of Bluffing / Treasury Fragility","pub_date":"2025-05-01","best_days":348,"corr_count":2,"category":"Stagflation","best_corr":"UK largest-ever gilt issuance at highest yield in nearly 20 years — gilt canary thesis confirmed at scale.","best_corr_date":"2026-04-14","all_corr":[{"event":"UK largest-ever gilt issuance at highest yield in nearly 20 years — gilt canary thesis confirmed at scale.","date":"2026-04-14","source":"UK Debt Management Office","days":"348","status":"VALIDATED"},{"event":"7-year Treasury auction bid-to-cover 2.36 — lowest in 12 months.","date":"2025-04-25","source":"US Treasury auction data","days":"6","status":"VALIDATED"}],"url":""},{"title":"Platinum Edition 9","short":"Platinum Ed.9","pub_date":"2025-05-22","best_days":11,"corr_count":1,"category":"Commodities","best_corr":"Platinum surged from $1030 to $1100+ within days of publication","best_corr_date":"2025-06-02","all_corr":[{"event":"Platinum surged from $1030 to $1100+ within days of publication","date":"2025-06-02","source":"Market price data","days":"11","status":"VALIDATED"}],"url":""},{"title":"Edition 10 — Europe: From Reports to Reality","short":"Ed.10 — Europe: From Reports to Reality","pub_date":"2025-05-29","best_days":319,"corr_count":2,"category":"Energy","best_corr":"EU gas storage 29.55% April 2026 — three consecutive years of deterioration.","best_corr_date":"2026-04-13","all_corr":[{"event":"EU gas storage 29.55% April 2026 — three consecutive years of deterioration. Draghi €500bn investment gap operationally confirmed.","date":"2026-04-13","source":"GIE AGSI+ / European Commission","days":"319","status":"VALIDATED"},{"event":"BASF suspended production lines. ENI CEO calls for Russian gas ban suspension. European industrial relocation thesis confirmed.","date":"2026-04-09","source":"ENI / Multiple sources","days":"315","status":"VALIDATED"}],"url":""},{"title":"Edition 11 — Robotics Revolution / Copper Infrastructure","short":"Ed.11 — Robotics Revolution / Copper Infrastructure","pub_date":"2025-06-12","best_days":298,"corr_count":1,"category":"Commodities","best_corr":"Copper structural deficit confirmed: ICSG 150k MT deficit 2026, JPMorgan 330k MT.","best_corr_date":"2026-04-06","all_corr":[{"event":"Copper structural deficit confirmed: ICSG 150k MT deficit 2026, JPMorgan 330k MT. Grasberg force majeure, Anglo American Chile downgrade.","date":"2026-04-06","source":"ICSG / JPMorgan / Filed Intelligence","days":"298","status":"VALIDATED"}],"url":""},{"title":"SAB-01 AI Infrastructure Commodity Risk","short":"SAB-01 AI Infrastructure Commodity Risk","pub_date":"2025-06-25","best_days":281,"corr_count":1,"category":"AI Capex","best_corr":"AI semiconductor/Hormuz: Silicon wafer production requires helium (Qatar), bromine, sulfur. All three disrupted simultaneously.","best_corr_date":"2026-04-02","all_corr":[{"event":"AI semiconductor supply chain/Hormuz: Silicon wafer production requires helium (Qatar Ras Laffan), bromine, sulfur. All three disrupted simultaneously.","date":"2026-04-02","source":"Foreign Affairs First Light Brief","days":"281","status":"VALIDATED"}],"url":""},{"title":"Edition 12 — Critical Materials: Breaking China Stranglehold","short":"Ed.12 — Critical Materials","pub_date":"2025-06-26","best_days":142,"corr_count":2,"category":"Commodities","best_corr":"SAB-18 Materials Allocation: AI infrastructure and defence competing for same copper, rare earths from supply chains at capacity limits.","best_corr_date":"2025-11-15","all_corr":[{"event":"SAB-18 Materials Allocation Crisis: AI infrastructure and defence production competing for same copper, rare earths, transformers from supply chains at capacity limits.","date":"2025-11-15","source":"SAB-18 / Multiple sources","days":"142","status":"VALIDATED"},{"event":"SAB-17 rare earth export quotas: China April 2025 controls on 7 heavy rare earths. EV battery costs +10% Q4.","date":"2025-11-05","source":"MOFCOM / IEA / SAB-17","days":"132","status":"VALIDATED"}],"url":""},{"title":"SAB-02 Quantum Computing Acceleration Risk","short":"SAB-02 Quantum Computing Acceleration Risk","pub_date":"2025-07-02","best_days":281,"corr_count":1,"category":"AI Capex","best_corr":"Google/Oratomic papers: quantum timeline shortened 20x. Caltech/Oratomic breakthrough accelerates timeline exactly as SAB-02 warned.","best_corr_date":"2026-04-09","all_corr":[{"event":"Google/Oratomic papers: quantum timeline shortened 20x. Caltech/Oratomic quantum error correction breakthrough accelerates timeline exactly as SAB-02 warned.","date":"2026-04-09","source":"Google Quantum AI / Caltech / Oratomic","days":"281","status":"VALIDATED"}],"url":""},{"title":"SAB-04 Autonomous AI Market Manipulation","short":"SAB-04 Autonomous AI Market Manipulation","pub_date":"2025-07-16","best_days":265,"corr_count":1,"category":"AI Capex","best_corr":"Claude Mythos April 2026: model independently identified 16-year-old FFmpeg vulnerability and escaped sandbox.","best_corr_date":"2026-04-07","all_corr":[{"event":"Claude Mythos April 2026: model independently identified 16-year-old FFmpeg vulnerability and escaped sandbox — AI autonomous capability confirmed.","date":"2026-04-07","source":"Anthropic / Google Quantum AI","days":"265","status":"VALIDATED"}],"url":""},{"title":"SAB-05 Multipolar Finance / Global Monetary Fragmentation","short":"SAB-05 Multipolar Finance","pub_date":"2025-07-23","best_days":262,"corr_count":2,"category":"Monetary Architecture","best_corr":"Rubio as Secretary of State — March 2023 quote resurfaces: secondary economy totally independent of US already operating.","best_corr_date":"2026-04-11","all_corr":[{"event":"Rubio as Secretary of State — March 2023 quote resurfaces: secondary economy totally independent of US already operating.","date":"2026-04-11","source":"Fox News Hannity 2023 / Central bank data","days":"262","status":"VALIDATED"},{"event":"Iran collecting Hormuz tolls in Bitcoin and USDT. mBridge $55bn volume deployment-ready 2026. Secondary economy operating.","date":"2026-04-01","source":"Bloomberg / Multiple sources","days":"252","status":"VALIDATED"}],"url":""},{"title":"Edition 14 — The Defence Build-Up Europe Forgot","short":"Ed.14 — The Defence Build-Up Europe Forgot","pub_date":"2025-07-24","best_days":265,"corr_count":1,"category":"Geopolitics","best_corr":"Tim Ash April 2026: Ukraine drone capability — all-robotic assault captured territory. Gulf states signing defence cooperation agreements with Ukraine.","best_corr_date":"2026-04-15","all_corr":[{"event":"Tim Ash April 2026: Ukraine drone capability — all-robotic assault captured territory. Gulf states signing defence cooperation agreements with Ukraine.","date":"2026-04-15","source":"Timothy Ash Substack","days":"265","status":"VALIDATED"}],"url":""},{"title":"SAB-06 Insurance Availability Crisis","short":"SAB-06 Insurance Availability Crisis","pub_date":"2025-07-30","best_days":226,"corr_count":1,"category":"Insurance/Shipping","best_corr":"Hormuz war risk premiums 3.75% vs 0.1% pre-war — 33x normal. 24-hour quote validity. Tanker insurance $185k per supertanker transit.","best_corr_date":"2026-03-13","all_corr":[{"event":"Hormuz war risk premiums 3.75% vs 0.1% pre-war — 33x normal. 24-hour quote validity. Tanker insurance $185k per supertanker transit.","date":"2026-03-13","source":"Lloyds JWC / Marine tracking","days":"226","status":"VALIDATED"}],"url":""},{"title":"Edition 15 — New Fiscal Architecture / European Institutional","short":"Ed.15 — New Fiscal Architecture","pub_date":"2025-08-07","best_days":248,"corr_count":1,"category":"Geopolitics","best_corr":"Orban defeated April 12 2026 — Hungary energy axis in question. Institutional dysfunction thesis confirmed.","best_corr_date":"2026-04-12","all_corr":[{"event":"Orban defeated April 12 2026 — Hungary energy axis in question. Germany/Brussels institutional dysfunction thesis confirmed as Hungarian veto removed.","date":"2026-04-12","source":"Multiple election sources","days":"248","status":"VALIDATED"}],"url":""},{"title":"Currency Debasement Special Edition","short":"Currency Debasement Special Edition","pub_date":"2025-08-07","best_days":206,"corr_count":1,"category":"Gold","best_corr":"Warsh nominated as Fed chair — will cut rates under political pressure into inflation. Fiscal dominance scenario confirmed.","best_corr_date":"2026-03-01","all_corr":[{"event":"Warsh nominated as Fed chair — will cut rates under political pressure into inflation. Exactly the fiscal dominance scenario described in the debasement piece.","date":"2026-03-01","source":"Multiple news sources","days":"206","status":"VALIDATED"}],"url":""},{"title":"SAB-09 Corporate Bond Rollover Wall Crisis","short":"SAB-09 Corporate Bond Rollover Wall","pub_date":"2025-08-20","best_days":232,"corr_count":2,"category":"Private Credit","best_corr":"Bad PIK at 6.4% of direct lending borrowers vs 2.5% end-2021. CDX Financials Index launched April 10.","best_corr_date":"2026-04-10","all_corr":[{"event":"Bad PIK at 6.4% of direct lending borrowers vs 2.5% end-2021. CDX Financials Index launched April 10.","date":"2026-04-10","source":"S&P Global / JPMorgan / Private Debt News","days":"232","status":"VALIDATED"},{"event":"Private credit industry-wide gating confirmed: Ares $1.2bn redemptions, Apollo/BlackRock HPS same. $20.8bn Q1 redemptions industry-wide.","date":"2026-04-07","source":"FT / Bloomberg / Morgan Stanley","days":"229","status":"VALIDATED"}],"url":""},{"title":"Edition 16 — Professional Services Pricing Cliff","short":"Ed.16 — Professional Services Pricing Cliff","pub_date":"2025-08-21","best_days":166,"corr_count":1,"category":"AI Capex","best_corr":"LSEG -12.8% RELX -16.5% Experian -8.25% in single session. £15bn combined market cap destroyed.","best_corr_date":"2026-02-03","all_corr":[{"event":"SAB-19 Feb 2026: LSEG -12.8% RELX -16.5% Experian -8.25% in single session. £15bn combined market cap destroyed.","date":"2026-02-03","source":"Market data / SAB-19","days":"166","status":"VALIDATED"}],"url":""},{"title":"Global Fertiliser Chokepoints SAB","short":"Global Fertiliser Chokepoints SAB","pub_date":"2025-09-03","best_days":211,"corr_count":2,"category":"Food/Fertiliser","best_corr":"BoE/Food & Drink Federation 9-10% food inflation forecast","best_corr_date":"2026-04-02","all_corr":[{"event":"BoE/Food & Drink Federation 9-10% food inflation forecast","date":"2026-04-02","source":"Goldman Sachs / Food & Drink Federation","days":"211","status":"VALIDATED"},{"event":"Goldman Sachs nitrogen note March 2026","date":"2026-03-27","source":"Goldman Sachs","days":"205","status":"VALIDATED"}],"url":""},{"title":"SAB-11 Global Fertiliser Chokepoints","short":"SAB-11 Global Fertiliser Chokepoints","pub_date":"2025-09-03","best_days":223,"corr_count":1,"category":"Food/Fertiliser","best_corr":"China sulfuric acid export ban from May 2026 confirmed. Urea $770/ton Brazil, ammonia $1015 US Midwest.","best_corr_date":"2026-04-14","all_corr":[{"event":"China sulfuric acid export ban from May 2026 confirmed. Urea $770/ton Brazil, ammonia $1015 US Midwest, DAP $773 FOB NOLA.","date":"2026-04-14","source":"Petter Ostbo LinkedIn / China MOFCOM","days":"223","status":"VALIDATED"}],"url":""},{"title":"Edition 17 — Family Office Revolution / New Money Architecture","short":"Ed.17 — Family Office Revolution","pub_date":"2025-09-04","best_days":217,"corr_count":1,"category":"Private Credit","best_corr":"FT $20.8bn industry-wide Q1 2026 private credit redemptions. Family offices leading redemption requests.","best_corr_date":"2026-04-09","all_corr":[{"event":"FT $20.8bn industry-wide Q1 2026 private credit redemptions. Family offices leading redemption requests.","date":"2026-04-09","source":"Financial Times","days":"217","status":"VALIDATED"}],"url":""},{"title":"Edition 19 — Commodity Origami / Benchmark Fragmentation","short":"Ed.19 — Commodity Origami","pub_date":"2025-10-02","best_days":195,"corr_count":2,"category":"Monetary Architecture","best_corr":"Pierre Aycard April 2026: US Treasury threatening secondary sanctions on China/HK/UAE/Oman banks.","best_corr_date":"2026-04-15","all_corr":[{"event":"Pierre Aycard April 2026: US Treasury threatening secondary sanctions on China/HK/UAE/Oman banks. Parallel systems development confirmed.","date":"2026-04-15","source":"Pierre Aycard / Treasury statements","days":"195","status":"VALIDATED"},{"event":"Iran collecting Hormuz tolls in Bitcoin and USDT — payment rail separated from Brent pricing exactly as described.","date":"2026-03-26","source":"Bloomberg / Multiple sources","days":"175","status":"VALIDATED"}],"url":""},{"title":"AI Capex Reality Check SAB","short":"AI Capex Reality Check SAB","pub_date":"2025-10-08","best_days":175,"corr_count":1,"category":"AI Capex","best_corr":"Oracle cuts 30,000 jobs to fund data centres","best_corr_date":"2026-04-01","all_corr":[{"event":"Oracle cuts 30,000 jobs to fund data centres","date":"2026-04-01","source":"Oracle/TD Cowen","days":"175","status":"VALIDATED"}],"url":""},{"title":"Edition 20 — Private Credit Infrastructure Takeover","short":"Ed.20 — Private Credit Infrastructure Takeover","pub_date":"2025-10-16","best_days":176,"corr_count":2,"category":"Private Credit","best_corr":"CDX Financials Index launched April 10 2026. Blue Owl excluded at launch — already trading too wide.","best_corr_date":"2026-04-10","all_corr":[{"event":"CDX Financials Index launched April 10 2026. Blue Owl excluded at launch. Bad PIK 6.4% vs 2.5% end-2021. $330bn maturity wall.","date":"2026-04-10","source":"S&P / JPMorgan / FT","days":"176","status":"VALIDATED"},{"event":"First Brands Group Sep 2025 bankruptcy: $12bn liabilities, same collateral pledged to multiple lenders. Jim Chanos: golden age of fraud.","date":"2025-09-28","source":"Bloomberg / FT / Jim Chanos","days":"18","status":"VALIDATED"}],"url":""},{"title":"SAB-16 Gold Market Structure Vulnerability","short":"SAB-16 Gold Market Structure","pub_date":"2025-10-22","best_days":175,"corr_count":2,"category":"Gold","best_corr":"CB holdings exceeded dollar reserves first time Bretton Woods II era. PBOC 17 consecutive months buying.","best_corr_date":"2026-04-15","all_corr":[{"event":"CB holdings exceeded dollar reserves first time Bretton Woods II era. PBOC 17 consecutive months buying. Gold $4798 April 2026.","date":"2026-04-15","source":"WGC / PBOC / Swiss Federal Customs","days":"175","status":"VALIDATED"},{"event":"Dubai physical dislocation: gold flowing in, unable to exit. Price discount emerging. Putin export restriction decree.","date":"2026-04-01","source":"Bloomberg / Multiple sources","days":"161","status":"VALIDATED"}],"url":""},{"title":"SAB-18 Materials Allocation Crisis","short":"SAB-18 Materials Allocation Crisis","pub_date":"2025-11-26","best_days":131,"corr_count":1,"category":"Commodities","best_corr":"Copper structural deficit confirmed ICSG 150k MT 2026, JPMorgan 330k MT — first deficit since 2009.","best_corr_date":"2026-04-06","all_corr":[{"event":"Copper structural deficit confirmed ICSG 150k MT 2026, JPMorgan 330k MT — first deficit since 2009. Grasberg force majeure. Anglo American Chile downgrade.","date":"2026-04-06","source":"ICSG / JPMorgan / Filed Intelligence","days":"131","status":"VALIDATED"}],"url":""},{"title":"Edition 23 — Oil at $60 Why Not Deploying","short":"Ed.23 — Oil at $60 Why Not Deploying","pub_date":"2025-12-11","best_days":83,"corr_count":1,"category":"Trading","best_corr":"Epic Fury confirmed: China SPR was artificial demand. WTI call at $0.64 returned ~900%.","best_corr_date":"2026-03-04","all_corr":[{"event":"Epic Fury Special Edition Mar 2026 confirmed: China SPR stockpiling was artificial demand. WTI call at $0.64 entry returned ~900%.","date":"2026-03-04","source":"Epic Fury Special Edition / EIA data","days":"83","status":"VALIDATED — TRADING"}],"url":""},{"title":"Edition 24 — Year in Review / 2025 Track Record","short":"Ed.24 — Year in Review / 2025 Track Record","pub_date":"2025-12-18","best_days":302,"corr_count":1,"category":"Trading","best_corr":"Gold +63%, Silver +73.5%, Platinum +77%. Debasement and multipolar finance theses validated in trading returns.","best_corr_date":"2025-10-17","all_corr":[{"event":"Gold +63% (entry $2605, exit $4250). Silver +73.5% (entry $28.94, exit $50.21). Platinum +77%. Debasement and multipolar finance theses validated in trading returns.","date":"2025-10-17","source":"M Nadal trading account / IBKR","days":"302","status":"VALIDATED — TRADING"}],"url":""},{"title":"Edition 25 — AI Engine, Quiet Barrel, New Money Map","short":"Ed.25 — AI Engine, Quiet Barrel","pub_date":"2026-01-22","best_days":36,"corr_count":1,"category":"Hormuz","best_corr":"Operation Epic Fury Feb 27 2026. Gas indexed to oil = electricity costs explode — confirmed within 36 days.","best_corr_date":"2026-02-27","all_corr":[{"event":"Operation Epic Fury Feb 27 2026. TTF gas jumped ~70%. Gas indexed to oil = electricity costs explode — confirmed within 36 days.","date":"2026-02-27","source":"Market data / Multiple sources","days":"36","status":"VALIDATED"}],"url":""},{"title":"Ukrainian Drone Strikes thesis","short":"Ukrainian Drone Strikes thesis","pub_date":"2026-02-28","best_days":32,"corr_count":1,"category":"Ukraine","best_corr":"Russian gasoline export ban 1 April","best_corr_date":"2026-04-01","all_corr":[{"event":"Russian gasoline export ban 1 April","date":"2026-04-01","source":"Russian Government","days":"32","status":"VALIDATED"}],"url":""},{"title":"Epic Fury Special Edition","short":"Epic Fury Special Edition","pub_date":"2026-03-04","best_days":40,"corr_count":2,"category":"Hormuz","best_corr":"Brent structurally superior to WTI — Trump TACO pattern on WTI not Brent confirmed","best_corr_date":"2026-04-13","all_corr":[{"event":"Brent structurally superior to WTI — Trump TACO pattern on WTI not Brent confirmed","date":"2026-04-13","source":"Multiple price data","days":"40","status":"VALIDATED"},{"event":"WTI $79 call entered at $0.64 — returned ~900% by March","date":"2026-03-12","source":"IG trading account","days":"8","status":"VALIDATED — TRADING"}],"url":""},{"title":"Stagflation Trap SAB","short":"Stagflation Trap SAB","pub_date":"2026-03-10","best_days":36,"corr_count":4,"category":"Stagflation","best_corr":"IMF global growth 2.5% adverse scenario at persistent $100 oil. Weakest since pandemic.","best_corr_date":"2026-04-15","all_corr":[{"event":"IMF global growth 2.5% adverse scenario at persistent $100 oil. Weakest since pandemic.","date":"2026-04-15","source":"IMF","days":"36","status":"VALIDATED"},{"event":"Dombrovskis EU Commission on record: stagflationary shock","date":"2026-04-03","source":"European Commission","days":"24","status":"VALIDATED"},{"event":"Rogoff: biggest stagflationary shock in 50 years","date":"2026-03-27","source":"Project Syndicate","days":"17","status":"VALIDATED"},{"event":"UK 10Y gilt crossed 5.07%","date":"2026-03-27","source":"Bloomberg","days":"17","status":"VALIDATED"}],"url":""},{"title":"Gold Debasement Thesis","short":"Gold Debasement Thesis","pub_date":"2026-03-10","best_days":33,"corr_count":1,"category":"Gold","best_corr":"Robin Brooks: debasement trade attracted skittish buyers who sell in bad shocks","best_corr_date":"2026-04-12","all_corr":[{"event":"Robin Brooks: debasement trade attracted skittish buyers who sell in bad shocks","date":"2026-04-12","source":"Robin Brooks Substack","days":"33","status":"CORROBORATED"}],"url":""},{"title":"Physical Disruption thesis","short":"Physical Disruption thesis","pub_date":"2026-03-17","best_days":16,"corr_count":2,"category":"Hormuz","best_corr":"FT: Vitol Trafigura Mercuria wrongfooted","best_corr_date":"2026-04-02","all_corr":[{"event":"FT: Vitol Trafigura Mercuria wrongfooted","date":"2026-04-02","source":"Financial Times","days":"16","status":"VALIDATED"},{"event":"Qatalum aluminium smelter shutdown as gas supplies cut. Norsk Hydro force majeure. LME warehouses saw 100,000 tonnes withdrawn.","date":"2026-03-17","source":"Market data / Bloomberg / Reuters","days":"0","status":"VALIDATED"}],"url":""},{"title":"Brent/WTI at $10.89 SAB","short":"Brent/WTI at $10.89 SAB","pub_date":"2026-03-18","best_days":15,"corr_count":2,"category":"Hormuz","best_corr":"ActionForex safety of the barrel deliverability thesis","best_corr_date":"2026-04-02","all_corr":[{"event":"ActionForex safety of the barrel deliverability thesis","date":"2026-04-02","source":"ActionForex","days":"15","status":"VALIDATED"},{"event":"Spread reached $19.06 next day — Brent $115.53 vs WTI $96.47. Published at $10.89, confirmed within 24 hours.","date":"2026-03-19","source":"IG Markets / IBKR / Market data","days":"1","status":"VALIDATED — TRADING"}],"url":""},{"title":"Ukraine Special Edition","short":"Ukraine Special Edition","pub_date":"2026-03-23","best_days":21,"corr_count":2,"category":"Ukraine","best_corr":"Islamabad talks collapsed April 12-13. Munitions competition thesis confirmed operationally.","best_corr_date":"2026-04-13","all_corr":[{"event":"Islamabad talks collapsed April 12-13 after 21 hours. Munitions competition: every Patriot used in Gulf = one fewer for Ukraine. Iran/Ukraine link confirmed.","date":"2026-04-13","source":"Multiple news sources","days":"21","status":"VALIDATED"},{"event":"FT: Trump used Ukraine weapons as explicit blackmail for Hormuz coalition","date":"2026-04-02","source":"Financial Times","days":"10","status":"VALIDATED"}],"url":""},{"title":"Private Credit / Lehman Murabaha","short":"Private Credit / Lehman Murabaha","pub_date":"2026-03-25","best_days":20,"corr_count":1,"category":"Private Credit","best_corr":"Wells Fargo Q1 8-K: $36.2bn Corporate Debt Finance exposure. 23% to BDCs.","best_corr_date":"2026-04-14","all_corr":[{"event":"Wells Fargo Q1 8-K: $36.2bn Corporate Debt Finance exposure. 23% to BDCs. Advance rate 60.1%.","date":"2026-04-14","source":"Wells Fargo 8-K SEC","days":"20","status":"CORROBORATED — sequence building"}],"url":""},{"title":"Hormuz Toll Road Special Edition","short":"Hormuz Toll Road Special Edition","pub_date":"2026-03-26","best_days":10,"corr_count":3,"category":"Hormuz","best_corr":"Laffer curve framing confirmed — Iran pricing below revenue-maximising level","best_corr_date":"2026-04-05","all_corr":[{"event":"Laffer curve framing confirmed — Iran pricing below revenue-maximising level","date":"2026-04-05","source":"Multiple analytical sources","days":"10","status":"VALIDATED"},{"event":"China-Pakistan restore normal passage language","date":"2026-04-01","source":"China-Pakistan Joint Statement","days":"6","status":"VALIDATED"},{"event":"FT corroboration of toll road model","date":"2026-03-27","source":"Financial Times","days":"1","status":"VALIDATED"}],"url":""},{"title":"Tomorrow Never Dies Special Edition","short":"Tomorrow Never Dies SE","pub_date":"2026-03-30","best_days":2,"corr_count":1,"category":"Hormuz","best_corr":"Bab el-Mandeb formally engaged — Houthis declared war","best_corr_date":"2026-03-28","all_corr":[{"event":"Bab el-Mandeb formally engaged — Houthis declared war","date":"2026-03-28","source":"Multiple sources","days":"2","status":"VALIDATED"}],"url":""},{"title":"TAL Pipeline European Energy Vulnerability","short":"TAL Pipeline SAB","pub_date":"2026-03-30","best_days":11,"corr_count":1,"category":"Energy","best_corr":"TAL pipeline sabotage confirmed — MiRO Karlsruhe on emergency reserves","best_corr_date":"2026-04-10","all_corr":[{"event":"TAL pipeline sabotage confirmed — MiRO Karlsruhe on emergency reserves 3 days","date":"2026-04-10","source":"Welt am Sonntag / MiRO spokeswoman","days":"11","status":"VALIDATED"}],"url":""},{"title":"Two-Clock Model","short":"Two-Clock Model","pub_date":"2026-03-30","best_days":16,"corr_count":1,"category":"Hormuz","best_corr":"Saudi Arabia pressing Trump to end blockade specifically because of Bab el-Mandeb Houthi activation threat","best_corr_date":"2026-04-15","all_corr":[{"event":"Saudi Arabia pressing Trump to end blockade specifically because of Bab el-Mandeb Houthi activation threat","date":"2026-04-15","source":"Foreign Affairs First Light Brief","days":"16","status":"VALIDATED"}],"url":""},{"title":"Where's the Beef Edition 27","short":"Where's the Beef Ed.27","pub_date":"2026-04-02","best_days":13,"corr_count":2,"category":"Food/Fertiliser","best_corr":"China sulfuric acid export ban May confirmed. Petter Ostbo LinkedIn 208 reactions: urea $770 Brazil.","best_corr_date":"2026-04-15","all_corr":[{"event":"China sulfuric acid export ban May confirmed. Petter Ostbo LinkedIn 208 reactions: urea $770 Brazil ammonia $1015.","date":"2026-04-15","source":"Petter Ostbo LinkedIn / China MOFCOM","days":"13","status":"VALIDATED"},{"event":"BoE warned Iran war shock intensifying risks. Food and Drink Federation moved UK food inflation forecast to 9-10%","date":"2026-04-02","source":"Bank of England / FDF","days":"0","status":"VALIDATED — SAME DAY"}],"url":""},{"title":"Collision Course SAB","short":"Collision Course SAB","pub_date":"2026-04-07","best_days":4,"corr_count":2,"category":"Private Credit","best_corr":"Fed querying major US banks on private credit exposure — regulatory pressure arriving","best_corr_date":"2026-04-11","all_corr":[{"event":"Fed querying major US banks on private credit exposure — regulatory pressure arriving","date":"2026-04-11","source":"Bloomberg via El-Erian Substack","days":"4","status":"VALIDATED"},{"event":"Apollo and Ares limited redemptions — El-Erian FT column confirming gating","date":"2026-04-13","source":"Bloomberg/El-Erian","days":"3","status":"VALIDATED"}],"url":""},{"title":"Four Clocks Framework","short":"Four Clocks Framework","pub_date":"2026-04-11","best_days":3,"corr_count":2,"category":"Hormuz","best_corr":"EIA STEO assumed conflict ends April — blockade announced 13 April. EIA overtaken within one week.","best_corr_date":"2026-04-14","all_corr":[{"event":"EIA STEO assumed conflict ends April — blockade announced 13 April. EIA overtaken within one week.","date":"2026-04-14","source":"EIA STEO / War Zone / TWZ","days":"3","status":"VALIDATED — IEA/EIA systematically underestimating duration"},{"event":"Michael Preponderance of Evidence adds Clock Zero","date":"2026-04-11","source":"Preponderance of Evidence Substack","days":"0","status":"VALIDATED"}],"url":""},{"title":"Paper Calm Physical Stress","short":"Paper Calm Physical Stress","pub_date":"2026-04-13","best_days":2,"corr_count":5,"category":"Hormuz","best_corr":"El-Erian NYT chart shows paper-physical divergence","best_corr_date":"2026-04-11","all_corr":[{"event":"El-Erian NYT chart shows paper-physical divergence","date":"2026-04-11","source":"El-Erian/NYT","days":"2","status":"VALIDATED"},{"event":"FT confirms last pre-war tankers reaching refineries 20 April. Forties Blend near $149.","date":"2026-04-14","source":"FT / Jamie Smyth / Energy Aspects","days":"1","status":"VALIDATED — accelerating"},{"event":"HFI: 11-13mb/d outage 77-91mn bbls lost IEA SPR physically incapable of offsetting","date":"2026-04-14","source":"HFI Research Substack","days":"1","status":"VALIDATED — accelerating"},{"event":"BP flags exceptional oil trading Q1 — K-shaped impact visible in single earnings statement","date":"2026-04-14","source":"BP Trading Statement / FT","days":"1","status":"VALIDATED"},{"event":"Brent +7% on blockade news same day as publication","date":"2026-04-13","source":"Trading Economics/Bloomberg","days":"0","status":"VALIDATED — SAME DAY"}],"url":""},{"title":"Europe The Bill Special Edition","short":"Europe: The Bill SE","pub_date":"2026-04-15","best_days":0,"corr_count":1,"category":"Energy","best_corr":"FT Ron Bousso Reuters: ARA jet fuel stocks lowest since March 2023. Lufthansa grounding warning.","best_corr_date":"2026-04-15","all_corr":[{"event":"FT Ron Bousso Reuters: ARA jet fuel stocks lowest since March 2023. Lufthansa grounding warning. IMF: global growth 2.5% adverse scenario.","date":"2026-04-15","source":"Reuters / FT / IMF / IEA","days":"0","status":"VALIDATED — SAME DAY"}],"url":""}];
+
+const CAT={
+  'Hormuz':'#2b7dd4','AI Capex':'#6b5fd4','Private Credit':'#c4501f',
+  'Food/Fertiliser':'#4d7a1a','Stagflation':'#9a6010','Gold':'#9a6010',
+  'Commodities':'#128060','Energy':'#128060','Monetary Architecture':'#b83d6a',
+  'Ukraine':'#787770','Geopolitics':'#787770','Water Wars':'#2b7dd4',
+  'Insurance/Shipping':'#b83d6a','Trading':'#4d7a1a'
+};
+
+const CAT_LIGHT={
+  'Hormuz':'#e6f1fb','AI Capex':'#eeedfe','Private Credit':'#faece7',
+  'Food/Fertiliser':'#eaf3de','Stagflation':'#faeeda','Gold':'#faeeda',
+  'Commodities':'#e1f5ee','Energy':'#e1f5ee','Monetary Architecture':'#fbeaf0',
+  'Ukraine':'#f1efe8','Geopolitics':'#f1efe8','Water Wars':'#e6f1fb',
+  'Insurance/Shipping':'#fbeaf0','Trading':'#eaf3de'
+};
+
+const MAX_DAYS=430;
+let activeFilter='all';
+let expanded=new Set();
+
+function fmtDate(d){
+  if(!d)return'';
+  const p=d.split('-');
+  const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return m[parseInt(p[1])-1]+' '+p[0];
+}
+
+function dateToMs(s){return new Date(s).getTime();}
+
+function setFilter(cat,btn){
+  activeFilter=cat;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function clearFilters(){
+  activeFilter='all';
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.filter-btn').classList.add('active');
+  document.getElementById('srch').value='';
+  document.getElementById('statusFilter').value='all';
+  document.getElementById('sortBy').value='date';
+  document.getElementById('minLead').value='0';
+  document.getElementById('dateFrom').value='2025-02-01';
+  document.getElementById('dateTo').value='2026-04-15';
+  render();
+}
+
+function buildTimeline(data){
+  const axis=document.getElementById('tl-axis');
+  const outer=document.getElementById('tl-outer');
+  axis.innerHTML='';
+  outer.querySelectorAll('.tl-dot,.tl-today,.tl-today-label,.tl-year,.tl-tooltip,.epic-band,.epic-label').forEach(e=>e.remove());
+
+  const START=new Date('2025-01-01').getTime();
+  const END=new Date('2026-06-01').getTime();
+  const SPAN=END-START;
+
+  function pct(d){return Math.max(0,Math.min(100,(new Date(d).getTime()-START)/SPAN*100));}
+
+  // Epic Fury band
+  const ef1=pct('2026-02-27');
+  const ef2=pct('2026-04-15');
+  const band=document.createElement('div');
+  band.className='epic-band';
+  band.style.cssText=`left:${ef1}%;right:${100-ef2}%`;
+  const bl=document.createElement('div');
+  bl.className='epic-label';
+  bl.style.left=ef1+0.3+'%';
+  bl.textContent='Epic Fury cluster';
+  outer.appendChild(band);
+  outer.appendChild(bl);
+
+  // Year markers
+  ['2025-01-01','2026-01-01'].forEach(y=>{
+    const lbl=document.createElement('div');
+    lbl.className='tl-year';
+    lbl.style.left=pct(y)+'%';
+    lbl.textContent=y.split('-')[0];
+    outer.appendChild(lbl);
+  });
+
+  // Today line
+  const tod=document.createElement('div');
+  tod.className='tl-today';
+  const todPct=pct('2026-04-15');
+  tod.style.cssText=`left:${todPct}%;top:0;height:100%;opacity:0.7`;
+  const todLbl=document.createElement('div');
+  todLbl.className='tl-today-label';
+  todLbl.style.left=todPct+'%';
+  todLbl.textContent='Today';
+  outer.appendChild(tod);
+  outer.appendChild(todLbl);
+
+  const tooltip=document.createElement('div');
+  tooltip.className='tl-tooltip';
+  outer.appendChild(tooltip);
+
+  // Dots for each publication
+  data.forEach(p=>{
+    const dot=document.createElement('div');
+    dot.className='tl-dot';
+    const pp=pct(p.pub_date);
+    const col=CAT[p.category]||'#888';
+    dot.style.cssText=`left:${pp}%;background:${col};top:-5px`;
+    dot.addEventListener('mouseenter',function(e){
+      tooltip.style.display='block';
+      tooltip.innerHTML=`<strong>${p.short}</strong><br>${fmtDate(p.pub_date)} · ${p.best_days>0?p.best_days+'d lead':'same day'}`;
+      const axRect=axis.getBoundingClientRect();
+      const dotRect=dot.getBoundingClientRect();
+      const x=dotRect.left-axRect.left;
+      tooltip.style.left=Math.min(x,axis.offsetWidth-200)+'px';
+      tooltip.style.top='-50px';
+    });
+    dot.addEventListener('mouseleave',function(){tooltip.style.display='none';});
+    axis.appendChild(dot);
+  });
+}
+
+function buildExec(data){
+  const allDays=data.filter(p=>p.best_days>0).map(p=>p.best_days);
+  const avg=allDays.length?Math.round(allDays.reduce((a,b)=>a+b,0)/allDays.length):0;
+  const maxD=allDays.length?Math.max(...allDays):0;
+  const trading=data.filter(p=>p.all_corr.some(c=>c.status&&c.status.includes('TRADING'))).length;
+  const sameDay=data.filter(p=>p.all_corr.some(c=>c.status&&c.status.includes('SAME DAY'))).length;
+  const totalCorr=data.reduce((s,p)=>s+p.corr_count,0);
+
+  const over90=allDays.filter(d=>d>=90).length;
+  const pct90=allDays.length?Math.round(over90/allDays.length*100):0;
+
+  document.getElementById('exec').innerHTML=`
+    <div class="exec-card">
+      <div class="exec-label">Publications</div>
+      <div class="exec-value">${data.length}</div>
+      <div class="exec-sub">${totalCorr} corroboration events</div>
+    </div>
+    <div class="exec-card">
+      <div class="exec-label">Avg lead time</div>
+      <div class="exec-value">${avg}<span style="font-size:14px;font-weight:400;color:#888">d</span></div>
+      <div class="exec-sub">Max ${maxD} days (Ed.1 AI Concentration)</div>
+      <div class="exec-bar-wrap"><div class="exec-bar" style="width:${Math.min(100,avg/4)}%;background:#6b5fd4"></div></div>
+    </div>
+    <div class="exec-card">
+      <div class="exec-label">90+ day calls</div>
+      <div class="exec-value">${over90}<span style="font-size:14px;font-weight:400;color:#888"> / ${allDays.length}</span></div>
+      <div class="exec-sub">${pct90}% called 3+ months ahead</div>
+      <div class="exec-bar-wrap"><div class="exec-bar" style="width:${pct90}%;background:#2b7dd4"></div></div>
+    </div>
+    <div class="exec-card">
+      <div class="exec-label">Trading validated</div>
+      <div class="exec-value">${trading}</div>
+      <div class="exec-sub">${sameDay} same-day corroborations</div>
+      <div class="exec-bar-wrap"><div class="exec-bar" style="width:${Math.min(100,trading/data.length*100)}%;background:#4d7a1a"></div></div>
+    </div>
+  `;
+}
+
+function render(){
+  const q=document.getElementById('srch').value.toLowerCase();
+  const statusF=document.getElementById('statusFilter').value;
+  const sortBy=document.getElementById('sortBy').value;
+  const minLead=parseInt(document.getElementById('minLead').value)||0;
+  const dateFrom=document.getElementById('dateFrom').value;
+  const dateTo=document.getElementById('dateTo').value;
+
+  let data=DATA.filter(p=>{
+    if(activeFilter!=='all'&&p.category!==activeFilter)return false;
+    if(q&&!p.title.toLowerCase().includes(q)&&!p.best_corr.toLowerCase().includes(q)&&!p.category.toLowerCase().includes(q))return false;
+    if(p.pub_date<dateFrom||p.pub_date>dateTo)return false;
+    if(p.best_days<minLead)return false;
+    if(statusF!=='all'){
+      const allStatus=p.all_corr.map(c=>c.status||'').join(' ');
+      if(statusF==='TRADING'&&!allStatus.includes('TRADING'))return false;
+      if(statusF==='SAME DAY'&&!allStatus.includes('SAME DAY'))return false;
+      if(statusF==='VALIDATED'&&!allStatus.includes('VALIDATED'))return false;
+      if(statusF==='CORROBORATED'&&!allStatus.includes('CORROBORATED'))return false;
+    }
+    return true;
+  });
+
+  if(sortBy==='days')data.sort((a,b)=>b.best_days-a.best_days);
+  else if(sortBy==='corr')data.sort((a,b)=>b.corr_count-a.corr_count);
+  else data.sort((a,b)=>a.pub_date.localeCompare(b.pub_date));
+
+  buildExec(data);
+  buildTimeline(data);
+
+  const cats=[...new Set(data.map(p=>p.category))].sort();
+  document.getElementById('legend').innerHTML=cats.map(c=>`
+    <span class="leg-item"><span class="leg-dot" style="background:${CAT[c]||'#888'}"></span>${c}</span>
+  `).join('');
+
+  document.getElementById('rcount').textContent=`Showing ${data.length} of ${DATA.length} publications`;
+
+  const grid=document.getElementById('grid');
+  if(!data.length){grid.innerHTML='<div class="empty">No matching publications</div>';return;}
+
+  grid.innerHTML=data.map(p=>{
+    const pct=Math.min(100,(p.best_days/MAX_DAYS)*100);
+    const col=CAT[p.category]||'#888';
+    const isExp=expanded.has(p.title);
+    const dayLabel=p.best_days>0?p.best_days+'d':'same day';
+    const isTrade=p.all_corr.some(c=>c.status&&c.status.includes('TRADING'));
+    const isSame=p.all_corr.some(c=>c.status&&c.status.includes('SAME DAY'));
+    const badge=isTrade?'<span class="badge-trading">trading</span>':(isSame?'<span class="badge-sameday">same day</span>':'');
+    const linkEl=p.url?`<a class="link-icon" href="${p.url}" target="_blank" onclick="event.stopPropagation()" title="Read on Substack">↗</a>`:'';
+    const key='k'+p.title.replace(/[^a-z0-9]/gi,'').substring(0,20);
+
+    return `
+      <div class="row ${isExp?'expanded':''}" onclick="toggle(${JSON.stringify(p.title)})">
+        <div>
+          <div class="row-title">
+            <span class="cat-dot" style="background:${col}"></span>
+            ${p.short}${badge}${linkEl}
+          </div>
+          <div class="row-date">${fmtDate(p.pub_date)}</div>
+        </div>
+        <div>
+          <div class="bar-wrap"><div class="bar-fill" style="width:${pct}%;background:${col};opacity:0.55"></div></div>
+          <div class="bar-label">${p.best_corr.substring(0,74)}${p.best_corr.length>74?'…':''}</div>
+        </div>
+        <div class="days-badge" style="color:${col}">${dayLabel}</div>
+        <div class="count-badge">${p.corr_count}</div>
+      </div>
+      <div class="detail ${isExp?'open':''}" id="${key}">
+        ${p.all_corr.map(c=>`
+          <div class="corr-item">
+            <div class="corr-event">${c.event}</div>
+            <div class="corr-meta">
+              <span>${fmtDate(c.date)}</span>
+              <span>${c.source}</span>
+              <span style="color:${col}">${c.days}d lead</span>
+              <span style="color:#2d7a3a">${c.status}</span>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }).join('');
+}
+
+function toggle(title){
+  if(expanded.has(title))expanded.delete(title);else expanded.add(title);
+  render();
+}
+
+render();
+</script>
+</body>
+</html>

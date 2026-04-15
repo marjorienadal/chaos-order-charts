@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Calendar of Consequences</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #F7F4EF;
+    font-family: 'Source Serif 4', Georgia, serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+  .card {
+    background: #FFFFFF;
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 2px 24px rgba(0,0,0,0.06);
+    max-width: 680px;
+    width: 100%;
+    padding: 48px 52px 36px;
+  }
+  .label-top {
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #9A7B2E;
+    margin-bottom: 6px;
+  }
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #0A1628;
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+  .subtitle {
+    font-size: 13px;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(10,22,40,0.5);
+    margin-bottom: 44px;
+  }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    margin-bottom: 36px;
+    padding-left: 0;
+  }
+
+  .tl-spine {
+    position: absolute;
+    left: 120px;
+    top: 12px;
+    bottom: 12px;
+    width: 2px;
+    background: rgba(10,22,40,0.1);
+  }
+
+  .tl-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    margin-bottom: 28px;
+    position: relative;
+  }
+
+  .tl-item:last-child { margin-bottom: 0; }
+
+  .tl-date {
+    width: 120px;
+    flex-shrink: 0;
+    text-align: right;
+    padding-right: 24px;
+    padding-top: 2px;
+  }
+
+  .tl-date-main {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #0A1628;
+    display: block;
+    line-height: 1.2;
+  }
+
+  .tl-date-sub {
+    font-size: 10px;
+    font-weight: 300;
+    color: rgba(10,22,40,0.4);
+    display: block;
+    margin-top: 2px;
+  }
+
+  .tl-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .tl-content {
+    flex: 1;
+    padding-left: 20px;
+    padding-top: 0;
+  }
+
+  .tl-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+
+  .tl-desc {
+    font-size: 12px;
+    font-weight: 300;
+    color: rgba(10,22,40,0.6);
+    line-height: 1.55;
+  }
+
+  /* Item types */
+  .type-origin .tl-dot { background: #0A1628; border: 2px solid #0A1628; }
+  .type-origin .tl-title { color: #0A1628; }
+
+  .type-warning .tl-dot { background: #C9A84C; border: 2px solid #C9A84C; }
+  .type-warning .tl-title { color: #9A7B2E; }
+
+  .type-critical .tl-dot { background: #8B1A1A; border: 2px solid #8B1A1A; }
+  .type-critical .tl-title { color: #8B1A1A; }
+
+  .type-policy .tl-dot { background: #4A5A72; border: 2px solid #4A5A72; }
+  .type-policy .tl-title { color: #4A5A72; }
+
+  .type-deadline .tl-dot { background: #0A1628; border: 2px solid #C9A84C; box-shadow: 0 0 0 3px rgba(201,168,76,0.2); }
+  .type-deadline .tl-title { color: #0A1628; }
+
+  /* Highlight band */
+  .tl-band {
+    position: absolute;
+    left: 106px;
+    right: -20px;
+    background: rgba(201, 168, 76, 0.06);
+    border-left: 3px solid rgba(201, 168, 76, 0.4);
+    border-radius: 0 2px 2px 0;
+    z-index: 0;
+  }
+
+  .band-label {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(201, 168, 76, 0.6);
+    font-weight: 300;
+    writing-mode: vertical-rl;
+    padding-right: 4px;
+  }
+
+  .annotation {
+    padding: 16px 20px;
+    border-left: 3px solid #C9A84C;
+    background: #FBF8F2;
+    margin-bottom: 4px;
+  }
+  .annotation-text {
+    font-size: 12.5px;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(10,22,40,0.65);
+    line-height: 1.65;
+  }
+  .annotation-text strong { font-weight: 400; font-style: normal; color: #9A7B2E; }
+  .divider { height: 1px; background: rgba(10,22,40,0.08); margin: 28px 0 18px; }
+  .footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .footer-left { font-size: 10px; font-weight: 300; color: rgba(10,22,40,0.35); letter-spacing: 0.06em; }
+  .footer-right { font-size: 10px; font-weight: 300; color: #9A7B2E; letter-spacing: 0.04em; text-align: right; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="label-top">European Energy Crisis · Transmission Timeline</div>
+  <h1>A Calendar of Consequences</h1>
+  <div class="subtitle">From market shock to physical shortage — the lag that ends in late April</div>
+
+  <div class="timeline">
+    <div class="tl-spine"></div>
+
+    <div class="tl-item type-origin">
+      <div class="tl-date">
+        <span class="tl-date-main">28 Feb 2026</span>
+        <span class="tl-date-sub">Day zero</span>
+      </div>
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <div class="tl-title">Hormuz effectively closed to energy traffic</div>
+        <div class="tl-desc">Iranian restrictions reduce tanker transits by over 90%. Last loaded tankers depart the Gulf.</div>
+      </div>
+    </div>
+
+    <div class="tl-item type-warning">
+      <div class="tl-date">
+        <span class="tl-date-main">10 Apr 2026</span>
+        <span class="tl-date-sub">Week 6</span>
+      </div>
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <div class="tl-title">ACI Europe: jet fuel shortage within 3 weeks</div>
+        <div class="tl-desc">Industry body writes to EU Transport Commissioner. Strategic reserves at 8–10 days at major airports.</div>
+      </div>
+    </div>
+
+    <div class="tl-item type-critical">
+      <div class="tl-date">
+        <span class="tl-date-main">Late Apr 2026</span>
+        <span class="tl-date-sub">Week 7–8</span>
+      </div>
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <div class="tl-title">Last pre-war tankers reach European refineries</div>
+        <div class="tl-desc">Pre-war supply buffer exhausted. Refineries drawing on reserves only. War premium becomes consumer price.</div>
+      </div>
+    </div>
+
+    <div class="tl-item type-policy">
+      <div class="tl-date">
+        <span class="tl-date-main">25 Apr 2026</span>
+        <span class="tl-date-sub">Policy trigger</span>
+      </div>
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <div class="tl-title">EU short-term Russian LNG contracts begin phasing out</div>
+        <div class="tl-desc">Phase-out begins as Europe pays $3.3bn for Yamal LNG in Q1 — 97% of available cargoes.</div>
+      </div>
+    </div>
+
+    <div class="tl-item type-warning">
+      <div class="tl-date">
+        <span class="tl-date-main">Apr–Oct 2026</span>
+        <span class="tl-date-sub">Peak pressure</span>
+      </div>
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <div class="tl-title">Consumer price transmission window</div>
+        <div class="tl-desc">12–18 month commodity lag peaks. Livestock liquidation lag converges simultaneously. Household impact fully visible.</div>
+      </div>
+    </div>
+
+    <div class="tl-item type-deadline">
+      <div class="tl-date">
+        <span class="tl-date-main">1 Nov 2026</span>
+        <span class="tl-date-sub">EU deadline</span>
+      </div>
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <div class="tl-title">EU 90% storage regulatory target</div>
+        <div class="tl-desc">Requires injecting ~61 percentage points from April's 28.9%. Cost: €35–44bn. Qatar still offline.</div>
+      </div>
+    </div>
+
+    <div class="tl-item type-policy">
+      <div class="tl-date">
+        <span class="tl-date-main">End 2027</span>
+        <span class="tl-date-sub">Full ban</span>
+      </div>
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <div class="tl-title">Full EU ban on Russian LNG imports</div>
+        <div class="tl-desc">The supply Europe is banning is the supply Europe currently cannot survive without.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="annotation">
+    <div class="annotation-text">
+      The piece is not about whether an energy crisis exists. It is about <strong>when the lag ends</strong> — the point at which market risk becomes physical shortage. That moment is <strong>late April 2026</strong>.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="footer">
+    <div class="footer-left">Sources: ACI Europe · GIE AGSI+ · EU Council · gCaptain · Bruegel · April 2026</div>
+    <div class="footer-right">© M Nadal &amp; Co Strategic Advisory · April 2026 · chaosandorderinsight.substack.com</div>
+  </div>
+</div>
+</body>
+</html>

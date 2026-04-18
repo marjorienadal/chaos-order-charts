@@ -491,6 +491,486 @@
   </div>
 
   <!-- Resolution -->
+  <div style="margin-top:24px; margin-left:220px; border:2px solid #C9A84C; background:rgba(201,168,76,0.06); padding:20px 24px;">
+    <div style="font-family:'Space Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.15em; color:#C9A84C; margin-bottom:8px;">Flow restoration</div>
+    <div style="font-family:'Libre Baskerville',serif; font-size:26px; font-weight:700; color:#C9A84C;">6–8 months minimum</div>
+    <div style="font-family:'Libre Baskerville',serif; font-size:11px; color:#9CA3AF; margin-top:4px; font-style:italic;">from today — if Clock 4 begins resolving immediately</div>
+    <div style="margin-top:12px; padding-top:12px; border-top:1px solid rgba(201,168,76,0.2);">
+      <div style="font-family:'Space Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.1em; color:#C9A84C;">Paper market pricing:</div>
+      <div style="font-family:'Libre Baskerville',serif; font-size:14px; color:#E05252; margin-top:4px; font-weight:700;">3–4 months. The gap is where the mispricing lives.</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-left">
+      Copyright M Nadal & Co Strategic Advisory<br>
+      April 2026
+    </div>
+    <div class="footer-right">
+      chaosandorderinsight.substack.com<br>
+      Framework updated with operational depth<br>from The Crude Reality
+    </div>
+  </div>
+
+</div>
+</body>
+</html>    letter-spacing: 0.02em;
+    color: #E8E0D0;
+    margin-bottom: 6px;
+  }
+
+  .header h1 span {
+    color: #C9A84C;
+  }
+
+  .header .subtitle {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #6B7280;
+  }
+
+  .chain {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+
+  .clock-block {
+    display: grid;
+    grid-template-columns: 1fr 40px 1fr;
+    align-items: stretch;
+    min-height: 110px;
+  }
+
+  .clock-left {
+    padding: 20px 24px 20px 0;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .clock-right {
+    padding: 20px 0 20px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .clock-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+
+  .clock-dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 35px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .clock-line {
+    width: 2px;
+    flex: 1;
+    margin-top: 0;
+  }
+
+  .clock-line.top {
+    margin-bottom: 0;
+    height: 35px;
+    flex: none;
+  }
+
+  .clock-line.bottom {
+    flex: 1;
+  }
+
+  /* Clock 4 — mines — red/urgent */
+  .c4 .clock-dot {
+    border-color: #E05252;
+    color: #E05252;
+    background: rgba(224,82,82,0.08);
+  }
+  .c4 .clock-line { background: #E05252; opacity: 0.4; }
+  .c4 .clock-label { color: #E05252; }
+
+  /* Clock 2 — insurance */
+  .c2 .clock-dot {
+    border-color: #E8A838;
+    color: #E8A838;
+    background: rgba(232,168,56,0.08);
+  }
+  .c2 .clock-line { background: #E8A838; opacity: 0.4; }
+  .c2 .clock-label { color: #E8A838; }
+
+  /* Clock 1 — tanker backlog */
+  .c1 .clock-dot {
+    border-color: #5B8DEF;
+    color: #5B8DEF;
+    background: rgba(91,141,239,0.08);
+  }
+  .c1 .clock-line { background: #5B8DEF; opacity: 0.4; }
+  .c1 .clock-label { color: #5B8DEF; }
+
+  /* Clock 3 — rerouting */
+  .c3 .clock-dot {
+    border-color: #7BC47B;
+    color: #7BC47B;
+    background: rgba(123,196,123,0.08);
+  }
+  .c3 .clock-line { background: #7BC47B; opacity: 0.4; }
+  .c3 .clock-label { color: #7BC47B; }
+
+  /* Resolution */
+  .resolution .clock-dot {
+    border-color: #6B7280;
+    color: #6B7280;
+    background: rgba(107,114,128,0.08);
+    width: 32px;
+    height: 32px;
+    font-size: 9px;
+    margin-top: 0;
+  }
+
+  .clock-label {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .clock-desc {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 12px;
+    color: #9CA3AF;
+    line-height: 1.5;
+  }
+
+  .timeline-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: #6B7280;
+    margin-top: 6px;
+    text-transform: uppercase;
+  }
+
+  .gates-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #4B5563;
+    margin: 4px 0;
+    text-align: center;
+  }
+
+  .arrow {
+    font-size: 14px;
+    color: #4B5563;
+  }
+
+  .resolution-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 0;
+    padding: 20px;
+    border: 1px solid #1F2937;
+    background: rgba(31,41,55,0.3);
+  }
+
+  .resolution-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #6B7280;
+    margin-bottom: 4px;
+  }
+
+  .resolution-time {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #4B5563;
+  }
+
+  .gates-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6px 0;
+    position: relative;
+  }
+
+  .gates-connector::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #1F2937;
+    transform: translateX(-50%);
+  }
+
+  .gates-pill {
+    background: #111827;
+    border: 1px solid #374151;
+    padding: 3px 10px;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #6B7280;
+    position: relative;
+    z-index: 1;
+  }
+
+  .highlight-box {
+    border: 1px solid #C9A84C;
+    background: rgba(201,168,76,0.04);
+    padding: 16px 20px;
+    margin-bottom: 32px;
+  }
+
+  .highlight-box p {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: #C9A84C;
+    line-height: 1.6;
+    text-align: center;
+  }
+
+  .footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #1F2937;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-left {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #374151;
+    line-height: 1.6;
+  }
+
+  .footer-right {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #374151;
+    text-align: right;
+    line-height: 1.6;
+  }
+
+  .new-badge {
+    display: inline-block;
+    background: rgba(224,82,82,0.15);
+    border: 1px solid #E05252;
+    color: #E05252;
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  .vertical-stack {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stack-item {
+    display: grid;
+    grid-template-columns: 200px 20px 1fr;
+    gap: 0;
+    align-items: start;
+  }
+
+  .stack-left {
+    text-align: right;
+    padding-right: 20px;
+    padding-top: 2px;
+  }
+
+  .stack-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .node-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    flex-shrink: 0;
+  }
+
+  .node-line {
+    width: 2px;
+    height: 40px;
+    background: currentColor;
+    opacity: 0.3;
+  }
+
+  .stack-right {
+    padding-left: 20px;
+    padding-bottom: 20px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>Hormuz: <span>Four Clocks</span></h1>
+    <div class="subtitle">The dependency chain — why Clock 4 gates everything</div>
+  </div>
+
+  <div class="highlight-box">
+    <p>Clock 4 is the falsification test. If mines remain uncleared, Clocks 1–3 cannot resolve regardless of what the diplomatic calendar produces.</p>
+  </div>
+
+  <!-- DEPENDENCY CHAIN -->
+  <div class="vertical-stack">
+
+    <!-- Clock 4 -->
+    <div class="stack-item">
+      <div class="stack-left">
+        <div class="clock-label c4" style="color:#E05252; font-family:'Libre Baskerville',serif; font-weight:700; font-size:14px;">Clock 4 <span class="new-badge">gates all</span></div>
+        <div style="font-family:'Space Mono',monospace; font-size:10px; color:#6B7280; margin-top:4px; text-transform:uppercase; letter-spacing:0.08em;">The Mines</div>
+        <div style="font-family:'Libre Baskerville',serif; font-size:11px; color:#9CA3AF; margin-top:6px; line-height:1.5;">Laid haphazardly, no complete mapping, some have drifted. Neither Iran nor the US has rapid mine clearance capability.</div>
+        <div style="font-family:'Space Mono',monospace; font-size:10px; color:#E05252; margin-top:8px; text-transform:uppercase; letter-spacing:0.08em;">⏱ Unknown timeline</div>
+      </div>
+      <div class="stack-node" style="color:#E05252;">
+        <div class="node-circle"></div>
+        <div class="node-line"></div>
+      </div>
+      <div class="stack-right" style="padding-top:2px;">
+        <div style="background:rgba(224,82,82,0.06); border-left:2px solid #E05252; padding:10px 14px;">
+          <div style="font-family:'Space Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.1em; color:#E05252; margin-bottom:4px;">Why it gates</div>
+          <div style="font-family:'Libre Baskerville',serif; font-size:11px; color:#9CA3AF; line-height:1.5;">Mines create an insurance classification problem independent of the diplomatic status. A ceasefire removes intent-based threat. It does not remove drifting mines with no operator and no off switch.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gates arrow 1 -->
+    <div style="display:flex; align-items:center; padding: 4px 0 4px 200px; gap:10px;">
+      <div style="display:flex; flex-direction:column; align-items:center; width:20px;">
+        <div style="width:2px; height:16px; background:#374151;"></div>
+        <div style="color:#374151; font-size:10px;">▼</div>
+      </div>
+      <div style="background:#111827; border:1px solid #374151; padding:3px 12px; font-family:'Space Mono',monospace; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:#6B7280;">gates</div>
+    </div>
+
+    <!-- Clock 2 -->
+    <div class="stack-item">
+      <div class="stack-left">
+        <div class="clock-label" style="color:#E8A838; font-family:'Libre Baskerville',serif; font-weight:700; font-size:14px;">Clock 2</div>
+        <div style="font-family:'Space Mono',monospace; font-size:10px; color:#6B7280; margin-top:4px; text-transform:uppercase; letter-spacing:0.08em;">War Risk Insurance</div>
+        <div style="font-family:'Libre Baskerville',serif; font-size:11px; color:#9CA3AF; margin-top:6px; line-height:1.5;">3.75% vs 0.1% pre-war. Joint War Committee has not delisted the area. P&I clubs vote independently on quarterly cycles.</div>
+        <div style="font-family:'Space Mono',monospace; font-size:10px; color:#E8A838; margin-top:8px; text-transform:uppercase; letter-spacing:0.08em;">⏱ 6–8 weeks after Clock 4</div>
+      </div>
+      <div class="stack-node" style="color:#E8A838;">
+        <div class="node-circle"></div>
+        <div class="node-line"></div>
+      </div>
+      <div class="stack-right" style="padding-top:2px;">
+        <div style="background:rgba(232,168,56,0.06); border-left:2px solid #E8A838; padding:10px 14px;">
+          <div style="font-family:'Space Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.1em; color:#E8A838; margin-bottom:4px;">Why it gates</div>
+          <div style="font-family:'Libre Baskerville',serif; font-size:11px; color:#9CA3AF; line-height:1.5;">Ships cannot commercially transit until insurance normalises. Insurers move on operational reality, not ceasefire announcements. 1988 Tanker War precedent: 3–4 months from ceasefire date, not first clean transit.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gates arrow 2 -->
+    <div style="display:flex; align-items:center; padding: 4px 0 4px 200px; gap:10px;">
+      <div style="display:flex; flex-direction:column; align-items:center; width:20px;">
+        <div style="width:2px; height:16px; background:#374151;"></div>
+        <div style="color:#374151; font-size:10px;">▼</div>
+      </div>
+      <div style="background:#111827; border:1px solid #374151; padding:3px 12px; font-family:'Space Mono',monospace; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:#6B7280;">gates</div>
+    </div>
+
+    <!-- Clock 1 -->
+    <div class="stack-item">
+      <div class="stack-left">
+        <div class="clock-label" style="color:#5B8DEF; font-family:'Libre Baskerville',serif; font-weight:700; font-size:14px;">Clock 1</div>
+        <div style="font-family:'Space Mono',monospace; font-size:10px; color:#6B7280; margin-top:4px; text-transform:uppercase; letter-spacing:0.08em;">Tanker Backlog</div>
+        <div style="font-family:'Libre Baskerville',serif; font-size:11px; color:#9CA3AF; margin-top:6px; line-height:1.5;">900+ vessels stuck in or around the Gulf. Clearing the queue requires sequential transits through a constrained corridor.</div>
+        <div style="font-family:'Space Mono',monospace; font-size:10px; color:#5B8DEF; margin-top:8px; text-transform:uppercase; letter-spacing:0.08em;">⏱ 85–110 days after Clock 2</div>
+      </div>
+      <div class="stack-node" style="color:#5B8DEF;">
+        <div class="node-circle"></div>
+        <div class="node-line"></div>
+      </div>
+      <div class="stack-right" style="padding-top:2px;">
+        <div style="background:rgba(91,141,239,0.06); border-left:2px solid #5B8DEF; padding:10px 14px;">
+          <div style="font-family:'Space Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.1em; color:#5B8DEF; margin-bottom:4px;">Why it gates</div>
+          <div style="font-family:'Libre Baskerville',serif; font-size:11px; color:#9CA3AF; line-height:1.5;">This is a logistics problem, not a diplomatic one. Even if Hormuz opened today, the queue does not dissolve on a press conference. Sequential transit through a 21-nautical-mile corridor takes months.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gates arrow 3 -->
+    <div style="display:flex; align-items:center; padding: 4px 0 4px 200px; gap:10px;">
+      <div style="display:flex; flex-direction:column; align-items:center; width:20px;">
+        <div style="width:2px; height:16px; background:#374151;"></div>
+        <div style="color:#374151; font-size:10px;">▼</div>
+      </div>
+      <div style="background:#111827; border:1px solid #374151; padding:3px 12px; font-family:'Space Mono',monospace; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:#6B7280;">gates</div>
+    </div>
+
+    <!-- Clock 3 -->
+    <div class="stack-item">
+      <div class="stack-left">
+        <div class="clock-label" style="color:#7BC47B; font-family:'Libre Baskerville',serif; font-weight:700; font-size:14px;">Clock 3</div>
+        <div style="font-family:'Space Mono',monospace; font-size:10px; color:#6B7280; margin-top:4px; text-transform:uppercase; letter-spacing:0.08em;">Rerouting Costs</div>
+        <div style="font-family:'Libre Baskerville',serif; font-size:11px; color:#9CA3AF; margin-top:6px; line-height:1.5;">Cape of Good Hope adds 16–32 days and ~$930k in fuel per voyage. Hapag-Lloyd: no normal network for 6–8 weeks even if ceasefire holds.</div>
+        <div style="font-family:'Space Mono',monospace; font-size:10px; color:#7BC47B; margin-top:8px; text-transform:uppercase; letter-spacing:0.08em;">⏱ 6–8 weeks after Clock 2</div>
+      </div>
+      <div class="stack-node" style="color:#7BC47B;">
+        <div class="node-circle"></div>
+        <div class="node-line" style="height:0;"></div>
+      </div>
+      <div class="stack-right" style="padding-top:2px;">
+        <div style="background:rgba(123,196,123,0.06); border-left:2px solid #7BC47B; padding:10px 14px;">
+          <div style="font-family:'Space Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.1em; color:#7BC47B; margin-bottom:4px;">Parallel with Clock 1</div>
+          <div style="font-family:'Libre Baskerville',serif; font-size:11px; color:#9CA3AF; line-height:1.5;">Rerouting economics normalise in parallel with insurance reinstatement, not after. But both depend on Clock 4 resolving first.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Resolution -->
   <div style="margin-top:24px; margin-left:220px; border:1px solid #1F2937; background:rgba(31,41,55,0.2); padding:20px 24px;">
     <div style="font-family:'Space Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.15em; color:#4B5563; margin-bottom:8px;">Flow restoration</div>
     <div style="font-family:'Libre Baskerville',serif; font-size:22px; font-weight:700; color:#4B5563;">6–8 months minimum</div>

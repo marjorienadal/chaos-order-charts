@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hormuz: Four Clocks — Dark</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0A1628; font-family: 'Inter', sans-serif; padding: 40px 32px 48px; min-width: 600px; max-width: 800px; margin: 0 auto; }
+.header { text-align: center; margin-bottom: 36px; padding-bottom: 24px; border-bottom: 1px solid rgba(201,168,76,0.3); }
+.eyebrow { font-size: 10px; font-weight: 600; letter-spacing: 3px; color: #C9A84C; text-transform: uppercase; margin-bottom: 10px; }
+.title { font-family: Georgia, serif; font-size: 28px; font-weight: 600; color: #ffffff; line-height: 1.2; margin-bottom: 8px; }
+.title span { color: #C9A84C; }
+.subtitle { font-size: 12px; color: rgba(255,255,255,0.5); letter-spacing: 1.5px; text-transform: uppercase; }
+.thesis-box { border: 1px solid rgba(201,168,76,0.4); border-left: 3px solid #C9A84C; padding: 14px 20px; margin-bottom: 32px; background: rgba(201,168,76,0.04); }
+.thesis-box p { font-family: Georgia, serif; font-style: italic; font-size: 13px; color: #C9A84C; line-height: 1.6; }
+.clock-card { border: 1px solid; padding: 20px 24px; }
+.clock-card.c4 { border-color: rgba(201,168,76,0.6); background: rgba(201,168,76,0.06); }
+.clock-card.c2, .clock-card.c1 { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.03); }
+.clock-card.c3 { border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.02); }
+.card-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.clock-label { display: flex; align-items: baseline; gap: 12px; }
+.clock-number { font-family: Georgia, serif; font-size: 22px; font-weight: 600; color: #ffffff; }
+.clock-name { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+.badge { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; }
+.badge.gates-all { background: rgba(201,168,76,0.2); color: #C9A84C; border: 1px solid rgba(201,168,76,0.4); }
+.badge.timeline { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.12); }
+.badge.parallel { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.35); border: 1px solid rgba(255,255,255,0.1); }
+.card-body { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.card-body.single { grid-template-columns: 1fr; }
+.col-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #C9A84C; margin-bottom: 6px; }
+.col-text { font-size: 12px; color: rgba(255,255,255,0.65); line-height: 1.7; }
+.col-text strong { color: rgba(255,255,255,0.9); font-weight: 500; }
+.gate-connector { display: flex; flex-direction: column; align-items: center; padding: 10px 0; gap: 4px; }
+.gate-line { width: 1px; height: 16px; background: rgba(201,168,76,0.5); }
+.gate-pill { font-size: 9px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #C9A84C; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3); padding: 3px 12px; border-radius: 2px; }
+.gate-arrow { color: #C9A84C; font-size: 14px; line-height: 1; }
+.mispricing-box { margin-top: 32px; padding: 20px 24px; border: 1px solid rgba(201,168,76,0.3); background: rgba(201,168,76,0.04); display: grid; grid-template-columns: 1fr 1px 1fr; gap: 20px; align-items: center; }
+.mispricing-item { text-align: center; }
+.mis-label { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 6px; }
+.mis-value { font-family: Georgia, serif; font-size: 26px; font-weight: 600; line-height: 1; margin-bottom: 4px; }
+.mis-value.market { color: rgba(255,255,255,0.4); }
+.mis-value.real { color: #C9A84C; }
+.mis-sub { font-size: 10px; color: rgba(255,255,255,0.35); }
+.divider-line { width: 1px; height: 60px; background: rgba(201,168,76,0.2); }
+.footer { margin-top: 28px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; }
+.footer-left { font-size: 9px; color: rgba(255,255,255,0.25); letter-spacing: 1px; }
+.footer-right { font-size: 9px; color: rgba(255,255,255,0.25); letter-spacing: 0.5px; text-align: right; }
+.footer-right span { color: rgba(201,168,76,0.5); }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="eyebrow">Hormuz · Chaos &amp; Order by M Nadal</div>
+  <h1 class="title">Four <span>Clocks</span></h1>
+  <div class="subtitle">The dependency chain — why Clock 4 gates everything</div>
+</div>
+<div class="thesis-box">
+  <p>Clock 4 is the falsification test. If mines remain uncleared, Clocks 1–3 cannot resolve regardless of what the diplomatic calendar produces.</p>
+</div>
+<div class="clock-card c4">
+  <div class="card-header">
+    <div class="clock-label">
+      <span class="clock-number">Clock 4</span>
+      <span class="clock-name">The Mines</span>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <span class="badge gates-all">Gates all</span>
+      <span class="badge timeline">Unknown timeline</span>
+    </div>
+  </div>
+  <div class="card-body">
+    <div>
+      <div class="col-label">The constraint</div>
+      <div class="col-text">Laid haphazardly with no central coordination and no complete mapping. Some have drifted from original positions. <strong>Neither Iran nor the US has rapid mine clearance capability.</strong></div>
+    </div>
+    <div>
+      <div class="col-label">Why it gates</div>
+      <div class="col-text">Mines create an insurance classification problem <strong>independent of diplomatic status.</strong> A ceasefire removes intent-based threat. It does not remove drifting mines with no operator and no off switch. <strong>Uncertainty itself is the constraint</strong> — underwriters price undetected mine risk, not confirmed mine count.</div>
+    </div>
+  </div>
+</div>
+<div class="gate-connector">
+  <div class="gate-line"></div>
+  <div class="gate-pill">Gates</div>
+  <div class="gate-line"></div>
+  <div class="gate-arrow">↓</div>
+</div>
+<div class="clock-card c2">
+  <div class="card-header">
+    <div class="clock-label">
+      <span class="clock-number">Clock 2</span>
+      <span class="clock-name">War Risk Insurance</span>
+    </div>
+    <span class="badge timeline">6–8 weeks after Clock 4</span>
+  </div>
+  <div class="card-body">
+    <div>
+      <div class="col-label">The constraint</div>
+      <div class="col-text"><strong>3.75% vs 0.1% pre-war.</strong> Joint War Committee has not delisted the area. P&amp;I clubs vote independently on quarterly committee cycles. The 1988 Tanker War precedent: <strong>3–4 months from ceasefire date, not first clean transit.</strong></div>
+    </div>
+    <div>
+      <div class="col-label">Why it gates</div>
+      <div class="col-text">Ships cannot commercially transit until insurance normalises. The gap doesn't compress gradually — <strong>it compresses in steps</strong> as individual clubs complete review cycles. Some clubs move faster, creating fragmented period where some vessels can transit and others cannot.</div>
+    </div>
+  </div>
+</div>
+<div class="gate-connector">
+  <div class="gate-line"></div>
+  <div class="gate-pill">Gates</div>
+  <div class="gate-line"></div>
+  <div class="gate-arrow">↓</div>
+</div>
+<div class="clock-card c1">
+  <div class="card-header">
+    <div class="clock-label">
+      <span class="clock-number">Clock 1</span>
+      <span class="clock-name">Tanker Backlog</span>
+    </div>
+    <span class="badge timeline">85–110 days after Clock 2</span>
+  </div>
+  <div class="card-body">
+    <div>
+      <div class="col-label">The constraint</div>
+      <div class="col-text"><strong>900+ vessels</strong> stuck in or around the Gulf. Clearing the queue requires sequential transits through a 34-nautical-mile corridor. This is a logistics problem, not a diplomatic one.</div>
+    </div>
+    <div>
+      <div class="col-label">Why it gates</div>
+      <div class="col-text">Even if Hormuz opened today, the queue does not dissolve on a press conference. <strong>The 85–110 day estimate assumes the other three clocks have already resolved.</strong> It is the last constraint in sequence, not the first.</div>
+    </div>
+  </div>
+</div>
+<div style="margin-top:8px;">
+  <div class="clock-card c3">
+    <div class="card-header" style="margin-bottom:8px;padding-bottom:8px;">
+      <div class="clock-label">
+        <span class="clock-number" style="font-size:16px;color:rgba(255,255,255,0.5);">Clock 3</span>
+        <span class="clock-name">Rerouting Costs</span>
+      </div>
+      <span class="badge parallel">Parallel with Clock 2</span>
+    </div>
+    <div class="card-body single">
+      <div class="col-text">Cape of Good Hope adds 16–32 days and ~$930k in fuel per voyage. Hapag-Lloyd: no normal network for 6–8 weeks even if ceasefire holds. Rerouting economics normalise in parallel with insurance reinstatement — but both depend on Clock 4 resolving first.</div>
+    </div>
+  </div>
+</div>
+<div class="mispricing-box">
+  <div class="mispricing-item">
+    <div class="mis-label">Paper market pricing</div>
+    <div class="mis-value market">3–4 months</div>
+    <div class="mis-sub">from ceasefire announcement</div>
+  </div>
+  <div class="divider-line"></div>
+  <div class="mispricing-item">
+    <div class="mis-label">Four Clocks: operational reality</div>
+    <div class="mis-value real">12–18 months</div>
+    <div class="mis-sub">from today, if Clock 4 begins resolving immediately</div>
+  </div>
+</div>
+<div class="footer">
+  <div class="footer-left">Copyright M Nadal &amp; Co Strategic Advisory · April 2026</div>
+  <div class="footer-right"><span>chaosandorderinsight.substack.com</span><br>Framework updated with operational depth from The Crude Reality</div>
+</div>
+</body>
+</html>
